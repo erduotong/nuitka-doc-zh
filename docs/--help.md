@@ -3377,7 +3377,7 @@ Disable all information outputs, but show warnings. Defaults to off.
 中文参数名:
 
 ```
-
+显示scons
 ```
 
 原始简介:
@@ -3390,7 +3390,7 @@ commands, detected compilers. Defaults to off.
 中文简介:
 
 ```
-
+运行C构建后端Scons，显示执行的命令、检测到的编译器的详细信息。默认关闭。
 ```
 
 ---
@@ -3406,7 +3406,7 @@ commands, detected compilers. Defaults to off.
 中文参数名:
 
 ```
-
+无进度条
 ```
 
 原始简介:
@@ -3418,7 +3418,7 @@ Disable progress bars. Defaults to off.
 中文简介:
 
 ```
-
+禁用进度条。默认关闭。
 ```
 
 ---
@@ -3434,7 +3434,7 @@ Disable progress bars. Defaults to off.
 中文参数名:
 
 ```
-
+显示进度
 ```
 
 原始简介:
@@ -3447,7 +3447,7 @@ bar. Defaults to off.
 中文简介:
 
 ```
-
+过时: 提供进度信息和统计信息。禁用正常的进度条。默认关闭。
 ```
 
 ---
@@ -3463,7 +3463,7 @@ bar. Defaults to off.
 中文参数名:
 
 ```
-
+显示内存
 ```
 
 原始简介:
@@ -3475,7 +3475,7 @@ Provide memory information and statistics. Defaults to off.
 中文简介:
 
 ```
-
+提供内存信息和统计信息。默认关闭。
 ```
 
 ---
@@ -3491,7 +3491,7 @@ Provide memory information and statistics. Defaults to off.
 中文参数名:
 
 ```
-
+显示模块
 ```
 
 原始简介:
@@ -3504,7 +3504,7 @@ Provide information for included modules and DLLs Obsolete: You should use
 中文简介:
 
 ```
-
+过时: 您应该使用'--report'文件替代。提供包含的模块和DLL的信息。默认关闭。
 ```
 
 ---
@@ -3520,7 +3520,7 @@ Provide information for included modules and DLLs Obsolete: You should use
 中文参数名:
 
 ```
-
+显示模块输出=路径
 ```
 
 原始简介:
@@ -3533,7 +3533,7 @@ output.
 中文简介:
 
 ```
-
+用于设定输出'--show-modules'的位置，应该是一个文件名。默认为标准输出。
 ```
 
 ---
@@ -3549,7 +3549,7 @@ output.
 中文参数名:
 
 ```
-
+详细模式
 ```
 
 原始简介:
@@ -3562,7 +3562,7 @@ Defaults to off.
 中文简介:
 
 ```
-
+输出采取的操作的详细信息，尤其是在优化过程中可能会大量输出。默认关闭。
 ```
 
 ---
@@ -3578,7 +3578,7 @@ Defaults to off.
 中文参数名:
 
 ```
-
+详细模式输出=路径
 ```
 
 原始简介:
@@ -3591,7 +3591,7 @@ output.
 中文简介:
 
 ```
-
+用于设定输出'--verbose'的位置，应该是一个文件名。默认为标准输出。
 ```
 
 ---
