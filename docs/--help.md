@@ -3626,7 +3626,7 @@ GUI application. Defaults to off.
 中文简介:
 
 ```
-
+在为Windows或macOS编译时，禁用控制台窗口并创建为一个GUI应用程序。默认关闭。
 ```
 
 ---
@@ -3642,7 +3642,7 @@ GUI application. Defaults to off.
 中文参数名:
 
 ```
-
+启用控制台
 ```
 
 原始简介:
@@ -3656,7 +3656,8 @@ that suggest to disable it. Defaults to true.
 中文简介:
 
 ```
-
+在为Windows或macOS编译时，启用控制台窗口并创建一个控制台应用程序。
+这将禁用来自某些模块的提示，例如"PySide"会建议禁用它。默认启用。
 ```
 
 ---
@@ -3672,7 +3673,7 @@ that suggest to disable it. Defaults to true.
 中文参数名:
 
 ```
-
+强制标准输出规范=强制标准输出规范
 ```
 
 原始简介:
@@ -3688,7 +3689,8 @@ values.
 中文简介:
 
 ```
-
+强制程序的标准输出输出到这个位置。对于禁用控制台的程序和使用Nuitka商业版的Windows服务插件的程序非常有用。默认不激活，
+例如使用'%PROGRAM_BASE%.out.txt'，也就是程序目录附近的文件，查看用户手册以获取可用值的完整列表。
 ```
 
 ---
@@ -3704,7 +3706,7 @@ values.
 中文参数名:
 
 ```
-
+强制标准错误规范=强制标准错误规范
 ```
 
 原始简介:
@@ -3719,7 +3721,8 @@ near your program, check User Manual for full list of available values.
 中文简介:
 
 ```
-
+强制程序的标准错误输出到这个位置。对于禁用控制台的程序和使用Nuitka商业版的Windows服务插件的程序非常有用。默认不激活，
+例如使用'%PROGRAM_BASE%.err.txt'，也就是程序目录附近的文件，查看用户手册以获取可用值的完整列表。
 ```
 
 ---
@@ -3741,7 +3744,7 @@ near your program, check User Manual for full list of available values.
 中文参数名:
 
 ```
-
+windows图标(ico文件)=图标路径
 ```
 
 原始简介:
@@ -3756,7 +3759,8 @@ be included, and all others to be ignored.
 中文简介:
 
 ```
-
+添加可执行文件的图标。可以多次给出不同分辨率或者包含多个图标的文件。在选择包含多个图标的文件时，
+您也可以使用#<n>后缀来指定要包含的特定图标并忽略其他所有的图标，其中n是从1开始的整数索引
 ```
 
 ---
@@ -3772,7 +3776,7 @@ be included, and all others to be ignored.
 中文参数名:
 
 ```
-
+windows图标(exe文件)=图标exe路径
 ```
 
 原始简介:
@@ -3784,7 +3788,7 @@ Copy executable icons from this existing executable (Windows only).
 中文简介:
 
 ```
-
+复制来自该可执行文件的图标(仅限Windows)。
 ```
 
 ---
@@ -3800,7 +3804,7 @@ Copy executable icons from this existing executable (Windows only).
 中文参数名:
 
 ```
-
+单文件Windows启动画面图像=启动画面图像
 ```
 
 原始简介:
@@ -3813,7 +3817,7 @@ application. Defaults to off.
 中文简介:
 
 ```
-
+当编译为Windows下的单文件时，在加载应用程序时显示这个图像。默认关闭。
 ```
 
 ---
@@ -3829,7 +3833,7 @@ application. Defaults to off.
 中文参数名:
 
 ```
-
+请求Windows用户控制(UAC)管理员权限
 ```
 
 原始简介:
@@ -3842,7 +3846,7 @@ only). Defaults to off.
 中文简介:
 
 ```
-
+向Windows用户控制(UAC)请求在执行时授予管理员权限。(仅限Windows)。默认关闭。
 ```
 
 ---
@@ -3858,7 +3862,7 @@ only). Defaults to off.
 中文参数名:
 
 ```
-
+请求Windows用户控制（UAC）UI访问权限
 ```
 
 原始简介:
@@ -3871,7 +3875,7 @@ remote desktop access. (Windows only). Defaults to off.
 中文简介:
 
 ```
-
+请求Windows用户控制权限(UAC)，用于强制在特定的几个文件夹中运行和远程桌面访问。(仅限Windows)。默认关闭。
 ```
 
 ---
