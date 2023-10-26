@@ -3,8 +3,7 @@
 > 返回[导航](../README.md#导航)
 
 ## 信息
-
-目前已更新至: Nuitka 1.8.1
+该文档目前Nuitka版本: `Nuitka 1.8.1`
 <details>
 <summary>模板</summary>
 
