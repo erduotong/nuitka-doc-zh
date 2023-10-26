@@ -4240,7 +4240,7 @@ Defaults to Python icon if available.
 中文参数名:
 
 ```
-
+公司名称=公司名称
 ```
 
 原始简介:
@@ -4252,7 +4252,7 @@ Name of the company to use in version information. Defaults to unused.
 中文简介:
 
 ```
-
+要在版本信息中使用的公司名称。默认为无。
 ```
 
 ---
@@ -4268,7 +4268,7 @@ Name of the company to use in version information. Defaults to unused.
 中文参数名:
 
 ```
-
+产品名称=产品名称
 ```
 
 原始简介:
@@ -4281,7 +4281,7 @@ the binary.
 中文简介:
 
 ```
-
+要在版本信息中使用的产品名称。默认为二进制文件的基本文件名。
 ```
 
 ---
@@ -4297,7 +4297,7 @@ the binary.
 中文参数名:
 
 ```
-
+文件版本=文件版本
 ```
 
 原始简介:
@@ -4311,7 +4311,7 @@ allowed. Defaults to unused.
 中文简介:
 
 ```
-
+要在版本信息中使用的文件版本。必须为一个最多4个数字的序列，例如1.0或1.0.0.0,不允许使用更多的数字或者使用字符串。默认为无。
 ```
 
 ---
@@ -4327,7 +4327,7 @@ allowed. Defaults to unused.
 中文参数名:
 
 ```
-
+产品版本=产品版本
 ```
 
 原始简介:
@@ -4340,7 +4340,7 @@ Defaults to unused.
 中文简介:
 
 ```
-
+要在版本信息中使用的产品版本。必须为一个最多4个数字的序列，例如1.0或1.0.0.0, 不允许使用更多的数字或者使用字符串。默认为无。
 ```
 
 ---
@@ -4356,7 +4356,7 @@ Defaults to unused.
 中文参数名:
 
 ```
-
+文件描述=文件描述
 ```
 
 原始简介:
@@ -4369,7 +4369,7 @@ Defaults to binary filename.
 中文简介:
 
 ```
-
+要在版本信息中使用的文件描述。目前仅限Windows。默认为二进制文件的文件名。
 ```
 
 ---
@@ -4385,7 +4385,7 @@ Defaults to binary filename.
 中文参数名:
 
 ```
-
+版权=版权文本
 ```
 
 原始简介:
@@ -4398,7 +4398,7 @@ not present.
 中文简介:
 
 ```
-
+在版本信息中使用的版权信息。目前仅限Windows。默认为无。
 ```
 
 ---
@@ -4414,7 +4414,7 @@ not present.
 中文参数名:
 
 ```
-
+商标=商标文本
 ```
 
 原始简介:
@@ -4427,7 +4427,7 @@ not present.
 中文简介:
 
 ```
-
+要在版本信息中使用的商标。目前仅限Windows。默认为无。
 ```
 
 ---
@@ -4508,14 +4508,14 @@ empty.
 中文参数名:
 
 ```
-
+禁止插件检测
 ```
 
 原始简介:
 
 ```
 Plugins can detect if they might be used, and the you can disable the warning
-via "--disable-plugin=plugin- that-warned", or you can use this option to
+via "--disable-plugin=plugin-that-warned", or you can use this option to
 disable the mechanism entirely, which also speeds up compilation slightly of
 course as this detection code is run in vain once you are certain of which
 plugins to use. Defaults to off.
@@ -4524,7 +4524,9 @@ plugins to use. Defaults to off.
 中文简介:
 
 ```
-
+插件可以检测它们是否可能被使用，您可以通过"--disable-plugin=plugin-that-warned"禁用警告，
+或者你可以使用这个选项来完全禁用该机制，当然，这也会稍微加快编译速度，因为一旦你确定了要使用的插件，
+这个检测代码就会白白运行。默认关闭。
 ```
 
 ---
@@ -4540,7 +4542,7 @@ plugins to use. Defaults to off.
 中文参数名:
 
 ```
-
+插件列表
 ```
 
 原始简介:
@@ -4552,7 +4554,7 @@ Show list of all available plugins and exit. Defaults to off.
 中文简介:
 
 ```
-
+显示所有可用插件的列表并退出。默认关闭。
 ```
 
 ---
@@ -4568,7 +4570,7 @@ Show list of all available plugins and exit. Defaults to off.
 中文参数名:
 
 ```
-
+用户插件=路径
 ```
 
 原始简介:
@@ -4580,7 +4582,7 @@ The file name of user plugin. Can be given multiple times. Default empty.
 中文简介:
 
 ```
-
+用户插件的文件名。可以多次给出。默认为空。
 ```
 
 ---
@@ -4596,7 +4598,7 @@ The file name of user plugin. Can be given multiple times. Default empty.
 中文参数名:
 
 ```
-
+显示源代码更改
 ```
 
 原始简介:
@@ -4609,7 +4611,7 @@ intended for developing plugins. Default False.
 中文简介:
 
 ```
-
+显示编译前对原始Python文件内容的源代码的更改。主要用于开发插件。默认关闭。
 ```
 
 ---
@@ -4631,7 +4633,7 @@ intended for developing plugins. Default False.
 中文参数名:
 
 ```
-
+显示反膨胀更改
 ```
 
 原始简介:
@@ -4643,7 +4645,7 @@ Annotate what changes are by the plugin done.
 中文简介:
 
 ```
-
+注释插件所做的更改。
 ```
 
 ---
@@ -4659,7 +4661,7 @@ Annotate what changes are by the plugin done.
 中文参数名:
 
 ```
-
+不包含setuptools模式=不包含setuptools模式
 ```
 
 原始简介:
@@ -4673,7 +4675,7 @@ with dependencies, and should definitely be avoided. Also handles
 中文简介:
 
 ```
-
+遇到"setuptools"或"setuptools_scm"导入时的处理方式。这个包可能会有很多依赖而变得很大，应该尽量避免使用。
 ```
 
 ---
@@ -4689,7 +4691,7 @@ with dependencies, and should definitely be avoided. Also handles
 中文参数名:
 
 ```
-
+不包含pytest模式=不包含pytest模式
 ```
 
 原始简介:
@@ -4702,7 +4704,7 @@ dependencies, and should definitely be avoided. Also handles 'nose' imports.
 中文简介:
 
 ```
-
+遇到"pytest"或"nose"导入时的处理方式。这个包可能会有很多依赖而变得很大，应该尽量避免使用。
 ```
 
 ---
@@ -4718,7 +4720,7 @@ dependencies, and should definitely be avoided. Also handles 'nose' imports.
 中文参数名:
 
 ```
-
+不包含单元测试模式=不包含unittest模式
 ```
 
 原始简介:
@@ -4731,7 +4733,7 @@ dependencies, and should definitely be avoided.
 中文简介:
 
 ```
-
+遇到"unittest(单元测试)"导入时的处理方式。这个包可能会有很多依赖而变得很大，应该尽量避免使用。
 ```
 
 ---
@@ -4747,7 +4749,7 @@ dependencies, and should definitely be avoided.
 中文参数名:
 
 ```
-
+不包含IPython模式=不包含IPython模式
 ```
 
 原始简介:
@@ -4760,7 +4762,7 @@ dependencies, and should definitely be avoided.
 中文简介:
 
 ```
-
+遇到"IPython"导入时的处理方式。这个包可能会有很多依赖而变得很大，应该尽量避免使用。
 ```
 
 ---
@@ -4776,7 +4778,7 @@ dependencies, and should definitely be avoided.
 中文参数名:
 
 ```
-
+不包含dask模式=不包含dask模式
 ```
 
 原始简介:
@@ -4789,7 +4791,7 @@ dependencies, and should definitely be avoided.
 中文简介:
 
 ```
-
+遇到"dask"导入时的处理方式。这个包可能会有很多依赖而变得很大，应该尽量避免使用。
 ```
 
 ---
@@ -4805,7 +4807,7 @@ dependencies, and should definitely be avoided.
 中文参数名:
 
 ```
-
+不包含numba模式=不包含numba模式
 ```
 
 原始简介:
@@ -4819,7 +4821,8 @@ with dependencies, and should definitely be avoided.
 中文简介:
 
 ```
-
+遇到"numba"导入时的处理方式。这个包可能会有很多依赖而变得很大，目前在独立模式下还不能正常工作。
+这个包可能会有很多依赖而变得很大，应该尽量避免使用。
 ```
 
 ---
@@ -4835,7 +4838,7 @@ with dependencies, and should definitely be avoided.
 中文参数名:
 
 ```
-
+不包含的默认模式=不包含的默认模式
 ```
 
 原始简介:
@@ -4848,7 +4851,7 @@ be used to turn all of these on.
 中文简介:
 
 ```
-
+这实际上为上面的选项提供了默认的"警告(warning)"值，并且可以用来打开上述所有选项。
 ```
 
 ---
@@ -4864,7 +4867,7 @@ be used to turn all of these on.
 中文参数名:
 
 ```
-
+不包含自定义模式=自定义选项
 ```
 
 原始简介:
@@ -4878,7 +4881,8 @@ can and should be a top level package and then one choice, "error", "warning",
 中文简介:
 
 ```
-
+遇到特定导入时的处理方式。格式为模块名称，可以并且应该是一个顶级包，接着是一个选项，"error", "warning", "nofollow"，
+例如PyQt5:error。
 ```
 
 ---
