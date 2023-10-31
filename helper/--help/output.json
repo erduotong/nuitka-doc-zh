@@ -28,8 +28,8 @@
                     "--standalone": {
                         "raw_parameter": "--standalone",
                         "chinese_parameter": "独立",
-                        "raw_introduction": "Enable standalone mode for output. This allows you to transfer the created\nbinary to other machines without it using an existing Python installation. This\nalso means it will become big. It implies these option: \"-- follow-imports\" and\n\"--python-flag=no_site\". Defaults to off.",
-                        "chinese_introduction": "启用独立模式进行输出。这允许你将二进制文件传输到其他机器, 而无需使用已有的Python环境。\n这也意味着它将变得很大。它将启用这些选项: \"-- follow-imports\" 和 \"--python-flag=no_site\"。\n默认关闭。"
+                        "raw_introduction": "Enable standalone mode for output. This allows you to transfer the created\nbinary to other machines without it using an existing Python installation. This\nalso means it will become big. It implies these option: \"--follow-imports\" and\n\"--python-flag=no_site\". Defaults to off.",
+                        "chinese_introduction": "启用独立模式进行输出。这允许你将二进制文件传输到其他机器, 而无需使用已有的Python环境。\n这也意味着它将变得很大。它将启用这些选项: \"--follow-imports\" 和 \"--python-flag=no_site\"。\n默认关闭。"
                     },
                     "--onefile": {
                         "raw_parameter": "--onefile",
@@ -93,7 +93,7 @@
                     "--prefer-source-code": {
                         "raw_parameter": "--prefer-source-code",
                         "chinese_parameter": "首选源代码",
-                        "raw_introduction": "For already compiled extension modules, where there is both a source file and\nan extension module, normally the extension module is used, but it should be\nbetter to compile the module from available source code for best performance. If\nnot desired, there is --no- prefer-source-code to disable warnings about it.\nDefault off.",
+                        "raw_introduction": "For already compiled extension modules, where there is both a source file and\nan extension module, normally the extension module is used, but it should be\nbetter to compile the module from available source code for best performance. If\nnot desired, there is --no-prefer-source-code to disable warnings about it.\nDefault off.",
                         "chinese_introduction": "对于已经编译的拓展模块，如果存在源代码和拓展模块，通常会使用拓展模块，但为了获得最佳的性能，最好从可用的源代码编译模块。\n如果不需要，可以使用--nop-perfer-source-code来禁用有关于此的警告。默认关闭。"
                     }
                 }
@@ -168,13 +168,13 @@
                     "--include-data-files=DESC": {
                         "raw_parameter": "--include-data-files=DESC",
                         "chinese_parameter": "包含数据文件=路径",
-                        "raw_introduction": "Include data files by filenames in the distribution. There are many allowed\nforms. With '--include-data- files=/path/to/file/*.txt=folder_name/some.txt' it\nwill copy a single file and complain if it's multiple. With '--include-data-\nfiles=/path/to/files/*.txt=folder_name/' it will put all matching files into\nthat folder. For recursive copy there is a form with 3 values that '--include-\ndata-files=/path/to/scan=folder_name=**/*.txt' that will preserve directory\nstructure. Default empty.",
+                        "raw_introduction": "Include data files by filenames in the distribution. There are many allowed\nforms. With '--include-data-files=/path/to/file/*.txt=folder_name/some.txt' it\nwill copy a single file and complain if it's multiple. With '--include-data-\nfiles=/path/to/files/*.txt=folder_name/' it will put all matching files into\nthat folder. For recursive copy there is a form with 3 values that '--include-\ndata-files=/path/to/scan=folder_name=**/*.txt' that will preserve directory\nstructure. Default empty.",
                         "chinese_introduction": "通过分配的文件名包含数据文件。有很多允许的形式。\n使用–include-data-files=/path/to/file/.txt=folder_name/some.txt’，它将复制一个文件，如果是十多个文件，将会报错。\n使用’–include-data-files=/path/to/files/.txt=folder_name/‘将把所有匹配的文件放入该文件夹。\n对于递归复制，有一种带有三个值的形式:’–include-data-files=/path/to/scan=folder_name=**/*.txt’，这将保留目录的文件结构。\n默认为空。"
                     },
                     "--include-data-dir=DIRECTORY": {
                         "raw_parameter": "--include-data-dir=DIRECTORY",
                         "chinese_parameter": "包含数据目录=目录",
-                        "raw_introduction": "Include data files from complete directory in the distribution. This is\nrecursive. Check '--include- data-files' with patterns if you want non-recursive\ninclusion. An example would be '--include-data-\ndir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All\nfiles are copied, if you want to exclude files you need to remove them\nbeforehand, or use '--noinclude-data-files' option to remove them. Default\nempty.",
+                        "raw_introduction": "Include data files from complete directory in the distribution. This is\nrecursive. Check '--include-data-files' with patterns if you want non-recursive\ninclusion. An example would be '--include-data-\ndir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All\nfiles are copied, if you want to exclude files you need to remove them\nbeforehand, or use '--noinclude-data-files' option to remove them. Default\nempty.",
                         "chinese_introduction": "将整个目录的数据文件包含在分发中。这是递归的。\n如果你想要非递归包含，请查看'--include-data-files'与模式。\n’–include-data-dir=/path/some_dir=data/some_dir’，用于整个目录的普通复制。\n所有文件都会被复制，如果你想排除文件，你需要事先删除它们，或者使用’–noinclude-data-files’选项来删除它们。\n默认为空。"
                     },
                     "--noinclude-data-files=PATTERN": {
@@ -793,13 +793,13 @@
                     "--enable-plugins=PLUGIN_NAME": {
                         "raw_parameter": "--enable-plugins=PLUGIN_NAME",
                         "chinese_parameter": "启用插件=插件名称",
-                        "raw_introduction": "Enabled plugins. Must be plug-in names. Use '--plugin- list' to query the full\nlist and exit. Default empty.",
+                        "raw_introduction": "Enabled plugins. Must be plug-in names. Use '--plugin-list' to query the full\nlist and exit. Default empty.",
                         "chinese_introduction": "启用插件。必须为插件名称。使用'--plugin-list'查询完整列表并退出。默认为空。"
                     },
                     "--disable-plugins=PLUGIN_NAME": {
                         "raw_parameter": "--disable-plugins=PLUGIN_NAME",
                         "chinese_parameter": "禁用插件=插件名称",
-                        "raw_introduction": "Disabled plugins. Must be plug-in names. Use '-- plugin-list' to query the full\nlist and exit. Most standard plugins are not a good idea to disable. Default\nempty.",
+                        "raw_introduction": "Disabled plugins. Must be plug-in names. Use '--plugin-list' to query the full\nlist and exit. Most standard plugins are not a good idea to disable. Default\nempty.",
                         "chinese_introduction": "禁用插件。必须为插件名称。使用'--plugin-list'查询完整列表并退出。大多数情况下禁用标准插件并不是一个好主意。默认为空。"
                     },
                     "--plugin-no-detection": {

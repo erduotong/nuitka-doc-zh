@@ -949,7 +949,7 @@ Create an extension module executable instead of a program. Defaults to off.
 ```
 Enable standalone mode for output. This allows you to transfer the created
 binary to other machines without it using an existing Python installation. This
-also means it will become big. It implies these option: "-- follow-imports" and
+also means it will become big. It implies these option: "--follow-imports" and
 "--python-flag=no_site". Defaults to off.
 ```
 
@@ -957,7 +957,7 @@ also means it will become big. It implies these option: "-- follow-imports" and
 
 ```
 启用独立模式进行输出。这允许你将二进制文件传输到其他机器, 而无需使用已有的Python环境。
-这也意味着它将变得很大。它将启用这些选项: "-- follow-imports" 和 "--python-flag=no_site"。
+这也意味着它将变得很大。它将启用这些选项: "--follow-imports" 和 "--python-flag=no_site"。
 默认关闭。
 ```
 
@@ -1297,7 +1297,7 @@ Can be given multiple times. Default empty.
 For already compiled extension modules, where there is both a source file and
 an extension module, normally the extension module is used, but it should be
 better to compile the module from available source code for best performance. If
-not desired, there is --no- prefer-source-code to disable warnings about it.
+not desired, there is --no-prefer-source-code to disable warnings about it.
 Default off.
 ```
 
@@ -1628,7 +1628,7 @@ empty.
 
 ```
 Include data files by filenames in the distribution. There are many allowed
-forms. With '--include-data- files=/path/to/file/*.txt=folder_name/some.txt' it
+forms. With '--include-data-files=/path/to/file/*.txt=folder_name/some.txt' it
 will copy a single file and complain if it's multiple. With '--include-data-
 files=/path/to/files/*.txt=folder_name/' it will put all matching files into
 that folder. For recursive copy there is a form with 3 values that '--include-
@@ -1667,7 +1667,7 @@ structure. Default empty.
 
 ```
 Include data files from complete directory in the distribution. This is
-recursive. Check '--include- data-files' with patterns if you want non-recursive
+recursive. Check '--include-data-files' with patterns if you want non-recursive
 inclusion. An example would be '--include-data-
 dir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All
 files are copied, if you want to exclude files you need to remove them
@@ -4455,7 +4455,7 @@ not present.
 原始简介:
 
 ```
-Enabled plugins. Must be plug-in names. Use '--plugin- list' to query the full
+Enabled plugins. Must be plug-in names. Use '--plugin-list' to query the full
 list and exit. Default empty.
 ```
 
@@ -4484,7 +4484,7 @@ list and exit. Default empty.
 原始简介:
 
 ```
-Disabled plugins. Must be plug-in names. Use '-- plugin-list' to query the full
+Disabled plugins. Must be plug-in names. Use '--plugin-list' to query the full
 list and exit. Most standard plugins are not a good idea to disable. Default
 empty.
 ```
