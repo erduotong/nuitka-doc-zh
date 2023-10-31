@@ -60,6 +60,57 @@ def split_title_string(s):
     return s, ''
 
 
+def extract_info(section_lines):
+    original_param_name = ""
+    chinese_param_name = ""
+    original_intro = ""
+    chinese_intro = ""
+
+    for i in range(len(section_lines)):
+        if section_lines[i] == '原始参数名:':
+            j = i + 1
+            while '```' not in section_lines[j]:
+                j += 1
+            j += 1
+            while '```' not in section_lines[j]:
+                original_param_name += section_lines[j] + "\n"
+                j += 1
+        elif section_lines[i] == '中文参数名:':
+            j = i + 1
+            while '```' not in section_lines[j]:
+                j += 1
+            j += 1
+            while '```' not in section_lines[j]:
+                chinese_param_name += section_lines[j] + "\n"
+                j += 1
+        elif section_lines[i] == '原始简介:':
+            j = i + 1
+            while '```' not in section_lines[j]:
+                j += 1
+            j += 1
+            while '```' not in section_lines[j]:
+                original_intro += section_lines[j] + "\n"
+                j += 1
+        elif section_lines[i] == '中文简介:':
+            j = i + 1
+            while '```' not in section_lines[j]:
+                j += 1
+            j += 1
+            while '```' not in section_lines[j]:
+                chinese_intro += section_lines[j] + "\n"
+                j += 1
+
+    return original_param_name.strip(), chinese_param_name.strip(), original_intro.strip(), chinese_intro.strip()
+
+
+def reformat_english(text):
+    return text
+
+
+def reformat_chinese(text):
+    return text
+
+
 # 将after_split中的第一个# 后面的内容(去除收尾空格)新建为一个键，值为一个空字典 并且保存到一个值中
 options_key = after_split[0][1:].strip()
 # 拆分这个字符串，提取它碰到的第一个最外层的括号中的内容以及括号外的内容
@@ -72,8 +123,54 @@ out_dict[out] = {
 
     }
 }
-# after_split = after_split[1:]  # 第一个Options是无用的
-# print(after_split)
-# print(json.dumps(out_dict, indent=4, ensure_ascii=False))
-# with open("./output.json", "w", encoding='utf-8') as f:
-#     f.write(json.dumps(out_dict, indent=4, ensure_ascii=False))
+after_split = after_split[1:]  # 第一个Options是无用的
+tot = 0
+for i in after_split:
+    """
+    先对##的内容进行拆分
+    然后再对###的命令进行拆分
+    最后再筛选中文参数名,原始参数名,原始简介,中文简介啥的
+    """
+    # 得到第一行的内容
+    lines = i.split('\n')
+    first_line = lines.pop(0).strip()
+    # 去除第一行开头的#直到第一个空格
+    first_lines = first_line[first_line.find(' ') + 1:]
+    del first_line
+    sec_key, sec_chinese = split_title_string(first_lines)
+    to_dict = {
+        "chinese": sec_chinese,
+        "content": {
+
+        }
+    }
+    # 解析每一行内容并且输出出去
+    lines = '\n'.join(lines)
+    sections = re.split(r'\n###', lines)
+    for section in sections:
+        # 读取第一行
+        section_lines = section.split('\n')
+        key_third = section_lines.pop(0).strip()  # 最终内容的key
+        if len(key_third) == 0:
+            continue
+        in_to_dict = {
+            "raw_parameter": "",
+            "chinese_parameter": "",
+            "raw_introduction": "",
+            "chinese_introduction": "",
+        }
+        # 解析其中内容
+        raw_parameter, chinese_parameter, raw_introduction, chinese_introduction = extract_info(section_lines)
+        tot += 1
+        in_to_dict["raw_parameter"] = reformat_english(raw_parameter)
+        in_to_dict["chinese_parameter"] = reformat_chinese(chinese_parameter)
+        in_to_dict["raw_introduction"] = reformat_english(raw_introduction)
+        in_to_dict["chinese_introduction"] = reformat_chinese(chinese_introduction)
+        to_dict["content"][key_third] = in_to_dict
+
+    out_dict[out]["content"][sec_key.strip()] = to_dict
+
+
+with open("./output.json", "w", encoding='utf-8') as f:
+    f.write(json.dumps(out_dict, indent=4, ensure_ascii=False))
+print(f"处理完成，请检查output.json\n共{tot}个参数被识别")

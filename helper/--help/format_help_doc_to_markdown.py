@@ -65,11 +65,13 @@ while i < len(lines):
         continue
 
 max_line_len = 80
+tot = 0
 # 生成markdown
 output_str = "# Options()\n"
 for key, value in Options.items():
     output_str += f"## {key}()\n"
     for key2, value2 in value.items():
+        tot += 1
         # 如果一行的长度超过了max_line_len，就在空格处换行
         words = value2.split(' ')
         lines = []
@@ -104,9 +106,10 @@ for key, value in Options.items():
 
 ```
 """
-    output_str += f"\n---\n"
-    output_str += f"\n---\n"
+output_str += f"\n---\n"
+output_str += f"\n---\n"
 
 with open('./output.md', 'w', encoding='utf-8') as f:
     f.write(output_str)
 print("complete\nplease check output.md")
+print(tot)
