@@ -1927,7 +1927,7 @@ Enable warnings for unusual code detected at compile time.
 中文参数名:
 
 ```
-
+假设允许下载
 ```
 
 原始简介:
@@ -2505,7 +2505,7 @@ to off.
 中文参数名:
 
 ```
-
+仅重新编译C
 ```
 
 原始简介:
@@ -3171,7 +3171,7 @@ to the special built executable during the PGO profiling run. Default empty.
 中文简介:
 
 ```
-
+在进行配置文件引导优化(PGO)时传递的参数。这些参数在配置文件引导优化(PGO)分析运行期间传递给被特殊的构建可执行文件。默认为空。
 ```
 
 ---
@@ -3187,7 +3187,7 @@ to the special built executable during the PGO profiling run. Default empty.
 中文参数名:
 
 ```
-
+配置文件引导优化可执行文件=配置文件引导优化可执行文件
 ```
 
 原始简介:
@@ -3201,7 +3201,7 @@ program.
 中文简介:
 
 ```
-
+收集配置文件信息时要执行的命令。只有在需要通过准备运行的脚本来启动它时才使用它。默认使用创建的程序。
 ```
 
 ---
@@ -3897,7 +3897,7 @@ remote desktop access. (Windows only). Defaults to off.
 中文参数名:
 
 ```
-
+macOS目标架构=macOS目标架构
 ```
 
 原始简介:
@@ -3911,7 +3911,7 @@ Python is run with.
 中文简介:
 
 ```
-
+这个程序应该在什么架构上运行。默认值和限制是运行Python允许的。默认值为"native"，这是Python运行的架构。
 ```
 
 ---
@@ -3927,7 +3927,7 @@ Python is run with.
 中文参数名:
 
 ```
-
+macOS创建应用程序包
 ```
 
 原始简介:
@@ -3941,7 +3941,7 @@ way to unlock disabling of console.Defaults to off.
 中文简介:
 
 ```
-
+当为macOS编译时，请创建一个捆绑包而不是普通的二进制程序。目前处于实验性且未完成。目前这是解锁禁用控制台的唯一方法。默认关闭。
 ```
 
 ---
@@ -3957,7 +3957,7 @@ way to unlock disabling of console.Defaults to off.
 中文参数名:
 
 ```
-
+macOS应用程序图标=图标路径
 ```
 
 原始简介:
@@ -3970,7 +3970,7 @@ Defaults to Python icon if available.
 中文简介:
 
 ```
-
+添加应用程序捆绑包要使用的图标。只能给出一次。如果可用，默认为Python图标。
 ```
 
 ---
@@ -3986,7 +3986,7 @@ Defaults to Python icon if available.
 中文参数名:
 
 ```
-
+macOS签名应用程序名称=macOS签名应用程序名称
 ```
 
 原始简介:
@@ -4000,7 +4000,8 @@ globally unique, and will potentially grant protected API accesses.
 中文简介:
 
 ```
-
+用于macOS签名的应用程序名称。为了获得最佳结果，请遵循"com.YourCompany.AppName"的命名格式，
+因为这些名称必须是全局唯一的，并且可能会授予受保护的API访问权限。
 ```
 
 ---
@@ -4016,7 +4017,7 @@ globally unique, and will potentially grant protected API accesses.
 中文参数名:
 
 ```
-
+macOS应用程序名称=macOS应用程序名称
 ```
 
 原始简介:
@@ -4029,7 +4030,7 @@ filename of the binary.
 中文简介:
 
 ```
-
+要在macOS捆绑包信息中使用的产品名称。默认为二进制文件的基本文件名。
 ```
 
 ---
@@ -4045,7 +4046,7 @@ filename of the binary.
 中文参数名:
 
 ```
-
+macOS应用程序模式=模式
 ```
 
 原始简介:
@@ -4061,7 +4062,9 @@ appear in dock, but get full access to desktop when it does open a Window later.
 中文简介:
 
 ```
-
+应用程序捆绑包的应用程序模式。当你启动一个窗口，并且希望出现在Docker中时，默认值"gui"是一个很好的选择。
+如果没有窗口，应用程序会是一个"background"应用程序。对于稍后显示的UI元素，"ui-element"介于两者之间。
+应用程序不会出现在dock中，但是当它稍后打开一个窗口时，它将获得对桌面的完全访问权限。
 ```
 
 ---
@@ -4077,7 +4080,7 @@ appear in dock, but get full access to desktop when it does open a Window later.
 中文参数名:
 
 ```
-
+macOS签名标识=macOS应用程序版本
 ```
 
 原始简介:
@@ -4091,7 +4094,8 @@ now mandatory on macOS and cannot be disabled. Default "ad-hoc" if not given.
 中文简介:
 
 ```
-
+当在macOS上签名时，默认情况下会使用一个临时标识，但是使用这个选项时，您可以指定另一个要使用的标识。
+现在，在macOS上签名代码是强制性的，不能禁用。如果没有给出，则默认为"ad-hoc"。
 ```
 
 ---
@@ -4107,7 +4111,7 @@ now mandatory on macOS and cannot be disabled. Default "ad-hoc" if not given.
 中文参数名:
 
 ```
-
+macOS签名公证
 ```
 
 原始简介:
@@ -4120,7 +4124,7 @@ the required runtime signing option, such that it can be accepted.
 中文简介:
 
 ```
-
+当进行用于公证的签名时，使用来自Apple的正确的TeamID标识，使用所需的运行时签名选项，以便它可以被接受。
 ```
 
 ---
@@ -4136,7 +4140,7 @@ the required runtime signing option, such that it can be accepted.
 中文参数名:
 
 ```
-
+macOS应用程序版本=macOS应用程序版本
 ```
 
 原始简介:
@@ -4149,7 +4153,7 @@ given.
 中文简介:
 
 ```
-
+要在macOS捆绑包信息中使用的产品版本。如果没有给出，则默认为"1.0"。
 ```
 
 ---
@@ -4165,7 +4169,7 @@ given.
 中文参数名:
 
 ```
-
+macOS应用程序受保护资源=资源描述
 ```
 
 原始简介:
@@ -4176,14 +4180,17 @@ Request an entitlement for access to a macOS protected resources, e.g.
 access to the microphone and provides an informative text for the user, why that
 is needed. Before the colon, is an OS identifier for an access right, then the
 informative text. Legal values can be found on https://developer.apple.com/doc
-umentation/bundleresources/information_property_list/p rotected_resources and
+umentation/bundleresources/information_property_list/protected_resources and
 the option can be specified multiple times. Default empty.
 ```
 
 中文简介:
 
 ```
-
+请求访问macOS受保护的资源的权限，例如"NSMicrophoneUsageDescription:Microphone access for recording audio."请求访问麦克风，
+并为用户提供一个信息文本，说明为什么需要这样做。在冒号之前，是一个访问权限的操作系统标识符，然后是信息文本。
+可以在https://developer.apple.com/documentation/bundleresources/information_property_list/protected_resources中找到合法的值，
+该选项可以多次指定。默认为空。
 ```
 
 ---
