@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 1.8.1`
+该文档目前Nuitka版本: `Nuitka 1.8.5`
 <details>
 <summary>模板</summary>
 
