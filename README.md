@@ -12,5 +12,5 @@ helper文件夹内放了一些帮助格式化啥的python文件
 * [Nuitka --help文档翻译](docs/--help.md)
 
 ## 感谢
-感谢所有贡献者们:
-![](https://github.com/erduotong/nuitka-doc-zh/graphs/contributors)
+感谢所有贡献者们:  
+<a href="https://github.com/erduotong/nuitka-doc-zh/graphs/contributors"><img src="https://contrib.rocks/image?repo=erduotong/nuitka-doc-zh&anon=1&max=100000000"></a>
