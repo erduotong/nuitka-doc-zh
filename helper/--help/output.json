@@ -59,7 +59,7 @@
                         "raw_parameter": "--main=PATH",
                         "chinese_parameter": "主程序=路径",
                         "raw_introduction": "If specified once, this takes the place of the positional argument, i.e. the\nfilename to compile. When given multiple times, it enables \"multidist\" (see User\nManual) it allows you to create binaries that depending on file name or\ninvocation name.",
-                        "chinese_introduction": "如果只指定一次(如--main=\"1.py\")，这将取代位置参数，也就是要编译的文件名(入口)。 \n如果指定多次(如--main=\"1.py\" --main=\"2.py\"), 它将启用\"multidist\"(参见用户手册),它允许您创建依赖于文件名或调用名的二进制文件。\n(允许多个主程序使用同一套编译参数)\n\nMultidist补充:\n我们把主路径的基本名称和入口点称为entry point。这些名称当然必须是不同的。然后创建的二进制文件可以执行任何一个入口点，\n并会对sys.argv[0]如何显示做出反应。所以如果以正确的方式执行（通过像subprocess或OS API这样的东西你可以控制这个名字），\n或者通过重命名或复制二进制文件，或者链接到它，你就可以实现奇迹。\n这种模式适用于独立模式、onefile模式和纯加速模式。它不适用于模块模式。\n例子:\n|-1.py\n|-2.py\nnuitka --main=./1.py --main=./2.py --standalone 1.py\n运行打包后的1.exe: 得到1.py的运行结果\n改名为2.exe: 得到2.py的运行结果"
+                        "chinese_introduction": "如果只指定一次(如--main=\"1.py\")，这将取代位置参数，也就是要编译的文件名(入口)。 \n如果指定多次(如--main=\"1.py\" --main=\"2.py\"), 它将启用\"multidist\"(参见用户手册),它允许您创建依赖于文件名或调用名的二进制文件。\n(允许多个主程序使用同一套编译参数)\n\nMultidist补充:\n我们把主路径的基本名称和入口点称为entry point。这些名称当然必须是不同的。然后创建的二进制文件可以执行任何一个入口点，\n并会对sys.argv[0]如何显示做出反应。所以如果以正确的方式执行（通过像subprocess或OS API这样的东西你可以控制这个名字），\n或者通过重命名或复制二进制文件，或者链接到它，你就可以实现奇迹。\n这种模式适用于独立模式、onefile模式和纯加速模式。它不适用于模块模式。"
                     }
                 }
             },
@@ -70,7 +70,7 @@
                         "raw_parameter": "--include-package=PACKAGE",
                         "chinese_parameter": "包含包=包",
                         "raw_introduction": "Include a whole package. Give as a Python namespace, e.g.\n\"some_package.sub_package\" and Nuitka will then find it and include it and all\nthe modules found below that disk location in the binary or extension module it\ncreates, and make it available for import by the code. To avoid unwanted sub\npackages, e.g. tests you can e.g. do this \"--nofollow-import-to=*.tests\".\nDefault empty.",
-                        "chinese_introduction": "包含整个包。以Python命名空间的形式给出，例如’some_package.sub_package’，\n然后Nuitka会找到它并包含它以及在其创建的二进制或扩展模块的磁盘位置下面找到的所有模块，并使其可以被代码导入。\n为了避免不需要的子包，例如测试，你可以这样做’–nofollow-import-to=*.tests’。默认为空。\n(注: 这里的包含是指将包含的包或模块编译到二进制文件中并可以被代码导入, 而不是将其作为依赖项)\n(示例:nuitka --include-package=numpy --include-package=pandas main.py)"
+                        "chinese_introduction": "包含整个包。以Python命名空间的形式给出，例如’some_package.sub_package’，\n然后Nuitka会找到它并包含它以及在其创建的二进制或扩展模块的磁盘位置下面找到的所有模块，并使其可以被代码导入。\n为了避免不需要的子包，例如测试，你可以这样做’–nofollow-import-to=*.tests’。默认为空。\n(注: 这里的包含是指将包含的包或模块编译到二进制文件中并可以被代码导入, 而不是将其作为依赖项)"
                     },
                     "--include-module=MODULE": {
                         "raw_parameter": "--include-module=MODULE",

@@ -1129,12 +1129,6 @@ Multidist补充:
 并会对sys.argv[0]如何显示做出反应。所以如果以正确的方式执行（通过像subprocess或OS API这样的东西你可以控制这个名字），
 或者通过重命名或复制二进制文件，或者链接到它，你就可以实现奇迹。
 这种模式适用于独立模式、onefile模式和纯加速模式。它不适用于模块模式。
-例子:
-|-1.py
-|-2.py
-nuitka --main=./1.py --main=./2.py --standalone 1.py
-运行打包后的1.exe: 得到1.py的运行结果
-改名为2.exe: 得到2.py的运行结果
 ```
 
 ---
@@ -1177,7 +1171,6 @@ Default empty.
 然后Nuitka会找到它并包含它以及在其创建的二进制或扩展模块的磁盘位置下面找到的所有模块，并使其可以被代码导入。
 为了避免不需要的子包，例如测试，你可以这样做’–nofollow-import-to=*.tests’。默认为空。
 (注: 这里的包含是指将包含的包或模块编译到二进制文件中并可以被代码导入, 而不是将其作为依赖项)
-(示例:nuitka --include-package=numpy --include-package=pandas main.py)
 ```
 
 ---
