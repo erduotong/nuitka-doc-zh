@@ -4,7 +4,8 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 1.8.5`
+该文档目前Nuitka版本: `Nuitka 1.9.0`  
+查看[JSON版本](../helper/--help/output.json)  
 <details>
 <summary>模板</summary>
 
@@ -153,6 +154,11 @@ Options:
                         When creating the onefile, disable compression of the
                         payload. This is mostly for debug purposes, or to save
                         time. Default is off.
+    --onefile-as-archive
+                        When creating the onefile, use an archive format, that
+                        can be unpacked with "nuitka-onefile-unpack" rather
+                        than a stream that only the onefile program itself
+                        unpacks. Default is off.
 
   Data files:
     --include-package-data=PACKAGE
@@ -194,9 +200,9 @@ Options:
                         Do not include data files matching the filename
                         pattern given. This is against the target filename,
                         not source paths. So to ignore a file pattern from
-                        package data for "package_name" should be matched as
-                        "package_name/*.txt". Or for the whole directory
-                        simply use "package_name". Default empty.
+                        package data for 'package_name' should be matched as
+                        'package_name/*.txt'. Or for the whole directory
+                        simply use 'package_name'. Default empty.
     --list-package-data=LIST_PACKAGE_DATA
                         Output the data files found for a given package name.
                         Default not done.
@@ -215,9 +221,9 @@ Options:
     --noinclude-dlls=PATTERN
                         Do not include DLL files matching the filename pattern
                         given. This is against the target filename, not source
-                        paths. So ignore a DLL "someDLL" contained in the
-                        package "package_name" it should be matched as
-                        "package_name/someDLL.*". Default empty.
+                        paths. So ignore a DLL 'someDLL' contained in the
+                        package 'package_name' it should be matched as
+                        'package_name/someDLL.*'. Default empty.
     --list-package-dlls=LIST_PACKAGE_DLLS
                         Output the DLLs found for a given package name.
                         Default not done.
@@ -306,7 +312,7 @@ Options:
                         current directory.
     --remove-output     Removes the build directory after producing the module
                         or exe file. Defaults to off.
-    --no-pyi-file       Do not create a ".pyi" file for extension modules
+    --no-pyi-file       Do not create a '.pyi' file for extension modules
                         created by Nuitka. This is used to detect implicit
                         imports. Defaults to off.
 
@@ -386,15 +392,15 @@ Options:
     --disable-cache=DISABLED_CACHES
                         Disable selected caches, specify "all" for all cached.
                         Currently allowed values are:
-                        "all","ccache","bytecode","dll-dependencies". can be
-                        given multiple times or with comma separated values.
-                        Default none.
+                        "all","ccache","bytecode","compression","dll-
+                        dependencies". can be given multiple times or with
+                        comma separated values. Default none.
     --clean-cache=CLEAN_CACHES
                         Clean the given caches before executing, specify "all"
                         for all cached. Currently allowed values are:
-                        "all","ccache","bytecode","dll-dependencies". can be
-                        given multiple times or with comma separated values.
-                        Default none.
+                        "all","ccache","bytecode","compression","dll-
+                        dependencies". can be given multiple times or with
+                        comma separated values. Default none.
     --disable-bytecode-cache
                         Do not reuse dependency analysis results for modules,
                         esp. from standard library, that are included as
@@ -451,7 +457,7 @@ Options:
                         values. Default is empty.
     --report-template=REPORT_DESC
                         Report via template. Provide template and output
-                        filename "template.rst.j2:output.rst". For built-in
+                        filename 'template.rst.j2:output.rst'. For built-in
                         templates, check the User Manual for what these are.
                         Can be given multiple times. Default is empty.
     --quiet             Disable all information outputs, but show warnings.
@@ -675,167 +681,6 @@ Options:
                         package and then one choice, "error", "warning",
                         "nofollow", e.g. PyQt5:error.
 ```
-
-</details>
-<details>
-<summary>目录</summary>
-
-目录最后更新: 2023/10/14
-
-* [Nuitka --help文档翻译](#nuitka---help文档翻译)
-    * [信息](#信息)
-* [Options(选项)](#options选项)
-    * [basic(基本设置(无分类))](#basic基本设置无分类)
-        * [--help](#--help)
-        * [--version](#--version)
-        * [--module](#--module)
-        * [--standalone](#--standalone)
-        * [--onefile](#--onefile)
-        * [--python-debug](#--python-debug)
-        * [--python-flag=FLAG](#--python-flagflag)
-        * [--python-for-scons=PATH](#--python-for-sconspath)
-        * [--main=PATH](#--mainpath)
-    * [Control the inclusion of modules and packages in result(控制结果中包含的模块和包)](#control-the-inclusion-of-modules-and-packages-in-result控制结果中包含的模块和包)
-        * [--include-package=PACKAGE](#--include-packagepackage)
-        * [--include-module=MODULE](#--include-modulemodule)
-        * [--include-plugin-directory=MODULE/PACKAGE](#--include-plugin-directorymodulepackage)
-        * [--include-plugin-files=PATTERN](#--include-plugin-filespattern)
-        * [--prefer-source-code](#--prefer-source-code)
-    * [Control the following into imported modules(控制导入的模块)](#control-the-following-into-imported-modules控制导入的模块)
-        * [--follow-imports](#--follow-imports)
-        * [--follow-import-to=MODULE/PACKAGE](#--follow-import-tomodulepackage)
-        * [--nofollow-import-to=MODULE/PACKAGE](#--nofollow-import-tomodulepackage)
-        * [--nofollow-imports](#--nofollow-imports)
-        * [--follow-stdlib](#--follow-stdlib)
-    * [Onefile options(单文件选项)](#onefile-options单文件选项)
-        * [--onefile-tempdir-spec=ONEFILE_TEMPDIR_SPEC](#--onefile-tempdir-speconefiletempdirspec)
-        * [--onefile-child-grace-time=GRACE_TIME_MS](#--onefile-child-grace-timegracetimems)
-        * [--onefile-no-compression](#--onefile-no-compression)
-    * [Data files(数据文件)](#data-files数据文件)
-        * [--include-package-data=PACKAGE](#--include-package-datapackage)
-        * [--include-data-files=DESC](#--include-data-filesdesc)
-        * [--include-data-dir=DIRECTORY](#--include-data-dirdirectory)
-        * [--noinclude-data-files=PATTERN](#--noinclude-data-filespattern)
-        * [--list-package-data=LIST_PACKAGE_DATA](#--list-package-datalistpackagedata)
-    * [Metadata support(元数据支持)](#metadata-support元数据支持)
-        * [--include-distribution-metadata=DISTRIBUTION](#--include-distribution-metadatadistribution)
-    * [DLL files(DLL(动态链接库)文件)](#dll-filesdll动态链接库文件)
-        * [--noinclude-dlls=PATTERN](#--noinclude-dllspattern)
-        * [--list-package-dlls=LIST_PACKAGE_DLLS](#--list-package-dllslistpackagedlls)
-    * [Control the warnings to be given by Nuitka(控制Nuitka发出的警告)](#control-the-warnings-to-be-given-by-nuitka控制nuitka发出的警告)
-        * [--warn-implicit-exceptions](#--warn-implicit-exceptions)
-        * [--warn-unusual-code](#--warn-unusual-code)
-        * [--assume-yes-for-downloads](#--assume-yes-for-downloads)
-        * [--nowarn-mnemonic=MNEMONIC](#--nowarn-mnemonicmnemonic)
-    * [Immediate execution after compilation(编译后立刻执行)](#immediate-execution-after-compilation编译后立刻执行)
-        * [--run](#--run)
-        * [--debugger](#--debugger)
-        * [--execute-with-pythonpath](#--execute-with-pythonpath)
-    * [Compilation choices(编译选项)](#compilation-choices编译选项)
-        * [--user-package-configuration-file=YAML_FILENAME](#--user-package-configuration-fileyamlfilename)
-        * [--full-compat](#--full-compat)
-        * [--file-reference-choice=MODE](#--file-reference-choicemode)
-        * [--module-name-choice=MODE](#--module-name-choicemode)
-    * [Output choices(输出选择)](#output-choices输出选择)
-        * [--output-filename=FILENAME](#--output-filenamefilename)
-        * [--output-dir=DIRECTORY](#--output-dirdirectory)
-        * [--remove-output](#--remove-output)
-        * [--no-pyi-file](#--no-pyi-file)
-    * [Debug features(调试功能)](#debug-features调试功能)
-        * [--debug](#--debug)
-        * [--unstripped](#--unstripped)
-        * [--profile](#--profile)
-        * [--internal-graph](#--internal-graph)
-        * [--trace-execution](#--trace-execution)
-        * [--recompile-c-only](#--recompile-c-only)
-        * [--xml=XML_FILENAME](#--xmlxmlfilename)
-        * [--deployment](#--deployment)
-        * [--no-deployment-flag=FLAG](#--no-deployment-flagflag)
-        * [--experimental=FLAG](#--experimentalflag)
-        * [--low-memory](#--low-memory)
-        * [--create-environment-from-report=CREATE_ENVIRONMENT_FROM_REPORT](#--create-environment-from-reportcreateenvironmentfromreport)
-        * [--generate-c-only](#--generate-c-only)
-    * [Backend C compiler choice(后端 C 编译器选择)](#backend-c-compiler-choice后端-c-编译器选择)
-        * [--clang](#--clang)
-        * [--mingw64](#--mingw64)
-        * [--msvc=MSVC_VERSION](#--msvcmsvcversion)
-        * [--jobs=N](#--jobsn)
-        * [--lto=choice](#--ltochoice)
-        * [--static-libpython=choice](#--static-libpythonchoice)
-    * [Cache Control(缓存控制)](#cache-control缓存控制)
-        * [--disable-cache=DISABLED_CACHES](#--disable-cachedisabledcaches)
-        * [--clean-cache=CLEAN_CACHES](#--clean-cachecleancaches)
-        * [--disable-bytecode-cache](#--disable-bytecode-cache)
-        * [--disable-ccache](#--disable-ccache)
-        * [--disable-dll-dependency-cache](#--disable-dll-dependency-cache)
-        * [--force-dll-dependency-cache-update](#--force-dll-dependency-cache-update)
-    * [PGO compilation choices(PGO(配置文件引导优化)编译选项)](#pgo-compilation-choicespgo配置文件引导优化编译选项)
-        * [--pgo](#--pgo)
-        * [--pgo-args=PGO_ARGS](#--pgo-argspgoargs)
-        * [--pgo-executable=PGO_EXECUTABLE](#--pgo-executablepgoexecutable)
-    * [Tracing features(跟踪功能)](#tracing-features跟踪功能)
-        * [--report=REPORT_FILENAME](#--reportreportfilename)
-        * [--report-diffable](#--report-diffable)
-        * [--report-user-provided=KEY_VALUE](#--report-user-providedkeyvalue)
-        * [--report-template=REPORT_DESC](#--report-templatereportdesc)
-        * [--quiet](#--quiet)
-        * [--show-scons](#--show-scons)
-        * [--no-progressbar](#--no-progressbar)
-        * [--show-progress](#--show-progress)
-        * [--show-memory](#--show-memory)
-        * [--show-modules](#--show-modules)
-        * [--show-modules-output=PATH](#--show-modules-outputpath)
-        * [--verbose](#--verbose)
-        * [--verbose-output=PATH](#--verbose-outputpath)
-    * [General OS controls(通用操作系统控制)](#general-os-controls通用操作系统控制)
-        * [--disable-console](#--disable-console)
-        * [--enable-console](#--enable-console)
-        * [--force-stdout-spec=FORCE_STDOUT_SPEC](#--force-stdout-specforcestdoutspec)
-        * [--force-stderr-spec=FORCE_STDERR_SPEC](#--force-stderr-specforcestderrspec)
-    * [Windows specific controls(Windows特定控制)](#windows-specific-controlswindows特定控制)
-        * [--windows-icon-from-ico=ICON_PATH](#--windows-icon-from-icoiconpath)
-        * [--windows-icon-from-exe=ICON_EXE_PATH](#--windows-icon-from-exeiconexepath)
-        * [--onefile-windows-splash-screen-image=SPLASH_SCREEN_IMAGE](#--onefile-windows-splash-screen-imagesplashscreenimage)
-        * [--windows-uac-admin](#--windows-uac-admin)
-        * [--windows-uac-uiaccess](#--windows-uac-uiaccess)
-    * [macOS specific controls(MacOS特定控制)](#macos-specific-controlsmacos特定控制)
-        * [--macos-target-arch=MACOS_TARGET_ARCH](#--macos-target-archmacostargetarch)
-        * [--macos-create-app-bundle](#--macos-create-app-bundle)
-        * [--macos-app-icon=ICON_PATH](#--macos-app-iconiconpath)
-        * [--macos-signed-app-name=MACOS_SIGNED_APP_NAME](#--macos-signed-app-namemacossignedappname)
-        * [--macos-app-name=MACOS_APP_NAME](#--macos-app-namemacosappname)
-        * [--macos-app-mode=MODE](#--macos-app-modemode)
-        * [--macos-sign-identity=MACOS_APP_VERSION](#--macos-sign-identitymacosappversion)
-        * [--macos-sign-notarization](#--macos-sign-notarization)
-        * [--macos-app-version=MACOS_APP_VERSION](#--macos-app-versionmacosappversion)
-        * [--macos-app-protected-resource=RESOURCE_DESC](#--macos-app-protected-resourceresourcedesc)
-    * [Linux specific controls(Linux特定控制)](#linux-specific-controlslinux特定控制)
-        * [--linux-icon=ICON_PATH](#--linux-iconiconpath)
-    * [Binary Version Information(二进制版本信息)](#binary-version-information二进制版本信息)
-        * [--company-name=COMPANY_NAME](#--company-namecompanyname)
-        * [--product-name=PRODUCT_NAME](#--product-nameproductname)
-        * [--file-version=FILE_VERSION](#--file-versionfileversion)
-        * [--product-version=PRODUCT_VERSION](#--product-versionproductversion)
-        * [--file-description=FILE_DESCRIPTION](#--file-descriptionfiledescription)
-        * [--copyright=COPYRIGHT_TEXT](#--copyrightcopyrighttext)
-        * [--trademarks=TRADEMARK_TEXT](#--trademarkstrademarktext)
-    * [Plugin control(插件控制)](#plugin-control插件控制)
-        * [--enable-plugins=PLUGIN_NAME](#--enable-pluginspluginname)
-        * [--disable-plugins=PLUGIN_NAME](#--disable-pluginspluginname)
-        * [--plugin-no-detection](#--plugin-no-detection)
-        * [--plugin-list](#--plugin-list)
-        * [--user-plugin=PATH](#--user-pluginpath)
-        * [--show-source-changes](#--show-source-changes)
-    * [Plugin options of 'anti-bloat'('反膨胀'插件选项)](#plugin-options-of-anti-bloat反膨胀插件选项)
-        * [--show-anti-bloat-changes](#--show-anti-bloat-changes)
-        * [--noinclude-setuptools-mode=NOINCLUDE_SETUPTOOLS_MODE](#--noinclude-setuptools-modenoincludesetuptoolsmode)
-        * [--noinclude-pytest-mode=NOINCLUDE_PYTEST_MODE](#--noinclude-pytest-modenoincludepytestmode)
-        * [--noinclude-unittest-mode=NOINCLUDE_UNITTEST_MODE](#--noinclude-unittest-modenoincludeunittestmode)
-        * [--noinclude-IPython-mode=NOINCLUDE_IPYTHON_MODE](#--noinclude-ipython-modenoincludeipythonmode)
-        * [--noinclude-dask-mode=NOINCLUDE_DASK_MODE](#--noinclude-dask-modenoincludedaskmode)
-        * [--noinclude-numba-mode=NOINCLUDE_NUMBA_MODE](#--noinclude-numba-modenoincludenumbamode)
-        * [--noinclude-default-mode=NOINCLUDE_DEFAULT_MODE](#--noinclude-default-modenoincludedefaultmode)
-        * [--noinclude-custom-mode=CUSTOM_CHOICES](#--noinclude-custom-modecustomchoices)
 
 </details>
 
@@ -1552,6 +1397,37 @@ for debug purposes, or to save time. Default is off.
 
 ```
 在创建单文件时，禁用有效载荷的压缩。这主要是出于调试目的，或者为了节省时间。默认关闭
+```
+
+---
+
+### --onefile-as-archive
+
+原始参数名:
+
+```
+--onefile-as-archive
+```
+
+中文参数名:
+
+```
+
+```
+
+原始简介:
+
+```
+When creating the onefile, use an archive format, that can be unpacked with
+"nuitka-onefile-unpack" rather than a stream that only the onefile program
+itself unpacks. Default is off.
+```
+
+中文简介:
+
+```
+在创建onefile的时候，使用一个可以被"nuitka-onefile-unpack"解压的存档格式，而不是一个只有onefile程序本身才能解压的流。
+默认关闭。
 ```
 
 ---
@@ -2938,14 +2814,15 @@ Use static link library of Python. Allowed values are "yes", "no", and "auto"
 
 ```
 Disable selected caches, specify "all" for all cached. Currently allowed values
-are: "all","ccache","bytecode","dll-dependencies". can be given multiple times
+are: "all","ccache","bytecode","compression","dll-dependencies". can be given multiple times
 or with comma separated values. Default none.
 ```
 
 中文简介:
 
 ```
-禁用选定的缓存，设置"all"则为所有缓存。当前允许的值有："all(全部)","ccache","bytecode(字节码","dll-dependencies(dll依赖项)"。
+禁用选定的缓存，设置"all"则为所有缓存。当前允许的值有："all(全部)","ccache","bytecode(字节码)",
+"compression(压缩)","dll-dependencies(dll依赖项)"。
 可以多次给出或使用逗号分隔给定的值。默认为无。
 ```
 
@@ -2969,7 +2846,7 @@ or with comma separated values. Default none.
 
 ```
 Clean the given caches before executing, specify "all" for all cached.
-Currently allowed values are: "all","ccache","bytecode","dll-dependencies". can
+Currently allowed values are: "all","ccache","bytecode","compression","dll-dependencies". can
 be given multiple times or with comma separated values. Default none.
 ```
 
@@ -2977,7 +2854,7 @@ be given multiple times or with comma separated values. Default none.
 
 ```
 在执行前清理给定缓存，设置"all"则为所有缓存。当前允许的值有：
-"all(全部)","ccache","bytecode(字节码)","dll-dependencies(dll依赖项)"。
+"all(全部)","ccache","bytecode(字节码)","compression(压缩)","dll-dependencies(dll依赖项)"。
 可以多次给出或使用逗号分隔给定的值。默认为无。
 ```
 

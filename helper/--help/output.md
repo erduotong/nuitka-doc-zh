@@ -507,6 +507,28 @@ for debug purposes, or to save time. Default is off.
 ```
 
 ---
+### --onefile-as-archive
+
+原始参数名:
+```
+--onefile-as-archive
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+When creating the onefile, use an archive format, that can be unpacked with
+"nuitka-onefile-unpack" rather than a stream that only the onefile program
+itself unpacks. Default is off.
+```
+中文简介:
+```
+
+```
+
+---
 
 ---
 ## Data files()
@@ -607,8 +629,8 @@ empty.
 ```
 Do not include data files matching the filename pattern given. This is against
 the target filename, not source paths. So to ignore a file pattern from package
-data for "package_name" should be matched as "package_name/*.txt". Or for the
-whole directory simply use "package_name". Default empty.
+data for 'package_name' should be matched as 'package_name/*.txt'. Or for the
+whole directory simply use 'package_name'. Default empty.
 ```
 中文简介:
 ```
@@ -683,8 +705,8 @@ compilation. Default empty.
 原始简介:
 ```
 Do not include DLL files matching the filename pattern given. This is against
-the target filename, not source paths. So ignore a DLL "someDLL" contained in
-the package "package_name" it should be matched as "package_name/someDLL.*".
+the target filename, not source paths. So ignore a DLL 'someDLL' contained in
+the package 'package_name' it should be matched as 'package_name/someDLL.*'.
 Default empty.
 ```
 中文简介:
@@ -1058,7 +1080,7 @@ off.
 ```
 原始简介:
 ```
-Do not create a ".pyi" file for extension modules created by Nuitka. This is
+Do not create a '.pyi' file for extension modules created by Nuitka. This is
 used to detect implicit imports. Defaults to off.
 ```
 中文简介:
@@ -1504,8 +1526,8 @@ Use static link library of Python. Allowed values are "yes", "no", and "auto"
 原始简介:
 ```
 Disable selected caches, specify "all" for all cached. Currently allowed values
-are: "all","ccache","bytecode","dll-dependencies". can be given multiple times
-or with comma separated values. Default none.
+are: "all","ccache","bytecode","compression","dll- dependencies". can be given
+multiple times or with comma separated values. Default none.
 ```
 中文简介:
 ```
@@ -1526,8 +1548,9 @@ or with comma separated values. Default none.
 原始简介:
 ```
 Clean the given caches before executing, specify "all" for all cached.
-Currently allowed values are: "all","ccache","bytecode","dll-dependencies". can
-be given multiple times or with comma separated values. Default none.
+Currently allowed values are: "all","ccache","bytecode","compression","dll-
+dependencies". can be given multiple times or with comma separated values.
+Default none.
 ```
 中文简介:
 ```
@@ -1777,7 +1800,7 @@ provided=pipenv-lock-hash=64a5e4' to track some input values. Default is empty.
 原始简介:
 ```
 Report via template. Provide template and output filename
-"template.rst.j2:output.rst". For built-in templates, check the User Manual for
+'template.rst.j2:output.rst'. For built-in templates, check the User Manual for
 what these are. Can be given multiple times. Default is empty.
 ```
 中文简介:
