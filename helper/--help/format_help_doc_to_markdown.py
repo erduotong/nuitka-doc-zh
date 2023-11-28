@@ -1,3 +1,25 @@
+import subprocess
+
+ans = input("auto input? (Y/n)")
+if ans == "Y" or ans == 'y':
+    # 执行nuitka --help，删除第一行后将执行结果保存到input.in中
+    result = subprocess.run(
+        [
+            'python',
+            '-m',
+            'nuitka',
+            '--help']
+        , stdout=subprocess.PIPE)
+
+    # 将输出转换为字符串，并删除第一行
+    output = result.stdout.decode('utf-8').split('\n')[1:]
+    a = '\n'.join(output)
+    print(f"get output: {a}")
+
+    # 将结果保存到文件中
+    with open('input.in', 'w') as f:
+        f.write('\n'.join(output))
+
 with open('./input.in', 'r', encoding='utf-8') as f:
     input_str = f.read()
     input_str = input_str.strip()
@@ -7,7 +29,6 @@ Options = {
     }
 }
 # 删除前后空行
-
 # 删除第一行
 input_str = input_str.split('\n', 1)[1]
 key = ''
