@@ -55,7 +55,8 @@ Defaults to off.
 ```
 原始简介:
 ```
-Create an extension module executable instead of a program. Defaults to off.
+Create an importable binary extension module executable instead of a program.
+Defaults to off.
 ```
 中文简介:
 ```
@@ -107,27 +108,6 @@ compressed executable is created and used. Defaults to off.
 ```
 
 ---
-### --python-debug
-
-原始参数名:
-```
---python-debug
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Use debug version or not. Default uses what you are using to run Nuitka, most
-likely a non-debug version.
-```
-中文简介:
-```
-
-```
-
----
 ### --python-flag=FLAG
 
 原始参数名:
@@ -154,6 +134,27 @@ compile as "package.__main__"). Default empty.
 ```
 
 ---
+### --python-debug
+
+原始参数名:
+```
+--python-debug
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Use debug version or not. Default uses what you are using to run Nuitka, most
+likely a non-debug version. Only for debugging and testing purposes.
+```
+中文简介:
+```
+
+```
+
+---
 ### --python-for-scons=PATH
 
 原始参数名:
@@ -166,10 +167,10 @@ compile as "package.__main__"). Default empty.
 ```
 原始简介:
 ```
-If using Python3.3 or Python3.4, provide the path of a Python binary to use for
-Scons. Otherwise Nuitka can use what you run Nuitka with or a Python
-installation from Windows registry. On Windows Python 3.5 or higher is needed.
-On non-Windows, Python 2.6 or 2.7 will do as well.
+When compiling with Python 3.4 provide the path of a Python binary to use for
+Scons. Otherwise Nuitka can use what you run Nuitka with, or find Python
+installation, e.g. from Windows registry. On Windows, a Python 3.5 or higher is
+needed. On non-Windows, a Python 2.6 or 2.7 will do as well.
 ```
 中文简介:
 ```
@@ -452,9 +453,9 @@ sometimes won't work. Defaults to off.
 原始简介:
 ```
 Use this as a folder to unpack to in onefile mode. Defaults to
-'%TEMP%/onefile_%PID%_%TIME%', i.e. user temporary directory and being
+'{TEMP}/onefile_{PID}_{TIME}', i.e. user temporary directory and being
 non-static it's removed. Use e.g. a string like
-'%CACHE_DIR%/%COMPANY%/%PRODUCT%/%VERSION%' which is a good static cache path,
+'{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}' which is a good static cache path,
 this will then not be removed.
 ```
 中文简介:
@@ -631,6 +632,29 @@ Do not include data files matching the filename pattern given. This is against
 the target filename, not source paths. So to ignore a file pattern from package
 data for 'package_name' should be matched as 'package_name/*.txt'. Or for the
 whole directory simply use 'package_name'. Default empty.
+```
+中文简介:
+```
+
+```
+
+---
+### --include-onefile-external-data=PATTERN
+
+原始参数名:
+```
+--include-onefile-external-data=PATTERN
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Include the specified data file patterns outside of the onefile binary, rather
+than on the inside. Makes only sense in case of '--onefile' compilation. First
+files have to be specified as included somehow, then this refers to target
+paths. Default empty.
 ```
 中文简介:
 ```
@@ -1508,6 +1532,29 @@ Use static link library of Python. Allowed values are "yes", "no", and "auto"
 ```
 
 ---
+### --cf-protection=PROTECTION_MODE
+
+原始参数名:
+```
+--cf-protection=PROTECTION_MODE
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+This option is gcc specific. For the gcc compiler, select the "cf-protection"
+mode. Default "auto" is to use the gcc default value, but you can override it,
+e.g. to disable it with "none" value. Refer to gcc documentation for
+"-fcf-protection" for the details.
+```
+中文简介:
+```
+
+```
+
+---
 
 ---
 ## Cache Control()
@@ -2057,7 +2104,7 @@ that suggest to disable it. Defaults to true.
 ```
 Force standard output of the program to go to this location. Useful for
 programs with disabled console and programs using the Windows Services Plugin of
-Nuitka commercial. Defaults to not active, use e.g. '%PROGRAM_BASE%.out.txt',
+Nuitka commercial. Defaults to not active, use e.g. '{PROGRAM_BASE}.out.txt',
 i.e. file near your program, check User Manual for full list of available
 values.
 ```
@@ -2081,7 +2128,7 @@ values.
 ```
 Force standard error of the program to go to this location. Useful for programs
 with disabled console and programs using the Windows Services Plugin of Nuitka
-commercial. Defaults to not active, use e.g. '%PROGRAM_BASE%.err.txt', i.e. file
+commercial. Defaults to not active, use e.g. '{PROGRAM_BASE}.err.txt', i.e. file
 near your program, check User Manual for full list of available values.
 ```
 中文简介:
@@ -2352,7 +2399,8 @@ appear in dock, but get full access to desktop when it does open a Window later.
 ```
 When signing on macOS, by default an ad-hoc identify will be used, but with
 this option your get to specify another identity to use. The signing of code is
-now mandatory on macOS and cannot be disabled. Default "ad-hoc" if not given.
+now mandatory on macOS and cannot be disabled. Use "auto" to detect your only
+identity installed. Default "ad- hoc" if not given.
 ```
 中文简介:
 ```
@@ -2576,8 +2624,8 @@ Defaults to binary filename.
 ```
 原始简介:
 ```
-Copyright used in version information. Windows only at this time. Defaults to
-not present.
+Copyright used in version information. Windows/macOS only at this time.
+Defaults to not present.
 ```
 中文简介:
 ```
@@ -2597,8 +2645,8 @@ not present.
 ```
 原始简介:
 ```
-Trademark used in version information. Windows only at this time. Defaults to
-not present.
+Trademark used in version information. Windows/macOS only at this time.
+Defaults to not present.
 ```
 中文简介:
 ```
@@ -2718,11 +2766,33 @@ The file name of user plugin. Can be given multiple times. Default empty.
 ```
 
 ---
-### --show-source-changes
+### --module-parameter=MODULE_PARAMETERS
 
 原始参数名:
 ```
---show-source-changes
+--module-parameter=MODULE_PARAMETERS
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Provide a module parameter. You are asked by some packages to provide extra
+decisions. Format is currently --module-parameter=module.name-option- name=value
+Default empty.
+```
+中文简介:
+```
+
+```
+
+---
+### --show-source-changes=SHOW_SOURCE_CHANGES
+
+原始参数名:
+```
+--show-source-changes=SHOW_SOURCE_CHANGES
 ```
 中文参数名:
 ```
@@ -2731,7 +2801,9 @@ The file name of user plugin. Can be given multiple times. Default empty.
 原始简介:
 ```
 Show source changes to original Python file content before compilation. Mostly
-intended for developing plugins. Default False.
+intended for developing plugins and Nuitka package configuration. Use e.g. '--
+show-source-changes=numpy.**' to see all changes below a given namespace or use
+'*' to see everything which can get a lot. Default empty.
 ```
 中文简介:
 ```

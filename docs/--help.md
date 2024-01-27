@@ -5,7 +5,7 @@
 ## 信息
 
 该文档目前Nuitka版本: `Nuitka 1.9.0`  
-查看[JSON版本](../helper/--help/output.json)  
+查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
 
@@ -41,8 +41,8 @@ Options:
   --help                show this help message and exit
   --version             Show version information and important details for bug
                         reports, then exit. Defaults to off.
-  --module              Create an extension module executable instead of a
-                        program. Defaults to off.
+  --module              Create an importable binary extension module
+                        executable instead of a program. Defaults to off.
   --standalone          Enable standalone mode for output. This allows you to
                         transfer the created binary to other machines without
                         it using an existing Python installation. This also
@@ -52,8 +52,6 @@ Options:
   --onefile             On top of standalone mode, enable onefile mode. This
                         means not a folder, but a compressed executable is
                         created and used. Defaults to off.
-  --python-debug        Use debug version or not. Default uses what you are
-                        using to run Nuitka, most likely a non-debug version.
   --python-flag=FLAG    Python flags to use. Default is what you are using to
                         run Nuitka, this enforces a specific mode. These are
                         options that also exist to standard Python executable.
@@ -64,13 +62,16 @@ Options:
                         doc strings), "-u" (alias "unbuffered"), "isolated"
                         (do not load outside code) and "-m" (package mode,
                         compile as "package.__main__"). Default empty.
+  --python-debug        Use debug version or not. Default uses what you are
+                        using to run Nuitka, most likely a non-debug version.
+                        Only for debugging and testing purposes.
   --python-for-scons=PATH
-                        If using Python3.3 or Python3.4, provide the path of a
+                        When compiling with Python 3.4 provide the path of a
                         Python binary to use for Scons. Otherwise Nuitka can
-                        use what you run Nuitka with or a Python installation
-                        from Windows registry. On Windows Python 3.5 or higher
-                        is needed. On non-Windows, Python 2.6 or 2.7 will do
-                        as well.
+                        use what you run Nuitka with, or find Python
+                        installation, e.g. from Windows registry. On Windows,
+                        a Python 3.5 or higher is needed. On non-Windows, a
+                        Python 2.6 or 2.7 will do as well.
   --main=PATH           If specified once, this takes the place of the
                         positional argument, i.e. the filename to compile.
                         When given multiple times, it enables "multidist" (see
@@ -138,10 +139,10 @@ Options:
   Onefile options:
     --onefile-tempdir-spec=ONEFILE_TEMPDIR_SPEC
                         Use this as a folder to unpack to in onefile mode.
-                        Defaults to '%TEMP%/onefile_%PID%_%TIME%', i.e. user
+                        Defaults to '{TEMP}/onefile_{PID}_{TIME}', i.e. user
                         temporary directory and being non-static it's removed.
                         Use e.g. a string like
-                        '%CACHE_DIR%/%COMPANY%/%PRODUCT%/%VERSION%' which is a
+                        '{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}' which is a
                         good static cache path, this will then not be removed.
     --onefile-child-grace-time=GRACE_TIME_MS
                         When stopping the child, e.g. due to CTRL-C or
@@ -203,6 +204,12 @@ Options:
                         package data for 'package_name' should be matched as
                         'package_name/*.txt'. Or for the whole directory
                         simply use 'package_name'. Default empty.
+    --include-onefile-external-data=PATTERN
+                        Include the specified data file patterns outside of
+                        the onefile binary, rather than on the inside. Makes
+                        only sense in case of '--onefile' compilation. First
+                        files have to be specified as included somehow, then
+                        this refers to target paths. Default empty.
     --list-package-data=LIST_PACKAGE_DATA
                         Output the data files found for a given package name.
                         Default not done.
@@ -387,6 +394,12 @@ Options:
                         Use static link library of Python. Allowed values are
                         "yes", "no", and "auto" (when it's known to work).
                         Defaults to "auto".
+    --cf-protection=PROTECTION_MODE
+                        This option is gcc specific. For the gcc compiler,
+                        select the "cf-protection" mode. Default "auto" is to
+                        use the gcc default value, but you can override it,
+                        e.g. to disable it with "none" value. Refer to gcc
+                        documentation for "-fcf-protection" for the details.
 
   Cache Control:
     --disable-cache=DISABLED_CACHES
@@ -495,14 +508,14 @@ Options:
                         location. Useful for programs with disabled console
                         and programs using the Windows Services Plugin of
                         Nuitka commercial. Defaults to not active, use e.g.
-                        '%PROGRAM_BASE%.out.txt', i.e. file near your program,
+                        '{PROGRAM_BASE}.out.txt', i.e. file near your program,
                         check User Manual for full list of available values.
     --force-stderr-spec=FORCE_STDERR_SPEC
                         Force standard error of the program to go to this
                         location. Useful for programs with disabled console
                         and programs using the Windows Services Plugin of
                         Nuitka commercial. Defaults to not active, use e.g.
-                        '%PROGRAM_BASE%.err.txt', i.e. file near your program,
+                        '{PROGRAM_BASE}.err.txt', i.e. file near your program,
                         check User Manual for full list of available values.
 
   Windows specific controls:
@@ -563,8 +576,9 @@ Options:
                         When signing on macOS, by default an ad-hoc identify
                         will be used, but with this option your get to specify
                         another identity to use. The signing of code is now
-                        mandatory on macOS and cannot be disabled. Default
-                        "ad-hoc" if not given.
+                        mandatory on macOS and cannot be disabled. Use "auto"
+                        to detect your only identity installed. Default "ad-
+                        hoc" if not given.
     --macos-sign-notarization
                         When signing for notarization, using a proper TeamID
                         identity from Apple, use the required runtime signing
@@ -611,11 +625,11 @@ Options:
                         Windows only at this time. Defaults to binary
                         filename.
     --copyright=COPYRIGHT_TEXT
-                        Copyright used in version information. Windows only at
-                        this time. Defaults to not present.
+                        Copyright used in version information. Windows/macOS
+                        only at this time. Defaults to not present.
     --trademarks=TRADEMARK_TEXT
-                        Trademark used in version information. Windows only at
-                        this time. Defaults to not present.
+                        Trademark used in version information. Windows/macOS
+                        only at this time. Defaults to not present.
 
   Plugin control:
     --enable-plugins=PLUGIN_NAME
@@ -638,10 +652,18 @@ Options:
                         to off.
     --user-plugin=PATH  The file name of user plugin. Can be given multiple
                         times. Default empty.
-    --show-source-changes
+    --module-parameter=MODULE_PARAMETERS
+                        Provide a module parameter. You are asked by some
+                        packages to provide extra decisions. Format is
+                        currently --module-parameter=module.name-option-
+                        name=value Default empty.
+    --show-source-changes=SHOW_SOURCE_CHANGES
                         Show source changes to original Python file content
                         before compilation. Mostly intended for developing
-                        plugins. Default False.
+                        plugins and Nuitka package configuration. Use e.g. '--
+                        show-source-changes=numpy.**' to see all changes below
+                        a given namespace or use '*' to see everything which
+                        can get a lot. Default empty.
 
   Plugin options of 'anti-bloat':
     --show-anti-bloat-changes
@@ -680,6 +702,7 @@ Options:
                         is module name, which can and should be a top level
                         package and then one choice, "error", "warning",
                         "nofollow", e.g. PyQt5:error.
+
 ```
 
 </details>
@@ -764,13 +787,14 @@ Defaults to off.
 原始简介:
 
 ```
-Create an extension module executable instead of a program. Defaults to off.
+Create an importable binary extension module executable instead of a program.
+Defaults to off.
 ```
 
 中文简介:
 
 ``` 
-创建一个扩展模块可执行文件而不是一个程序。默认关闭。
+创建一个可导入的二进制拓展模块可执行文件，而不是程序。默认关闭。
 ```
 
 ---
@@ -838,35 +862,6 @@ compressed executable is created and used. Defaults to off.
 
 ---
 
-### --python-debug
-
-原始参数名:
-
-```
---python-debug
-``` 
-
-中文参数名:
-
-```
-Python调试
-```
-
-原始简介:
-
-```
-Use debug version or not. Default uses what you are using to run Nuitka, most
-likely a non-debug version.
-```
-
-中文简介:
-
-```
-使用调试版本或不使用。默认使用你用来运行Nuitka的(调试)版本, 大多数情况下是非调试版本。
-```
-
----
-
 ### --python-flag=FLAG
 
 原始参数名:
@@ -906,6 +901,33 @@ compile as "package.__main__"). Default empty.
 
 ---
 
+### --python-debug
+
+原始参数名:
+
+```
+--python-debug
+```
+
+中文参数名:
+
+```
+Python调试
+```
+
+原始简介:
+
+```
+Use debug version or not. Default uses what you are using to run Nuitka, most
+likely a non-debug version. Only for debugging and testing purposes.
+```
+
+中文简介:
+
+```
+是否使用调试版本。默认使用你运行Nuitka的版本，其很可能是一个非调试版本。仅用于调试和测试目的。
+```
+
 ### --python-for-scons=PATH
 
 原始参数名:
@@ -923,18 +945,17 @@ Scons的Python路径=路径
 原始简介:
 
 ```
-If using Python3.3 or Python3.4, provide the path of a Python binary to use for
-Scons. Otherwise Nuitka can use what you run Nuitka with or a Python
-installation from Windows registry. On Windows Python 3.5 or higher is needed.
-On non-Windows, Python 2.6 or 2.7 will do as well.
+When compiling with Python 3.4 provide the path of a Python binary to use for
+Scons. Otherwise Nuitka can use what you run Nuitka with, or find Python
+installation, e.g. from Windows registry. On Windows, a Python 3.5 or higher is
+needed. On non-Windows, a Python 2.6 or 2.7 will do as well.
 ```
 
 中文简介:
 
 ```
-如果使用Python3.3或Python3.4, 提供一个Python二进制文件的路径给Scons使用.
-否则，Nuitka可以使用您运行Nuitka的内容(环境), 或者从Windows注册表中获取Python安装。
-在Windows上，需要Python 3.5或更高的版本。在非Windows系统上，Python 2.6或2.7也可以
+当使用Python 3.4编译时，提供一个Python二进制文件路径以供Scons使用。否则，Nuitka可以使用你运行Nuitka的Python，
+或者自行找到Nuitka安装，例如从Windows注册表中。在Windows上，需要Python 3.5或者更高版本，在非Windows上，Python 2.6或Python 2.7也可以。
 ```
 
 ---
@@ -1325,17 +1346,17 @@ sometimes won't work. Defaults to off.
 
 ```
 Use this as a folder to unpack to in onefile mode. Defaults to
-'%TEMP%/onefile_%PID%_%TIME%', i.e. user temporary directory and being
+'{TEMP}/onefile_{PID}_{TIME}', i.e. user temporary directory and being
 non-static it's removed. Use e.g. a string like
-'%CACHE_DIR%/%COMPANY%/%PRODUCT%/%VERSION%' which is a good static cache path,
+'{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}' which is a good static cache path,
 this will then not be removed.
 ```
 
 中文简介:
 
 ```
-在单文件模式下，使用此作为解压的文件夹。默认为’%TEMP%/onefile_%PID%_%TIME%‘，即用户临时目录，并且是非静态的，所以它将会被删除。
-例如，可以使用像’%CACHE_DIR%/%COMPANY%/%PRODUCT%/%VERSION%'这样的字符串，这是一个很好的静态缓存路径，并且它将不会被删除。”
+在单文件模式下，使用此作为解压的文件夹。默认为'{TEMP}/onefile_{PID}_{TIME}'，即用户临时目录，并且是非静态的，所以它将会被删除。
+使用例如像'{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}'这样的字符串是一个很好的静态缓存路径，并且它将不会被删除。
 ```
 
 ---
@@ -1585,6 +1606,38 @@ whole directory simply use "package_name". Default empty.
 不包含与给定文件名形式匹配的数据文件。这是针对目标文件名而非源路径的。
 因此，要从'package_name'的包数据中忽略一个文件模式，应该匹配为"package_name/*.txt",
 或者啥对整个目录而简单地使用"package_name"。默认为空
+```
+
+---
+
+### --include-onefile-external-data=PATTERN
+
+原始参数名:
+
+```
+--include-onefile-external-data=PATTERN
+```
+
+中文参数名:
+
+```
+包含单文件外部数据=形式
+```
+
+原始简介:
+
+```
+Include the specified data file patterns outside of the onefile binary, rather
+than on the inside. Makes only sense in case of '--onefile' compilation. First
+files have to be specified as included somehow, then this refers to target
+paths. Default empty.
+```
+
+中文简介:
+
+```
+将指定的数据文件模式包含在单文件二进制文件的外部而不是内部。仅在'--onefile'编译情况下该选项才有意义。
+首先，必须以某种方式指定文件以某种方式为已包含，然后这个选项将引用目标路径。默认为空。
 ```
 
 ---
@@ -2790,6 +2843,38 @@ Use static link library of Python. Allowed values are "yes", "no", and "auto"
 
 ---
 
+### --cf-protection=PROTECTION_MODE
+
+原始参数名:
+
+```
+--cf-protection=PROTECTION_MODE
+```
+
+中文参数名:
+
+```
+CF保护=保护模式
+```
+
+原始简介:
+
+```
+This option is gcc specific. For the gcc compiler, select the "cf-protection"
+mode. Default "auto" is to use the gcc default value, but you can override it,
+e.g. to disable it with "none" value. Refer to gcc documentation for
+"-fcf-protection" for the details.
+```
+
+中文简介:
+
+```
+这个选项是特定于gcc的。为gcc编译器选择"cf-protection"(cf保护)模式。默认值"auto"是使用gcc的默认值，但你可以覆盖它，
+例如，使用"none"值来禁用它。有关"-fcf-protection"的详细信息，请参阅gcc文档
+```
+
+---
+
 ---
 
 ## Cache Control(缓存控制)
@@ -3551,7 +3636,7 @@ that suggest to disable it. Defaults to true.
 ```
 Force standard output of the program to go to this location. Useful for
 programs with disabled console and programs using the Windows Services Plugin of
-Nuitka commercial. Defaults to not active, use e.g. '%PROGRAM_BASE%.out.txt',
+Nuitka commercial. Defaults to not active, use e.g. '{PROGRAM_BASE}.out.txt',
 i.e. file near your program, check User Manual for full list of available
 values.
 ```
@@ -3560,7 +3645,7 @@ values.
 
 ```
 强制程序的标准输出输出到这个位置。对于禁用控制台的程序和使用Nuitka商业版的Windows服务插件的程序非常有用。默认不激活，
-例如使用'%PROGRAM_BASE%.out.txt'，也就是程序目录附近的文件，查看用户手册以获取可用值的完整列表。
+例如使用'{PROGRAM_BASE}.out.txt'，也就是程序目录附近的文件，查看用户手册以获取可用值的完整列表。
 ```
 
 ---
@@ -3584,7 +3669,7 @@ values.
 ```
 Force standard error of the program to go to this location. Useful for programs
 with disabled console and programs using the Windows Services Plugin of Nuitka
-commercial. Defaults to not active, use e.g. '%PROGRAM_BASE%.err.txt', i.e. file
+commercial. Defaults to not active, use e.g. '{PROGRAM_BASE}.err.txt', i.e. file
 near your program, check User Manual for full list of available values.
 ```
 
@@ -3592,7 +3677,7 @@ near your program, check User Manual for full list of available values.
 
 ```
 强制程序的标准错误输出到这个位置。对于禁用控制台的程序和使用Nuitka商业版的Windows服务插件的程序非常有用。默认不激活，
-例如使用'%PROGRAM_BASE%.err.txt'，也就是程序目录附近的文件，查看用户手册以获取可用值的完整列表。
+例如使用'{PROGRAM_BASE}.err.txt'，也就是程序目录附近的文件，查看用户手册以获取可用值的完整列表。
 ```
 
 ---
@@ -3958,14 +4043,16 @@ macOS签名标识=macOS应用程序版本
 ```
 When signing on macOS, by default an ad-hoc identify will be used, but with
 this option your get to specify another identity to use. The signing of code is
-now mandatory on macOS and cannot be disabled. Default "ad-hoc" if not given.
+now mandatory on macOS and cannot be disabled. Use "auto" to detect your only
+identity installed. Default "ad- hoc" if not given.
 ```
 
 中文简介:
 
 ```
 当在macOS上签名时，默认情况下会使用一个临时标识，但是使用这个选项时，您可以指定另一个要使用的标识。
-现在，在macOS上签名代码是强制性的，不能禁用。如果没有给出，则默认为"ad-hoc"。
+现在，在macOS上签名代码是强制性的，不能被禁用。使用"auto"来检测你唯一的已安装表示。
+如果没有给出，默认为"ad-hoc"。
 ```
 
 ---
@@ -4268,14 +4355,14 @@ Defaults to binary filename.
 原始简介:
 
 ```
-Copyright used in version information. Windows only at this time. Defaults to
-not present.
+Copyright used in version information. Windows/macOS only at this time.
+Defaults to not present.
 ```
 
 中文简介:
 
 ```
-在版本信息中使用的版权信息。目前仅限Windows。默认为无。
+在版本信息中使用的版权信息。目前仅限Windows/macOS可用。默认不显示。
 ```
 
 ---
@@ -4297,14 +4384,14 @@ not present.
 原始简介:
 
 ```
-Trademark used in version information. Windows only at this time. Defaults to
-not present.
+Trademark used in version information. Windows/macOS only at this time.
+Defaults to not present.
 ```
 
 中文简介:
 
 ```
-要在版本信息中使用的商标。目前仅限Windows。默认为无。
+要在版本信息中使用的商标。目前仅限Windows/macOS可用。默认不显示。
 ```
 
 ---
@@ -4462,14 +4549,43 @@ The file name of user plugin. Can be given multiple times. Default empty.
 用户插件的文件名。可以多次给出。默认为空。
 ```
 
----
-
-### --show-source-changes
+### --module-parameter=MODULE_PARAMETERS
 
 原始参数名:
 
 ```
---show-source-changes
+--module-parameter=MODULE_PARAMETERS
+```
+
+中文参数名:
+
+```
+模块参数=模块参数
+```
+
+原始简介:
+
+```
+Provide a module parameter. You are asked by some packages to provide extra
+decisions. Format is currently --module-parameter=module.name-option- name=value
+Default empty.
+```
+
+中文简介:
+
+```
+提供一个模块参数。一些包要求你提供额外的决策。当前格式是 --module-parameter=module.name-option-name=value
+(模块参数=模块.名称-选项-名称=值)。默认为空。
+```
+
+---
+
+### --show-source-changes=SHOW_SOURCE_CHANGES
+
+原始参数名:
+
+```
+--show-source-changes=SHOW_SOURCE_CHANGES
 ```
 
 中文参数名:
@@ -4482,13 +4598,16 @@ The file name of user plugin. Can be given multiple times. Default empty.
 
 ```
 Show source changes to original Python file content before compilation. Mostly
-intended for developing plugins. Default False.
+intended for developing plugins and Nuitka package configuration. Use e.g. '--
+show-source-changes=numpy.**' to see all changes below a given namespace or use
+'*' to see everything which can get a lot. Default empty.
 ```
 
 中文简介:
 
 ```
-显示编译前对原始Python文件内容的源代码的更改。主要用于开发插件。默认关闭。
+在编译之前显示对原Python文件内容的源代码更改。主要用于开发插件和配置Nuitka包。例如使用'-show-source-changes=numpy.**'
+可以查看给定命名空间下所有的更改，或者使用'*'来查看所有可能的大量更改。默认为空
 ```
 
 ---

@@ -2,8 +2,8 @@ Options:
   --help                show this help message and exit
   --version             Show version information and important details for bug
                         reports, then exit. Defaults to off.
-  --module              Create an extension module executable instead of a
-                        program. Defaults to off.
+  --module              Create an importable binary extension module
+                        executable instead of a program. Defaults to off.
   --standalone          Enable standalone mode for output. This allows you to
                         transfer the created binary to other machines without
                         it using an existing Python installation. This also
@@ -13,8 +13,6 @@ Options:
   --onefile             On top of standalone mode, enable onefile mode. This
                         means not a folder, but a compressed executable is
                         created and used. Defaults to off.
-  --python-debug        Use debug version or not. Default uses what you are
-                        using to run Nuitka, most likely a non-debug version.
   --python-flag=FLAG    Python flags to use. Default is what you are using to
                         run Nuitka, this enforces a specific mode. These are
                         options that also exist to standard Python executable.
@@ -25,13 +23,16 @@ Options:
                         doc strings), "-u" (alias "unbuffered"), "isolated"
                         (do not load outside code) and "-m" (package mode,
                         compile as "package.__main__"). Default empty.
+  --python-debug        Use debug version or not. Default uses what you are
+                        using to run Nuitka, most likely a non-debug version.
+                        Only for debugging and testing purposes.
   --python-for-scons=PATH
-                        If using Python3.3 or Python3.4, provide the path of a
+                        When compiling with Python 3.4 provide the path of a
                         Python binary to use for Scons. Otherwise Nuitka can
-                        use what you run Nuitka with or a Python installation
-                        from Windows registry. On Windows Python 3.5 or higher
-                        is needed. On non-Windows, Python 2.6 or 2.7 will do
-                        as well.
+                        use what you run Nuitka with, or find Python
+                        installation, e.g. from Windows registry. On Windows,
+                        a Python 3.5 or higher is needed. On non-Windows, a
+                        Python 2.6 or 2.7 will do as well.
   --main=PATH           If specified once, this takes the place of the
                         positional argument, i.e. the filename to compile.
                         When given multiple times, it enables "multidist" (see
@@ -99,10 +100,10 @@ Options:
   Onefile options:
     --onefile-tempdir-spec=ONEFILE_TEMPDIR_SPEC
                         Use this as a folder to unpack to in onefile mode.
-                        Defaults to '%TEMP%/onefile_%PID%_%TIME%', i.e. user
+                        Defaults to '{TEMP}/onefile_{PID}_{TIME}', i.e. user
                         temporary directory and being non-static it's removed.
                         Use e.g. a string like
-                        '%CACHE_DIR%/%COMPANY%/%PRODUCT%/%VERSION%' which is a
+                        '{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}' which is a
                         good static cache path, this will then not be removed.
     --onefile-child-grace-time=GRACE_TIME_MS
                         When stopping the child, e.g. due to CTRL-C or
@@ -164,6 +165,12 @@ Options:
                         package data for 'package_name' should be matched as
                         'package_name/*.txt'. Or for the whole directory
                         simply use 'package_name'. Default empty.
+    --include-onefile-external-data=PATTERN
+                        Include the specified data file patterns outside of
+                        the onefile binary, rather than on the inside. Makes
+                        only sense in case of '--onefile' compilation. First
+                        files have to be specified as included somehow, then
+                        this refers to target paths. Default empty.
     --list-package-data=LIST_PACKAGE_DATA
                         Output the data files found for a given package name.
                         Default not done.
@@ -348,6 +355,12 @@ Options:
                         Use static link library of Python. Allowed values are
                         "yes", "no", and "auto" (when it's known to work).
                         Defaults to "auto".
+    --cf-protection=PROTECTION_MODE
+                        This option is gcc specific. For the gcc compiler,
+                        select the "cf-protection" mode. Default "auto" is to
+                        use the gcc default value, but you can override it,
+                        e.g. to disable it with "none" value. Refer to gcc
+                        documentation for "-fcf-protection" for the details.
 
   Cache Control:
     --disable-cache=DISABLED_CACHES
@@ -456,14 +469,14 @@ Options:
                         location. Useful for programs with disabled console
                         and programs using the Windows Services Plugin of
                         Nuitka commercial. Defaults to not active, use e.g.
-                        '%PROGRAM_BASE%.out.txt', i.e. file near your program,
+                        '{PROGRAM_BASE}.out.txt', i.e. file near your program,
                         check User Manual for full list of available values.
     --force-stderr-spec=FORCE_STDERR_SPEC
                         Force standard error of the program to go to this
                         location. Useful for programs with disabled console
                         and programs using the Windows Services Plugin of
                         Nuitka commercial. Defaults to not active, use e.g.
-                        '%PROGRAM_BASE%.err.txt', i.e. file near your program,
+                        '{PROGRAM_BASE}.err.txt', i.e. file near your program,
                         check User Manual for full list of available values.
 
   Windows specific controls:
@@ -524,8 +537,9 @@ Options:
                         When signing on macOS, by default an ad-hoc identify
                         will be used, but with this option your get to specify
                         another identity to use. The signing of code is now
-                        mandatory on macOS and cannot be disabled. Default
-                        "ad-hoc" if not given.
+                        mandatory on macOS and cannot be disabled. Use "auto"
+                        to detect your only identity installed. Default "ad-
+                        hoc" if not given.
     --macos-sign-notarization
                         When signing for notarization, using a proper TeamID
                         identity from Apple, use the required runtime signing
@@ -572,11 +586,11 @@ Options:
                         Windows only at this time. Defaults to binary
                         filename.
     --copyright=COPYRIGHT_TEXT
-                        Copyright used in version information. Windows only at
-                        this time. Defaults to not present.
+                        Copyright used in version information. Windows/macOS
+                        only at this time. Defaults to not present.
     --trademarks=TRADEMARK_TEXT
-                        Trademark used in version information. Windows only at
-                        this time. Defaults to not present.
+                        Trademark used in version information. Windows/macOS
+                        only at this time. Defaults to not present.
 
   Plugin control:
     --enable-plugins=PLUGIN_NAME
@@ -599,10 +613,18 @@ Options:
                         to off.
     --user-plugin=PATH  The file name of user plugin. Can be given multiple
                         times. Default empty.
-    --show-source-changes
+    --module-parameter=MODULE_PARAMETERS
+                        Provide a module parameter. You are asked by some
+                        packages to provide extra decisions. Format is
+                        currently --module-parameter=module.name-option-
+                        name=value Default empty.
+    --show-source-changes=SHOW_SOURCE_CHANGES
                         Show source changes to original Python file content
                         before compilation. Mostly intended for developing
-                        plugins. Default False.
+                        plugins and Nuitka package configuration. Use e.g. '--
+                        show-source-changes=numpy.**' to see all changes below
+                        a given namespace or use '*' to see everything which
+                        can get a lot. Default empty.
 
   Plugin options of 'anti-bloat':
     --show-anti-bloat-changes
