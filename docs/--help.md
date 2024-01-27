@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 1.9.0`  
+该文档目前Nuitka版本: `Nuitka 2.0.0`  
 查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
