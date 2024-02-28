@@ -232,9 +232,9 @@ Options:
     --user-package-configuration-file=YAML_FILENAME
                         User provided Yaml file with package configuration.
                         You can include DLLs, remove bloat, add hidden
-                        dependencies. Check User Manual for a complete
-                        description of the format to use. Can be given
-                        multiple times. Defaults to empty.
+                        dependencies. Check the Nuitka Package Configuration
+                        Manual for a complete description of the format to
+                        use. Can be given multiple times. Defaults to empty.
     --full-compat       Enforce absolute compatibility with CPython. Do not
                         even allow minor deviations from CPython behavior,
                         e.g. not having better tracebacks or exception
@@ -271,8 +271,8 @@ Options:
                         extension modules there is no choice, also not for
                         standalone mode and using it will be an error. This
                         may include path information that needs to exist
-                        though. Defaults to '<program_name>' on this platform.
-                        .exe
+                        though. Defaults to '<program_name>.exe' on this
+                        platform.
     --output-dir=DIRECTORY
                         Specify where intermediate and final output files
                         should be put. The DIRECTORY will be populated with
@@ -502,16 +502,17 @@ Options:
                         only). Defaults to off.
 
   macOS specific controls:
+    --macos-create-app-bundle
+                        When compiling for macOS, create a bundle rather than
+                        a plain binary application. This is the only way to
+                        unlock the disabling of console, get high DPI
+                        graphics, etc. and implies standalone mode. Defaults
+                        to off.
     --macos-target-arch=MACOS_TARGET_ARCH
                         What architectures is this to supposed to run on.
                         Default and limit is what the running Python allows
                         for. Default is "native" which is the architecture the
                         Python is run with.
-    --macos-create-app-bundle
-                        When compiling for macOS, create a bundle rather than
-                        a plain binary application. Currently experimental and
-                        incomplete. Currently this is the only way to unlock
-                        disabling of console.Defaults to off.
     --macos-app-icon=ICON_PATH
                         Add icon for the application bundle to use. Can be
                         given only one time. Defaults to Python icon if

@@ -936,9 +936,9 @@ ought to not need PYTHONPATH anymore, and definitely not for standalone mode.
 原始简介:
 ```
 User provided Yaml file with package configuration. You can include DLLs,
-remove bloat, add hidden dependencies. Check User Manual for a complete
-description of the format to use. Can be given multiple times. Defaults to
-empty.
+remove bloat, add hidden dependencies. Check the Nuitka Package Configuration
+Manual for a complete description of the format to use. Can be given multiple
+times. Defaults to empty.
 ```
 中文简介:
 ```
@@ -1041,7 +1041,7 @@ incompatible for modules that normally can be loaded into any package.
 Specify how the executable should be named. For extension modules there is no
 choice, also not for standalone mode and using it will be an error. This may
 include path information that needs to exist though. Defaults to
-'<program_name>' on this platform. .exe
+'<program_name>.exe' on this platform.
 ```
 中文简介:
 ```
@@ -2253,6 +2253,28 @@ remote desktop access. (Windows only). Defaults to off.
 ## macOS specific controls()
 
 ---
+### --macos-create-app-bundle
+
+原始参数名:
+```
+--macos-create-app-bundle
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+When compiling for macOS, create a bundle rather than a plain binary
+application. This is the only way to unlock the disabling of console, get high
+DPI graphics, etc. and implies standalone mode. Defaults to off.
+```
+中文简介:
+```
+
+```
+
+---
 ### --macos-target-arch=MACOS_TARGET_ARCH
 
 原始参数名:
@@ -2268,28 +2290,6 @@ remote desktop access. (Windows only). Defaults to off.
 What architectures is this to supposed to run on. Default and limit is what the
 running Python allows for. Default is "native" which is the architecture the
 Python is run with.
-```
-中文简介:
-```
-
-```
-
----
-### --macos-create-app-bundle
-
-原始参数名:
-```
---macos-create-app-bundle
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-When compiling for macOS, create a bundle rather than a plain binary
-application. Currently experimental and incomplete. Currently this is the only
-way to unlock disabling of console.Defaults to off.
 ```
 中文简介:
 ```

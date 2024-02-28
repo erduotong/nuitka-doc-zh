@@ -271,9 +271,9 @@ Options:
     --user-package-configuration-file=YAML_FILENAME
                         User provided Yaml file with package configuration.
                         You can include DLLs, remove bloat, add hidden
-                        dependencies. Check User Manual for a complete
-                        description of the format to use. Can be given
-                        multiple times. Defaults to empty.
+                        dependencies. Check the Nuitka Package Configuration
+                        Manual for a complete description of the format to
+                        use. Can be given multiple times. Defaults to empty.
     --full-compat       Enforce absolute compatibility with CPython. Do not
                         even allow minor deviations from CPython behavior,
                         e.g. not having better tracebacks or exception
@@ -310,8 +310,8 @@ Options:
                         extension modules there is no choice, also not for
                         standalone mode and using it will be an error. This
                         may include path information that needs to exist
-                        though. Defaults to '<program_name>' on this platform.
-                        .exe
+                        though. Defaults to '<program_name>.exe' on this
+                        platform.
     --output-dir=DIRECTORY
                         Specify where intermediate and final output files
                         should be put. The DIRECTORY will be populated with
@@ -541,16 +541,17 @@ Options:
                         only). Defaults to off.
 
   macOS specific controls:
+    --macos-create-app-bundle
+                        When compiling for macOS, create a bundle rather than
+                        a plain binary application. This is the only way to
+                        unlock the disabling of console, get high DPI
+                        graphics, etc. and implies standalone mode. Defaults
+                        to off.
     --macos-target-arch=MACOS_TARGET_ARCH
                         What architectures is this to supposed to run on.
                         Default and limit is what the running Python allows
                         for. Default is "native" which is the architecture the
                         Python is run with.
-    --macos-create-app-bundle
-                        When compiling for macOS, create a bundle rather than
-                        a plain binary application. Currently experimental and
-                        incomplete. Currently this is the only way to unlock
-                        disabling of console.Defaults to off.
     --macos-app-icon=ICON_PATH
                         Add icon for the application bundle to use. Can be
                         given only one time. Defaults to Python icon if
@@ -701,8 +702,7 @@ Options:
                         What to do if a specific import is encountered. Format
                         is module name, which can and should be a top level
                         package and then one choice, "error", "warning",
-                        "nofollow", e.g. PyQt5:error.
-
+                        "nofollow", e.g. PyQt5:error.         
 ```
 
 </details>
@@ -2019,15 +2019,16 @@ ought to not need PYTHONPATH anymore, and definitely not for standalone mode.
 
 ```
 User provided Yaml file with package configuration. You can include DLLs,
-remove bloat, add hidden dependencies. Check User Manual for a complete
-description of the format to use. Can be given multiple times. Defaults to
-empty.
+remove bloat, add hidden dependencies. Check the Nuitka Package Configuration
+Manual for a complete description of the format to use. Can be given multiple
+times. Defaults to empty.
 ```
 
 中文简介:
 
 ```
-用户提供包含包配置的Yaml文件. 您可以包括DLL文件,删除冗余，添加隐藏的依赖项。查看用户手册以获取使用格式的完整描述。可以多次给出。默认为空。
+用户提供包含包配置的Yaml文件. 您可以包括DLL文件,删除冗余，添加隐藏的依赖项。请查阅Nuitka包配置手册，
+以获取完整的格式使用说明。可以多次给出。默认为空。
 ```
 
 ---
@@ -2164,14 +2165,14 @@ incompatible for modules that normally can be loaded into any package.
 Specify how the executable should be named. For extension modules there is no
 choice, also not for standalone mode and using it will be an error. This may
 include path information that needs to exist though. Defaults to
-'<program_name>' on this platform. .exe
+'<program_name>.exe' on this platform.
 ```
 
 中文简介:
 
 ```
 指定可执行文件的名称。拓展模块和独立模式没有这个选项，使用时会报错。这可能需要包含存在的路径信息。
-默认为该平台上的"<program_name>.exe"
+默认为当前平台上的"<program_name>.exe"
 ```
 
 ---
@@ -3841,6 +3842,36 @@ remote desktop access. (Windows only). Defaults to off.
 
 ---
 
+### --macos-create-app-bundle
+
+原始参数名:
+
+```
+--macos-create-app-bundle
+```
+
+中文参数名:
+
+```
+macOS创建应用程序包
+```
+
+原始简介:
+
+```
+When compiling for macOS, create a bundle rather than a plain binary
+application. This is the only way to unlock the disabling of console, get high
+DPI graphics, etc. and implies standalone mode. Defaults to off.
+```
+
+中文简介:
+
+```
+在为macOS编译时，创建一个包而不是一个普通的二进制应用程序。这是禁用控制台、获取高DPI图形等的唯一方式，并且将开启独立模式。默认为关闭。
+```
+
+---
+
 ### --macos-target-arch=MACOS_TARGET_ARCH
 
 原始参数名:
@@ -3867,36 +3898,6 @@ Python is run with.
 
 ```
 这个程序应该在什么架构上运行。默认值和限制是运行Python允许的。默认值为"native"，这是Python运行的架构。
-```
-
----
-
-### --macos-create-app-bundle
-
-原始参数名:
-
-```
---macos-create-app-bundle
-```
-
-中文参数名:
-
-```
-macOS创建应用程序包
-```
-
-原始简介:
-
-```
-When compiling for macOS, create a bundle rather than a plain binary
-application. Currently experimental and incomplete. Currently this is the only
-way to unlock disabling of console.Defaults to off.
-```
-
-中文简介:
-
-```
-当为macOS编译时，请创建一个捆绑包而不是普通的二进制程序。目前处于实验性且未完成。目前这是解锁禁用控制台的唯一方法。默认关闭。
 ```
 
 ---
