@@ -154,10 +154,9 @@ Options:
                         data-files' with patterns if you want non-recursive
                         inclusion. An example would be '--include-data-
                         dir=/path/some_dir=data/some_dir' for plain copy, of
-                        the whole directory. All files are copied, if you want
-                        to exclude files you need to remove them beforehand,
-                        or use '--noinclude-data-files' option to remove them.
-                        Default empty.
+                        the whole directory. All non-code files are copied, if
+                        you want to use '--noinclude-data-files' option to
+                        remove them. Default empty.
     --noinclude-data-files=PATTERN
                         Do not include data files matching the filename
                         pattern given. This is against the target filename,
@@ -284,6 +283,19 @@ Options:
                         created by Nuitka. This is used to detect implicit
                         imports. Defaults to off.
 
+  Deployment control:
+    --deployment        Disable code aimed at making finding compatibility
+                        issues easier. This will e.g. prevent execution with
+                        "-c" argument, which is often used by code that
+                        attempts run a module, and causes a program to start
+                        itself over and over potentially. Disable once you
+                        deploy to end users, for finding typical issues, this
+                        is very helpful during development. Default off.
+    --no-deployment-flag=FLAG
+                        Keep deployment mode, but disable selectively parts of
+                        it. Errors from deployment mode will output these
+                        identifiers. Default empty.
+
   Debug features:
     --debug             Executing all self checks possible to find errors in
                         Nuitka, do not use for production. Defaults to off.
@@ -306,15 +318,6 @@ Options:
                         at.
     --xml=XML_FILENAME  Write the internal program structure, result of
                         optimization in XML form to given filename.
-    --deployment        Disable code aimed at making finding compatibility
-                        issues easier. This will e.g. prevent execution with
-                        "-c" argument, which is often used by code that
-                        attempts run a module, and causes a program to start
-                        itself over and over potentially. Default off.
-    --no-deployment-flag=FLAG
-                        Keep deployment mode, but disable selectively parts of
-                        it. Errors from deployment mode will output these
-                        identifiers. Default empty.
     --experimental=FLAG
                         Use features declared as 'experimental'. May have no
                         effect if no experimental features are present in the

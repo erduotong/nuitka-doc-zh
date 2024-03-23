@@ -193,10 +193,9 @@ Options:
                         data-files' with patterns if you want non-recursive
                         inclusion. An example would be '--include-data-
                         dir=/path/some_dir=data/some_dir' for plain copy, of
-                        the whole directory. All files are copied, if you want
-                        to exclude files you need to remove them beforehand,
-                        or use '--noinclude-data-files' option to remove them.
-                        Default empty.
+                        the whole directory. All non-code files are copied, if
+                        you want to use '--noinclude-data-files' option to
+                        remove them. Default empty.
     --noinclude-data-files=PATTERN
                         Do not include data files matching the filename
                         pattern given. This is against the target filename,
@@ -323,6 +322,19 @@ Options:
                         created by Nuitka. This is used to detect implicit
                         imports. Defaults to off.
 
+  Deployment control:
+    --deployment        Disable code aimed at making finding compatibility
+                        issues easier. This will e.g. prevent execution with
+                        "-c" argument, which is often used by code that
+                        attempts run a module, and causes a program to start
+                        itself over and over potentially. Disable once you
+                        deploy to end users, for finding typical issues, this
+                        is very helpful during development. Default off.
+    --no-deployment-flag=FLAG
+                        Keep deployment mode, but disable selectively parts of
+                        it. Errors from deployment mode will output these
+                        identifiers. Default empty.
+
   Debug features:
     --debug             Executing all self checks possible to find errors in
                         Nuitka, do not use for production. Defaults to off.
@@ -345,15 +357,6 @@ Options:
                         at.
     --xml=XML_FILENAME  Write the internal program structure, result of
                         optimization in XML form to given filename.
-    --deployment        Disable code aimed at making finding compatibility
-                        issues easier. This will e.g. prevent execution with
-                        "-c" argument, which is often used by code that
-                        attempts run a module, and causes a program to start
-                        itself over and over potentially. Default off.
-    --no-deployment-flag=FLAG
-                        Keep deployment mode, but disable selectively parts of
-                        it. Errors from deployment mode will output these
-                        identifiers. Default empty.
     --experimental=FLAG
                         Use features declared as 'experimental'. May have no
                         effect if no experimental features are present in the
@@ -702,7 +705,7 @@ Options:
                         What to do if a specific import is encountered. Format
                         is module name, which can and should be a top level
                         package and then one choice, "error", "warning",
-                        "nofollow", e.g. PyQt5:error.         
+                        "nofollow", e.g. PyQt5:error.
 ```
 
 </details>
@@ -1557,12 +1560,11 @@ structure. Default empty.
 
 ```
 Include data files from complete directory in the distribution. This is
-recursive. Check '--include-data-files' with patterns if you want non-recursive
+recursive. Check '--include- data-files' with patterns if you want non-recursive
 inclusion. An example would be '--include-data-
 dir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All
-files are copied, if you want to exclude files you need to remove them
-beforehand, or use '--noinclude-data-files' option to remove them. Default
-empty.
+non-code files are copied, if you want to use '--noinclude-data-files' option to
+remove them. Default empty.
 ```
 
 中文简介:
@@ -1570,9 +1572,9 @@ empty.
 ```
 将整个目录的数据文件包含在分发中。这是递归的。
 如果你想要非递归包含，请查看'--include-data-files'与模式。
-’–include-data-dir=/path/some_dir=data/some_dir’，用于整个目录的普通复制。
-所有文件都会被复制，如果你想排除文件，你需要事先删除它们，或者使用’–noinclude-data-files’选项来删除它们。
-默认为空。
+例如,’–include-data-dir=/path/some_dir=data/some_dir’，用于整个目录的普通复制。
+所有的非代码文件都会被包含，并且你也可以使用'--noinclude-data-files'选项来删除它们。
+默认为空
 ```
 
 ---
@@ -2267,6 +2269,75 @@ used to detect implicit imports. Defaults to off.
 
 ---
 
+## Deployment control()
+
+---
+
+### --deployment
+
+原始参数名:
+
+```
+--deployment
+```
+
+中文参数名:
+
+```
+部署
+```
+
+原始简介:
+
+```
+Disable code aimed at making finding compatibility issues easier. This will
+e.g. prevent execution with "-c" argument, which is often used by code that
+attempts run a module, and causes a program to start itself over and over
+potentially. Disable once you deploy to end users, for finding typical issues,
+this is very helpful during development. Default off.
+```
+
+中文简介:
+
+```
+禁用旨在让查找兼容性问题更容易的代码。例如，这将阻止使用'-c'参数的执行，这个参数一般被尝试运行
+模块的代码使用，并且可能导致程序反复自启动。一旦你向最终用户部署，就禁用它，对于查找典型问题，
+这在开发过程中非常有帮助。默认关闭。
+```
+
+---
+
+### --no-deployment-flag=FLAG
+
+原始参数名:
+
+```
+--no-deployment-flag=FLAG
+```
+
+中文参数名:
+
+```
+无部署标志=标志
+```
+
+原始简介:
+
+```
+Keep deployment mode, but disable selectively parts of it. Errors from
+deployment mode will output these identifiers. Default empty.
+```
+
+中文简介:
+
+```
+保持部署模式，但是选择性地禁用部分功能。部署模式的错误将会输出这些标识符。默认为空
+```
+
+---
+
+---
+
 ## Debug features(调试功能)
 
 ---
@@ -2475,38 +2546,6 @@ given filename.
 
 ```
 将内部程序结构和优化结果以XML形式写入给定的文件名。
-```
-
----
-
-### --deployment
-
-原始参数名:
-
-```
---deployment
-```
-
-中文参数名:
-
-```
-发布模式
-```
-
-原始简介:
-
-```
-Disable code aimed at making finding compatibility issues easier. This will
-e.g. prevent execution with "-c" argument, which is often used by code that
-attempts run a module, and causes a program to start itself over and over
-potentially. Default off.
-```
-
-中文简介:
-
-```
-禁用用于更方便发现兼容性问题的代码。例如，这将阻止使用"-c"参数执行，
-该参数通常被试图运行模块的代码所使用，并可能导致程序一次又一次地启动自己。默认关闭
 ```
 
 ---

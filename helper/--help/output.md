@@ -606,9 +606,8 @@ Include data files from complete directory in the distribution. This is
 recursive. Check '--include- data-files' with patterns if you want non-recursive
 inclusion. An example would be '--include-data-
 dir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All
-files are copied, if you want to exclude files you need to remove them
-beforehand, or use '--noinclude-data-files' option to remove them. Default
-empty.
+non-code files are copied, if you want to use '--noinclude-data-files' option to
+remove them. Default empty.
 ```
 中文简介:
 ```
@@ -1115,6 +1114,56 @@ used to detect implicit imports. Defaults to off.
 ---
 
 ---
+## Deployment control()
+
+---
+### --deployment
+
+原始参数名:
+```
+--deployment
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Disable code aimed at making finding compatibility issues easier. This will
+e.g. prevent execution with "-c" argument, which is often used by code that
+attempts run a module, and causes a program to start itself over and over
+potentially. Disable once you deploy to end users, for finding typical issues,
+this is very helpful during development. Default off.
+```
+中文简介:
+```
+
+```
+
+---
+### --no-deployment-flag=FLAG
+
+原始参数名:
+```
+--no-deployment-flag=FLAG
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Keep deployment mode, but disable selectively parts of it. Errors from
+deployment mode will output these identifiers. Default empty.
+```
+中文简介:
+```
+
+```
+
+---
+
+---
 ## Debug features()
 
 ---
@@ -1261,50 +1310,6 @@ source to determine which files it should look at.
 ```
 Write the internal program structure, result of optimization in XML form to
 given filename.
-```
-中文简介:
-```
-
-```
-
----
-### --deployment
-
-原始参数名:
-```
---deployment
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Disable code aimed at making finding compatibility issues easier. This will
-e.g. prevent execution with "-c" argument, which is often used by code that
-attempts run a module, and causes a program to start itself over and over
-potentially. Default off.
-```
-中文简介:
-```
-
-```
-
----
-### --no-deployment-flag=FLAG
-
-原始参数名:
-```
---no-deployment-flag=FLAG
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Keep deployment mode, but disable selectively parts of it. Errors from
-deployment mode will output these identifiers. Default empty.
 ```
 中文简介:
 ```

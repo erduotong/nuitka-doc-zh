@@ -180,8 +180,8 @@
                     "--include-data-dir=DIRECTORY": {
                         "raw_parameter": "--include-data-dir=DIRECTORY",
                         "chinese_parameter": "包含数据目录=目录",
-                        "raw_introduction": "Include data files from complete directory in the distribution. This is\nrecursive. Check '--include-data-files' with patterns if you want non-recursive\ninclusion. An example would be '--include-data-\ndir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All\nfiles are copied, if you want to exclude files you need to remove them\nbeforehand, or use '--noinclude-data-files' option to remove them. Default\nempty.",
-                        "chinese_introduction": "将整个目录的数据文件包含在分发中。这是递归的。\n如果你想要非递归包含，请查看'--include-data-files'与模式。\n’–include-data-dir=/path/some_dir=data/some_dir’，用于整个目录的普通复制。\n所有文件都会被复制，如果你想排除文件，你需要事先删除它们，或者使用’–noinclude-data-files’选项来删除它们。\n默认为空。"
+                        "raw_introduction": "Include data files from complete directory in the distribution. This is\nrecursive. Check '--include- data-files' with patterns if you want non-recursive\ninclusion. An example would be '--include-data-\ndir=/path/some_dir=data/some_dir' for plain copy, of the whole directory. All\nnon-code files are copied, if you want to use '--noinclude-data-files' option to\nremove them. Default empty.",
+                        "chinese_introduction": "将整个目录的数据文件包含在分发中。这是递归的。\n如果你想要非递归包含，请查看'--include-data-files'与模式。\n例如,’–include-data-dir=/path/some_dir=data/some_dir’，用于整个目录的普通复制。\n所有的非代码文件都会被包含，并且你也可以使用'--noinclude-data-files'选项来删除它们。\n默认为空"
                     },
                     "--noinclude-data-files=PATTERN": {
                         "raw_parameter": "--noinclude-data-files=PATTERN",
@@ -341,6 +341,23 @@
                     }
                 }
             },
+            "Deployment control": {
+                "chinese": "",
+                "content": {
+                    "--deployment": {
+                        "raw_parameter": "--deployment",
+                        "chinese_parameter": "部署",
+                        "raw_introduction": "Disable code aimed at making finding compatibility issues easier. This will\ne.g. prevent execution with \"-c\" argument, which is often used by code that\nattempts run a module, and causes a program to start itself over and over\npotentially. Disable once you deploy to end users, for finding typical issues,\nthis is very helpful during development. Default off.",
+                        "chinese_introduction": "禁用旨在让查找兼容性问题更容易的代码。例如，这将阻止使用'-c'参数的执行，这个参数一般被尝试运行\n模块的代码使用，并且可能导致程序反复自启动。一旦你向最终用户部署，就禁用它，对于查找典型问题，\n这在开发过程中非常有帮助。默认关闭。"
+                    },
+                    "--no-deployment-flag=FLAG": {
+                        "raw_parameter": "--no-deployment-flag=FLAG",
+                        "chinese_parameter": "无部署标志=标志",
+                        "raw_introduction": "Keep deployment mode, but disable selectively parts of it. Errors from\ndeployment mode will output these identifiers. Default empty.",
+                        "chinese_introduction": "保持部署模式，但是选择性地禁用部分功能。部署模式的错误将会输出这些标识符。默认为空"
+                    }
+                }
+            },
             "Debug features": {
                 "chinese": "调试功能",
                 "content": {
@@ -385,12 +402,6 @@
                         "chinese_parameter": "xml=xml文件名",
                         "raw_introduction": "Write the internal program structure, result of optimization in XML form to\ngiven filename.",
                         "chinese_introduction": "将内部程序结构和优化结果以XML形式写入给定的文件名。"
-                    },
-                    "--deployment": {
-                        "raw_parameter": "--deployment",
-                        "chinese_parameter": "发布模式",
-                        "raw_introduction": "Disable code aimed at making finding compatibility issues easier. This will\ne.g. prevent execution with \"-c\" argument, which is often used by code that\nattempts run a module, and causes a program to start itself over and over\npotentially. Default off.",
-                        "chinese_introduction": "禁用用于更方便发现兼容性问题的代码。例如，这将阻止使用\"-c\"参数执行，\n该参数通常被试图运行模块的代码所使用，并可能导致程序一次又一次地启动自己。默认关闭"
                     },
                     "--no-deployment-flag=FLAG": {
                         "raw_parameter": "--no-deployment-flag=FLAG",
