@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 2.1.2`  
+该文档目前Nuitka版本: `Nuitka 2.2.2`  
 查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
@@ -259,12 +259,6 @@ Options:
                         compiled module). Defaults to off.
     --debugger          Execute inside a debugger, e.g. "gdb" or "lldb" to
                         automatically get a stack trace. Defaults to off.
-    --execute-with-pythonpath
-                        When immediately executing the created binary or
-                        module using '--run', don't reset 'PYTHONPATH'
-                        environment. When all modules are successfully
-                        included, you ought to not need PYTHONPATH anymore,
-                        and definitely not for standalone mode.
 
   Compilation choices:
     --user-package-configuration-file=YAML_FILENAME
@@ -334,6 +328,11 @@ Options:
                         Keep deployment mode, but disable selectively parts of
                         it. Errors from deployment mode will output these
                         identifiers. Default empty.
+
+  Environment control:
+    --force-runtime-environment-variable=VARIABLE_SPEC
+                        Force an environment variables to a given value.
+                        Default empty.
 
   Debug features:
     --debug             Executing all self checks possible to find errors in
@@ -644,6 +643,10 @@ Options:
                         plugin-list' to query the full list and exit. Most
                         standard plugins are not a good idea to disable.
                         Default empty.
+    --user-plugin=PATH  The file name of user plugin. Can be given multiple
+                        times. Default empty.
+    --plugin-list       Show list of all available plugins and exit. Defaults
+                        to off.
     --plugin-no-detection
                         Plugins can detect if they might be used, and the you
                         can disable the warning via "--disable-plugin=plugin-
@@ -652,10 +655,6 @@ Options:
                         compilation slightly of course as this detection code
                         is run in vain once you are certain of which plugins
                         to use. Defaults to off.
-    --plugin-list       Show list of all available plugins and exit. Defaults
-                        to off.
-    --user-plugin=PATH  The file name of user plugin. Can be given multiple
-                        times. Default empty.
     --module-parameter=MODULE_PARAMETERS
                         Provide a module parameter. You are asked by some
                         packages to provide extra decisions. Format is
@@ -1966,36 +1965,6 @@ trace. Defaults to off.
 
 ---
 
-### --execute-with-pythonpath
-
-原始参数名:
-
-```
---execute-with-pythonpath
-```
-
-中文参数名:
-
-```
-使用pythonpath(python路径)执行
-```
-
-原始简介:
-
-```
-When immediately executing the created binary or module using '--run', don't
-reset 'PYTHONPATH' environment. When all modules are successfully included, you
-ought to not need PYTHONPATH anymore, and definitely not for standalone mode.
-```
-
-中文简介:
-
-```
-当使用'--run'立刻执行创建的二进制文件或模块时，不要重置'PYTHONPATH'环境。当所有模块都成功包含时，您应该不再需要PYTHONPATH。
-对于独立模式(standalone)来说，绝对不需要PYTHONPATH。
-```
-
----
 
 ---
 
@@ -2332,6 +2301,40 @@ deployment mode will output these identifiers. Default empty.
 
 ```
 保持部署模式，但是选择性地禁用部分功能。部署模式的错误将会输出这些标识符。默认为空
+```
+
+---
+
+---
+
+## Environment control(环境控制)
+
+---
+
+### --force-runtime-environment-variable=VARIABLE_SPEC
+
+原始参数名:
+
+```
+--force-runtime-environment-variable=VARIABLE_SPEC
+```
+
+中文参数名:
+
+```
+强制运行时环境变量=变量规范
+```
+
+原始简介:
+
+```
+Force an environment variables to a given value. Default empty.
+```
+
+中文简介:
+
+```
+将环境变量强制设置为给定值。默认为空。
 ```
 
 ---
@@ -4501,36 +4504,61 @@ empty.
 
 ---
 
-### --plugin-no-detection
+### --user-plugin=PATH
 
 原始参数名:
 
 ```
---plugin-no-detection
+--user-plugin=PATH
 ```
 
 中文参数名:
 
 ```
-禁止插件检测
+用户插件=路径
 ```
 
 原始简介:
 
 ```
-Plugins can detect if they might be used, and the you can disable the warning
-via "--disable-plugin=plugin-that-warned", or you can use this option to
-disable the mechanism entirely, which also speeds up compilation slightly of
-course as this detection code is run in vain once you are certain of which
-plugins to use. Defaults to off.
+The file name of user plugin. Can be given multiple times. Default empty.
 ```
 
 中文简介:
 
 ```
-插件可以检测它们是否可能被使用，您可以通过"--disable-plugin=plugin-that-warned"禁用警告，
-或者你可以使用这个选项来完全禁用该机制，当然，这也会稍微加快编译速度，因为一旦你确定了要使用的插件，
-这个检测代码就会白白运行。默认关闭。
+用户插件的文件名。可以多次给出。默认为空。
+```
+
+---
+
+### --module-parameter=MODULE_PARAMETERS
+
+原始参数名:
+
+```
+--module-parameter=MODULE_PARAMETERS
+```
+
+中文参数名:
+
+```
+模块参数=模块参数
+```
+
+原始简介:
+
+```
+Provide a module parameter. You are asked by some packages to provide extra
+decisions. Format is currently --module-parameter=module.name-option- name=value
+Default empty.
+```
+
+中文简介:
+
+```
+提供一个模块参数。一些包要求你提供额外的决策。当前格式是 --module-parameter=module.name-option-name=value
+(模块参数=模块.名称-选项-名称=值)。默认为空。
 ```
 
 ---
@@ -4563,59 +4591,36 @@ Show list of all available plugins and exit. Defaults to off.
 
 ---
 
-### --user-plugin=PATH
+### --plugin-no-detection
 
 原始参数名:
 
 ```
---user-plugin=PATH
+--plugin-no-detection
 ```
 
 中文参数名:
 
 ```
-用户插件=路径
+禁止插件检测
 ```
 
 原始简介:
 
 ```
-The file name of user plugin. Can be given multiple times. Default empty.
+Plugins can detect if they might be used, and the you can disable the warning
+via "--disable-plugin=plugin-that-warned", or you can use this option to
+disable the mechanism entirely, which also speeds up compilation slightly of
+course as this detection code is run in vain once you are certain of which
+plugins to use. Defaults to off.
 ```
 
 中文简介:
 
 ```
-用户插件的文件名。可以多次给出。默认为空。
-```
-
-### --module-parameter=MODULE_PARAMETERS
-
-原始参数名:
-
-```
---module-parameter=MODULE_PARAMETERS
-```
-
-中文参数名:
-
-```
-模块参数=模块参数
-```
-
-原始简介:
-
-```
-Provide a module parameter. You are asked by some packages to provide extra
-decisions. Format is currently --module-parameter=module.name-option- name=value
-Default empty.
-```
-
-中文简介:
-
-```
-提供一个模块参数。一些包要求你提供额外的决策。当前格式是 --module-parameter=module.name-option-name=value
-(模块参数=模块.名称-选项-名称=值)。默认为空。
+插件可以检测它们是否可能被使用，您可以通过"--disable-plugin=plugin-that-warned"禁用警告，
+或者你可以使用这个选项来完全禁用该机制，当然，这也会稍微加快编译速度，因为一旦你确定了要使用的插件，
+这个检测代码就会白白运行。默认关闭。
 ```
 
 ---

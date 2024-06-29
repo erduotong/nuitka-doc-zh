@@ -895,28 +895,6 @@ trace. Defaults to off.
 ```
 
 ---
-### --execute-with-pythonpath
-
-原始参数名:
-```
---execute-with-pythonpath
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-When immediately executing the created binary or module using '--run', don't
-reset 'PYTHONPATH' environment. When all modules are successfully included, you
-ought to not need PYTHONPATH anymore, and definitely not for standalone mode.
-```
-中文简介:
-```
-
-```
-
----
 
 ---
 ## Compilation choices()
@@ -1155,6 +1133,31 @@ this is very helpful during development. Default off.
 ```
 Keep deployment mode, but disable selectively parts of it. Errors from
 deployment mode will output these identifiers. Default empty.
+```
+中文简介:
+```
+
+```
+
+---
+
+---
+## Environment control()
+
+---
+### --force-runtime-environment-variable=VARIABLE_SPEC
+
+原始参数名:
+```
+--force-runtime-environment-variable=VARIABLE_SPEC
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Force an environment variables to a given value. Default empty.
 ```
 中文简介:
 ```
@@ -2707,11 +2710,11 @@ empty.
 ```
 
 ---
-### --plugin-no-detection
+### --user-plugin=PATH
 
 原始参数名:
 ```
---plugin-no-detection
+--user-plugin=PATH
 ```
 中文参数名:
 ```
@@ -2719,11 +2722,7 @@ empty.
 ```
 原始简介:
 ```
-Plugins can detect if they might be used, and the you can disable the warning
-via "--disable-plugin=plugin- that-warned", or you can use this option to
-disable the mechanism entirely, which also speeds up compilation slightly of
-course as this detection code is run in vain once you are certain of which
-plugins to use. Defaults to off.
+The file name of user plugin. Can be given multiple times. Default empty.
 ```
 中文简介:
 ```
@@ -2751,11 +2750,11 @@ Show list of all available plugins and exit. Defaults to off.
 ```
 
 ---
-### --user-plugin=PATH
+### --plugin-no-detection
 
 原始参数名:
 ```
---user-plugin=PATH
+--plugin-no-detection
 ```
 中文参数名:
 ```
@@ -2763,7 +2762,11 @@ Show list of all available plugins and exit. Defaults to off.
 ```
 原始简介:
 ```
-The file name of user plugin. Can be given multiple times. Default empty.
+Plugins can detect if they might be used, and the you can disable the warning
+via "--disable-plugin=plugin- that-warned", or you can use this option to
+disable the mechanism entirely, which also speeds up compilation slightly of
+course as this detection code is run in vain once you are certain of which
+plugins to use. Defaults to off.
 ```
 中文简介:
 ```
