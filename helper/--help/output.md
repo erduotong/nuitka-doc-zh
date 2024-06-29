@@ -383,8 +383,8 @@ given multiple times. Default empty.
 原始简介:
 ```
 Do not follow to that module name even if used, or if a package name, to the
-whole package in any case, overrides all other options. Can be given multiple
-times. Default empty.
+whole package in any case, overrides all other options. This can also contain
+patterns, e.g. "*.tests". Can be given multiple times. Default empty.
 ```
 中文简介:
 ```
@@ -674,6 +674,27 @@ paths. Default empty.
 原始简介:
 ```
 Output the data files found for a given package name. Default not done.
+```
+中文简介:
+```
+
+```
+
+---
+### --include-raw-dir=DIRECTORY
+
+原始参数名:
+```
+--include-raw-dir=DIRECTORY
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Include raw directories completely in the distribution. This is recursive.
+Check '--include- data-dir' to use the sane option. Default empty.
 ```
 中文简介:
 ```
@@ -2055,11 +2076,11 @@ output.
 ## General OS controls()
 
 ---
-### --disable-console
+### --windows-console-mode=CONSOLE_MODE
 
 原始参数名:
 ```
---disable-console
+--windows-console-mode=CONSOLE_MODE
 ```
 中文参数名:
 ```
@@ -2067,30 +2088,10 @@ output.
 ```
 原始简介:
 ```
-When compiling for Windows or macOS, disable the console window and create a
-GUI application. Defaults to off.
-```
-中文简介:
-```
-
-```
-
----
-### --enable-console
-
-原始参数名:
-```
---enable-console
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-When compiling for Windows or macOS, enable the console window and create a
-console application. This disables hints from certain modules, e.g. "PySide"
-that suggest to disable it. Defaults to true.
+Select console mode to use. Default mode is 'force' and creates a console
+window if not available, i.e. the program was started from one. With 'disable'
+it doesn't create or use a console. With 'attach' an existing console will be
+used for outputs. Default is 'force'.
 ```
 中文简介:
 ```

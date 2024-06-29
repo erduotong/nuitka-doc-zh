@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 2.2.2`  
+该文档目前Nuitka版本: `Nuitka 2.3.10`  
 查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
@@ -126,8 +126,9 @@ Options:
     --nofollow-import-to=MODULE/PACKAGE
                         Do not follow to that module name even if used, or if
                         a package name, to the whole package in any case,
-                        overrides all other options. Can be given multiple
-                        times. Default empty.
+                        overrides all other options. This can also contain
+                        patterns, e.g. "*.tests". Can be given multiple times.
+                        Default empty.
     --nofollow-imports  Do not descend into any imported modules at all,
                         overrides all other inclusion options and not usable
                         for standalone mode. Defaults to off.
@@ -212,6 +213,10 @@ Options:
     --list-package-data=LIST_PACKAGE_DATA
                         Output the data files found for a given package name.
                         Default not done.
+    --include-raw-dir=DIRECTORY
+                        Include raw directories completely in the
+                        distribution. This is recursive. Check '--include-
+                        data-dir' to use the sane option. Default empty.
 
   Metadata support:
     --include-distribution-metadata=DISTRIBUTION
@@ -498,13 +503,13 @@ Options:
                         filename. Default is standard output.
 
   General OS controls:
-    --disable-console   When compiling for Windows or macOS, disable the
-                        console window and create a GUI application. Defaults
-                        to off.
-    --enable-console    When compiling for Windows or macOS, enable the
-                        console window and create a console application. This
-                        disables hints from certain modules, e.g. "PySide"
-                        that suggest to disable it. Defaults to true.
+    --windows-console-mode=CONSOLE_MODE
+                        Select console mode to use. Default mode is 'force'
+                        and creates a console window if not available, i.e.
+                        the program was started from one. With 'disable' it
+                        doesn't create or use a console. With 'attach' an
+                        existing console will be used for outputs. Default is
+                        'force'.
     --force-stdout-spec=FORCE_STDOUT_SPEC
                         Force standard output of the program to go to this
                         location. Useful for programs with disabled console
@@ -1253,14 +1258,15 @@ given multiple times. Default empty.
 
 ```
 Do not follow to that module name even if used, or if a package name, to the
-whole package in any case, overrides all other options. Can be given multiple
-times. Default empty.
+whole package in any case, overrides all other options. This can also contain
+patterns, e.g. "*.tests". Can be given multiple times. Default empty.
 ```
 
 中文简介:
 
 ```
-即使使用了该模块名也不导入该模块，或者如果是一个包名，在任何情况下都不要导入整个包，这将覆盖所有其他的选项，可以多次给出，默认为空。
+即使使用了该模块名称也不要跟随导入该模块，或者如果是一个包名称，无论如何都不要跟随导入整个包，该选项覆盖所有其他选项。
+这也可以包含模式，例如 "*.tests"。可以多次给出。默认为空。
 ```
 
 ---
@@ -1667,6 +1673,35 @@ Output the data files found for a given package name. Default not done.
 
 ```
 输出给定包名称找到的数据文件。默认不执行
+```
+
+---
+
+### --include-raw-dir=DIRECTORY
+
+原始参数名:
+
+```
+--include-raw-dir=DIRECTORY
+```
+
+中文参数名:
+
+```
+包括原始文件夹
+```
+
+原始简介:
+
+```
+Include raw directories completely in the distribution. This is recursive.
+Check '--include- data-dir' to use the sane option. Default empty.
+```
+
+中文简介:
+
+```
+将原始文件夹完整地包含在分发中。这是递归的。检查 '--include-data-dir' 以使用正确的选项。默认为空。
 ```
 
 ---
@@ -3600,31 +3635,34 @@ output.
 
 ---
 
-### --disable-console
+### --windows-console-mode=CONSOLE_MODE
 
 原始参数名:
 
 ```
---disable-console
+--windows-console-mode=CONSOLE_MODE
 ```
 
 中文参数名:
 
 ```
-禁用控制台
+Windows控制台模式=控制台模式
 ```
 
 原始简介:
 
 ```
-When compiling for Windows or macOS, disable the console window and create a
-GUI application. Defaults to off.
+Select console mode to use. Default mode is 'force' and creates a console
+window if not available, i.e. the program was started from one. With 'disable'
+it doesn't create or use a console. With 'attach' an existing console will be
+used for outputs. Default is 'force'.
 ```
 
 中文简介:
 
 ```
-在为Windows或macOS编译时，禁用控制台窗口并创建为一个GUI应用程序。默认关闭。
+选择要使用的控制台模式。默认模式是 'force'，这将在如果没有可用的控制台窗口时，就创建一个，即程序是从一个控制台窗口启动的。
+使用 'disable' 将不会创建或使用控制台。使用 'attach' 将使用现有的控制台进行输出。默认是 'force'。
 ```
 
 ---
