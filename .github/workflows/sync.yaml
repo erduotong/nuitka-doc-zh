@@ -1,0 +1,49 @@
+name: Sync translation file to nuitka.0.org.cn
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+      with:
+        repository: ${{ github.repository }}
+        path: source-repo
+
+    - name: Checkout target repository
+      uses: actions/checkout@v2
+      with:
+        repository: https://github.com/erduotong/nuitka-shenjack
+        token: ${{ secrets.GITHUBTOKEN }}
+        path: target-repo
+
+    - name: Copy file
+      run: |
+        cp source-repo/docs/--help.md target-repo/docs/main/help.mdx
+
+    - name: Commit changes
+      run: |
+        cd target-repo
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add docs/main/help.mdx
+        git commit -m "Update file from source repository"
+        git push origin deploy
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ secrets.GITHUBTOKEN }}
+        commit-message: "Update file from source repository"
+        branch: update-file-branch
+        title: "Update file from source repository"
+        body: "This PR updates the file from the source repository."
+        base: deploy
+        head: update-file-branch
+        repo: https://github.com/shenjackyuanjie/nuitka-shenjack
