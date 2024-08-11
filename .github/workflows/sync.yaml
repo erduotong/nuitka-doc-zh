@@ -23,7 +23,7 @@ jobs:
         token: ${{ secrets.GITHUBTOKEN }}
         path: target-repo
 
-    - name: Copy file
+    - name: Copy file #
       run: |
         cp source-repo/docs/--help.md target-repo/docs/main/help.mdx
 
