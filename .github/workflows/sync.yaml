@@ -19,7 +19,7 @@ jobs:
     - name: Checkout target repository
       uses: actions/checkout@v2
       with:
-        repository: https://github.com/erduotong/nuitka-shenjack
+        repository: erduotong/nuitka-shenjack
         token: ${{ secrets.GITHUBTOKEN }}
         path: target-repo
 
@@ -46,4 +46,4 @@ jobs:
         body: "This PR updates the file from the source repository."
         base: deploy
         head: update-file-branch
-        repo: https://github.com/shenjackyuanjie/nuitka-shenjack
+        repo: shenjackyuanjie/nuitka-shenjack
