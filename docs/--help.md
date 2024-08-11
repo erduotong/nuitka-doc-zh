@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 2.3.10`  
+该文档目前Nuitka版本: `Nuitka 2.4.5`  
 查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
@@ -342,6 +342,11 @@ Options:
   Debug features:
     --debug             Executing all self checks possible to find errors in
                         Nuitka, do not use for production. Defaults to off.
+    --no-debug-immortal-assumptions
+                        Disable check normally done with "--debug". With
+                        Python3.12+ do not check known immortal object
+                        assumptions. Some C libraries corrupt them. Defaults
+                        to check being made if "--debug" is on.
     --unstripped        Keep debug info in the resulting object file for
                         better debugger interaction. Defaults to off.
     --profile           Enable vmprof based profiling of time spent. Not
@@ -393,7 +398,9 @@ Options:
                         latest MSVC being used if installed, otherwise MinGW64
                         is used.
     --jobs=N            Specify the allowed number of parallel C compiler
-                        jobs. Defaults to the system CPU count.
+                        jobs. Negative values are system CPU minus the given
+                        value. Defaults to the full system CPU count unless
+                        low memory mode is activated, then it defaults to 1.
     --lto=choice        Use link time optimizations (MSVC, gcc, clang).
                         Allowed values are "yes", "no", and "auto" (when it's
                         known to work). Defaults to "auto".
@@ -441,7 +448,7 @@ Options:
                         to cause errors or known to need an update.
 
   PGO compilation choices:
-    --pgo               Enables C level profile guided optimization (PGO), by
+    --pgo-c             Enables C level profile guided optimization (PGO), by
                         executing a dedicated build first for a profiling run,
                         and then using the result to feedback into the C
                         compilation. Note: This is experimental and not
@@ -503,13 +510,6 @@ Options:
                         filename. Default is standard output.
 
   General OS controls:
-    --windows-console-mode=CONSOLE_MODE
-                        Select console mode to use. Default mode is 'force'
-                        and creates a console window if not available, i.e.
-                        the program was started from one. With 'disable' it
-                        doesn't create or use a console. With 'attach' an
-                        existing console will be used for outputs. Default is
-                        'force'.
     --force-stdout-spec=FORCE_STDOUT_SPEC
                         Force standard output of the program to go to this
                         location. Useful for programs with disabled console
@@ -526,6 +526,12 @@ Options:
                         check User Manual for full list of available values.
 
   Windows specific controls:
+    --windows-console-mode=CONSOLE_MODE
+                        Select console mode to use. Default mode is 'force'
+                        and creates a console window unless the program was
+                        started from one. With 'disable' it doesn't create or
+                        use a console at all. With 'attach' an existing
+                        console will be used for outputs. Default is 'force'.
     --windows-icon-from-ico=ICON_PATH
                         Add executable icon. Can be given multiple times for
                         different resolutions or files with multiple icons
@@ -673,6 +679,12 @@ Options:
                         a given namespace or use '*' to see everything which
                         can get a lot. Default empty.
 
+  Cross compilation:
+    --target=TARGET_DESC
+                        Cross compilation target. Highly experimental and in
+                        development, not supposed to work yet. We are working
+                        on '--target=wasi' and nothing else yet.
+
   Plugin options of 'anti-bloat':
     --show-anti-bloat-changes
                         Annotate what changes are by the plugin done.
@@ -688,6 +700,10 @@ Options:
                         What to do if a unittest import is encountered. This
                         package can be big with dependencies, and should
                         definitely be avoided.
+    --noinclude-pydoc-mode=NOINCLUDE_PYDOC_MODE
+                        What to do if a pydoc import is encountered. This
+                        package use is mark of useless code for deployments
+                        and should be avoided.
     --noinclude-IPython-mode=NOINCLUDE_IPYTHON_MODE
                         What to do if a IPython import is encountered. This
                         package can be big with dependencies, and should
@@ -710,6 +726,13 @@ Options:
                         is module name, which can and should be a top level
                         package and then one choice, "error", "warning",
                         "nofollow", e.g. PyQt5:error.
+
+  Plugin options of 'spacy':
+    --spacy-language-model=INCLUDE_LANGUAGE_MODELS
+                        Spacy language models to use. Can be specified
+                        multiple times. Use 'all' to include all downloaded
+                        models.
+
 ```
 
 </details>
@@ -2410,6 +2433,37 @@ production. Defaults to off.
 
 ---
 
+### --no-debug-immortal-assumptions
+
+原始参数名:
+
+```
+--no-debug-immortal-assumptions
+```
+
+中文参数名:
+
+```
+禁用对不朽对象(Immortal Objects)的调试假设
+```
+
+原始简介:
+
+```
+Disable check normally done with "--debug". With Python3.12+ do not check known
+immortal object assumptions. Some C libraries corrupt them. Defaults to check
+being made if "--debug" is on.
+```
+
+中文简介:
+
+```
+禁用通常使用 "--debug" 进行的检查。在 Python 3.12 及以上版本中，不检查已知的不朽对象(Immortal Objects)假设。
+一些 C 库会破坏它们。如果启用了 "--debug"，默认会进行检查。
+```
+
+---
+
 ### --unstripped
 
 原始参数名:
@@ -2851,14 +2905,16 @@ installed, otherwise MinGW64 is used.
 原始简介:
 
 ```
-Specify the allowed number of parallel C compiler jobs. Defaults to the system
-CPU count.
+Specify the allowed number of parallel C compiler jobs. Negative values are
+system CPU minus the given value. Defaults to the full system CPU count unless
+low memory mode is activated, then it defaults to 1.
 ```
 
 中文简介:
 
 ```
-指定允许使用的并行C编译器任务数。默认为系统CPU数。
+指定允许的并行 C 编译器作业数量。负值表示系统的 CPU 数量减去给定值。
+默认情况下，除非启用低内存模式，否则会使用系统 CPU 的全部数量；若在低内存模式下，默认值为 1。
 ```
 
 ---
@@ -3148,18 +3204,18 @@ suspect to cause errors or known to need an update.
 
 ---
 
-### --pgo
+### --pgo-c
 
 原始参数名:
 
 ```
---pgo
+--pgo-c
 ```
 
 中文参数名:
 
 ```
-配置文件引导优化
+C配置文件引导优化
 ```
 
 原始简介:
@@ -3635,69 +3691,6 @@ output.
 
 ---
 
-### --windows-console-mode=CONSOLE_MODE
-
-原始参数名:
-
-```
---windows-console-mode=CONSOLE_MODE
-```
-
-中文参数名:
-
-```
-Windows控制台模式=控制台模式
-```
-
-原始简介:
-
-```
-Select console mode to use. Default mode is 'force' and creates a console
-window if not available, i.e. the program was started from one. With 'disable'
-it doesn't create or use a console. With 'attach' an existing console will be
-used for outputs. Default is 'force'.
-```
-
-中文简介:
-
-```
-选择要使用的控制台模式。默认模式是 'force'，这将在如果没有可用的控制台窗口时，就创建一个，即程序是从一个控制台窗口启动的。
-使用 'disable' 将不会创建或使用控制台。使用 'attach' 将使用现有的控制台进行输出。默认是 'force'。
-```
-
----
-
-### --enable-console
-
-原始参数名:
-
-```
---enable-console
-```
-
-中文参数名:
-
-```
-启用控制台
-```
-
-原始简介:
-
-```
-When compiling for Windows or macOS, enable the console window and create a
-console application. This disables hints from certain modules, e.g. "PySide"
-that suggest to disable it. Defaults to true.
-```
-
-中文简介:
-
-```
-在为Windows或macOS编译时，启用控制台窗口并创建一个控制台应用程序。
-这将禁用来自某些模块的提示，例如"PySide"会建议禁用它。默认启用。
-```
-
----
-
 ### --force-stdout-spec=FORCE_STDOUT_SPEC
 
 原始参数名:
@@ -3766,6 +3759,38 @@ near your program, check User Manual for full list of available values.
 ---
 
 ## Windows specific controls(Windows特定控制)
+
+---
+
+### --windows-console-mode=CONSOLE_MODE
+
+原始参数名:
+
+```
+--windows-console-mode=CONSOLE_MODE
+```
+
+中文参数名:
+
+```
+windows控制台模式=控制台模式
+```
+
+原始简介:
+
+```
+Select console mode to use. Default mode is 'force' and creates a console
+window unless the program was started from one. With 'disable' it doesn't create
+or use a console at all. With 'attach' an existing console will be used for
+outputs. Default is 'force'.
+```
+
+中文简介:
+
+```
+选择要使用的控制台模式。默认模式为 'force'，这会创建一个控制台窗口，除非程序是从一个控制台启动的。
+使用 'disable' 时，它不会创建或使用任何控制台。使用 'attach' 时，将使用现有的控制台进行输出。默认模式为 'force'。
+```
 
 ---
 
@@ -4697,6 +4722,41 @@ show-source-changes=numpy.**' to see all changes below a given namespace or use
 
 ---
 
+## Cross compilation(交叉编译)
+
+---
+
+### --target=TARGET_DESC
+
+原始参数名:
+
+```
+--target=TARGET_DESC
+```
+
+中文参数名:
+
+```
+目标=目标描述
+```
+
+原始简介:
+
+```
+Cross compilation target. Highly experimental and in development, not supposed
+to work yet. We are working on '--target=wasi' and nothing else yet.
+```
+
+中文简介:
+
+```
+交叉编译目标。该功能是高度实验性的，且正在开发中，目前尚不可用。我们正在开发目标 '--target=wasi'，其他目标则暂不支持。
+```
+
+---
+
+---
+
 ## Plugin options of 'anti-bloat'('反膨胀'插件选项)
 
 ---
@@ -4813,6 +4873,35 @@ dependencies, and should definitely be avoided.
 
 ```
 遇到"unittest(单元测试)"导入时的处理方式。这个包可能会有很多依赖而变得很大，应该尽量避免使用。
+```
+
+---
+
+### --noinclude-pydoc-mode=NOINCLUDE_PYDOC_MODE
+
+原始参数名:
+
+```
+--noinclude-pydoc-mode=NOINCLUDE_PYDOC_MODE
+```
+
+中文参数名:
+
+```
+不包含pydoc模式=不包含pydoc模式
+```
+
+原始简介:
+
+```
+What to do if a pydoc import is encountered. This package use is mark of
+useless code for deployments and should be avoided.
+```
+
+中文简介:
+
+```
+遇到"pydoc"导入时的处理方式。这个包的使用标志着在部署中无用的代码，应该尽量避免使用。
 ```
 
 ---
@@ -4962,6 +5051,41 @@ can and should be a top level package and then one choice, "error", "warning",
 ```
 遇到特定导入时的处理方式。格式为模块名称，可以并且应该是一个顶级包，接着是一个选项，"error", "warning", "nofollow"，
 例如PyQt5:error。
+```
+
+---
+
+---
+
+## Plugin options of 'spacy'('spaCy'插件选项)
+
+---
+
+### --spacy-language-model=INCLUDE_LANGUAGE_MODELS
+
+原始参数名:
+
+```
+--spacy-language-model=INCLUDE_LANGUAGE_MODELS
+```
+
+中文参数名:
+
+```
+spacy语言模型=包含语言模型
+```
+
+原始简介:
+
+```
+Spacy language models to use. Can be specified multiple times. Use 'all' to
+include all downloaded models.
+```
+
+中文简介:
+
+```
+要使用的 Spacy 语言模型。可以多次指定。使用 'all' 包含所有已下载的模型。
 ```
 
 ---

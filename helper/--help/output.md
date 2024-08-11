@@ -1212,6 +1212,28 @@ production. Defaults to off.
 ```
 
 ---
+### --no-debug-immortal-assumptions
+
+原始参数名:
+```
+--no-debug-immortal-assumptions
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Disable check normally done with "--debug". With Python3.12+ do not check known
+immortal object assumptions. Some C libraries corrupt them. Defaults to check
+being made if "--debug" is on.
+```
+中文简介:
+```
+
+```
+
+---
 ### --unstripped
 
 原始参数名:
@@ -1510,8 +1532,9 @@ installed, otherwise MinGW64 is used.
 ```
 原始简介:
 ```
-Specify the allowed number of parallel C compiler jobs. Defaults to the system
-CPU count.
+Specify the allowed number of parallel C compiler jobs. Negative values are
+system CPU minus the given value. Defaults to the full system CPU count unless
+low memory mode is activated, then it defaults to 1.
 ```
 中文简介:
 ```
@@ -1725,11 +1748,11 @@ suspect to cause errors or known to need an update.
 ## PGO compilation choices()
 
 ---
-### --pgo
+### --pgo-c
 
 原始参数名:
 ```
---pgo
+--pgo-c
 ```
 中文参数名:
 ```
@@ -2076,29 +2099,6 @@ output.
 ## General OS controls()
 
 ---
-### --windows-console-mode=CONSOLE_MODE
-
-原始参数名:
-```
---windows-console-mode=CONSOLE_MODE
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Select console mode to use. Default mode is 'force' and creates a console
-window if not available, i.e. the program was started from one. With 'disable'
-it doesn't create or use a console. With 'attach' an existing console will be
-used for outputs. Default is 'force'.
-```
-中文简介:
-```
-
-```
-
----
 ### --force-stdout-spec=FORCE_STDOUT_SPEC
 
 原始参数名:
@@ -2149,6 +2149,29 @@ near your program, check User Manual for full list of available values.
 
 ---
 ## Windows specific controls()
+
+---
+### --windows-console-mode=CONSOLE_MODE
+
+原始参数名:
+```
+--windows-console-mode=CONSOLE_MODE
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Select console mode to use. Default mode is 'force' and creates a console
+window unless the program was started from one. With 'disable' it doesn't create
+or use a console at all. With 'attach' an existing console will be used for
+outputs. Default is 'force'.
+```
+中文简介:
+```
+
+```
 
 ---
 ### --windows-icon-from-ico=ICON_PATH
@@ -2822,6 +2845,32 @@ show-source-changes=numpy.**' to see all changes below a given namespace or use
 ---
 
 ---
+## Cross compilation()
+
+---
+### --target=TARGET_DESC
+
+原始参数名:
+```
+--target=TARGET_DESC
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Cross compilation target. Highly experimental and in development, not supposed
+to work yet. We are working on '--target=wasi' and nothing else yet.
+```
+中文简介:
+```
+
+```
+
+---
+
+---
 ## Plugin options of 'anti-bloat'()
 
 ---
@@ -2902,6 +2951,27 @@ dependencies, and should definitely be avoided. Also handles 'nose' imports.
 ```
 What to do if a unittest import is encountered. This package can be big with
 dependencies, and should definitely be avoided.
+```
+中文简介:
+```
+
+```
+
+---
+### --noinclude-pydoc-mode=NOINCLUDE_PYDOC_MODE
+
+原始参数名:
+```
+--noinclude-pydoc-mode=NOINCLUDE_PYDOC_MODE
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+What to do if a pydoc import is encountered. This package use is mark of
+useless code for deployments and should be avoided.
 ```
 中文简介:
 ```
@@ -3009,6 +3079,32 @@ be used to turn all of these on.
 What to do if a specific import is encountered. Format is module name, which
 can and should be a top level package and then one choice, "error", "warning",
 "nofollow", e.g. PyQt5:error.
+```
+中文简介:
+```
+
+```
+
+---
+
+---
+## Plugin options of 'spacy'()
+
+---
+### --spacy-language-model=INCLUDE_LANGUAGE_MODELS
+
+原始参数名:
+```
+--spacy-language-model=INCLUDE_LANGUAGE_MODELS
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Spacy language models to use. Can be specified multiple times. Use 'all' to
+include all downloaded models.
 ```
 中文简介:
 ```
