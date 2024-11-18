@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 2.4.5`  
+该文档目前Nuitka版本: `Nuitka 2.5.0`  
 查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
@@ -43,6 +43,12 @@ Options:
                         reports, then exit. Defaults to off.
   --module              Create an importable binary extension module
                         executable instead of a program. Defaults to off.
+  --mode=COMPILATION_MODE
+                        Mode in which to compile. Accelerated runs in your
+                        Python installation and depends on it. Standalone
+                        creates a folder with an executable contained to run
+                        it. Onefile creates a single executable to deploy.
+                        Default is 'accelerated'.
   --standalone          Enable standalone mode for output. This allows you to
                         transfer the created binary to other machines without
                         it using an existing Python installation. This also
@@ -186,7 +192,7 @@ Options:
                         files=/path/to/files/*.txt=folder_name/' it will put
                         all matching files into that folder. For recursive
                         copy there is a form with 3 values that '--include-
-                        data-files=/path/to/scan=folder_name=**/*.txt' that
+                        data-files=/path/to/scan=folder_name/=**/*.txt' that
                         will preserve directory structure. Default empty.
     --include-data-dir=DIRECTORY
                         Include data files from complete directory in the
@@ -208,8 +214,9 @@ Options:
                         Include the specified data file patterns outside of
                         the onefile binary, rather than on the inside. Makes
                         only sense in case of '--onefile' compilation. First
-                        files have to be specified as included somehow, then
-                        this refers to target paths. Default empty.
+                        files have to be specified as included with other
+                        `--include-*data*` options, and then this refers to
+                        target paths inside the distribution. Default empty.
     --list-package-data=LIST_PACKAGE_DATA
                         Output the data files found for a given package name.
                         Default not done.
@@ -351,19 +358,8 @@ Options:
                         better debugger interaction. Defaults to off.
     --profile           Enable vmprof based profiling of time spent. Not
                         working currently. Defaults to off.
-    --internal-graph    Create graph of optimization process internals, do not
-                        use for whole programs, but only for small test cases.
-                        Defaults to off.
     --trace-execution   Traced execution output, output the line of code
                         before executing it. Defaults to off.
-    --recompile-c-only  This is not incremental compilation, but for Nuitka
-                        development only. Takes existing files and simply
-                        compile them as C again. Allows compiling edited C
-                        files for quick debugging changes to the generated
-                        source, e.g. to see if code is passed by, values
-                        output, etc, Defaults to off. Depends on compiling
-                        Python source to determine which files it should look
-                        at.
     --xml=XML_FILENAME  Write the internal program structure, result of
                         optimization in XML form to given filename.
     --experimental=FLAG
@@ -383,6 +379,32 @@ Options:
                         binary or module. This is for debugging and code
                         coverage analysis that doesn't waste CPU. Defaults to
                         off. Do not think you can use this directly.
+
+  Nuitka Development features:
+    --devel-missing-code-helpers
+                        Report warnings for code helpers for types that were
+                        attempted, but don't exist. This helps to identify
+                        opportunities for improving optimization of generated
+                        code from type knowledge not used. Default False.
+    --devel-missing-trust
+                        Report warnings for imports that could be trusted, but
+                        currently are not. This is to identify opportunities
+                        for improving handling of hard modules, where this
+                        sometimes could allow more static optimization.
+                        Default False.
+    --devel-recompile-c-only
+                        This is not incremental compilation, but for Nuitka
+                        development only. Takes existing files and simply
+                        compiles them as C again after doing the Python steps.
+                        Allows compiling edited C files for manual debugging
+                        changes to the generated source. Allows us to add
+                        printing, check and print values, but it is now what
+                        users would want. Depends on compiling Python source
+                        to determine which files it should look at.
+    --devel-internal-graph
+                        Create graph of optimization process internals, do not
+                        use for whole programs, but only for small test cases.
+                        Defaults to off.
 
   Backend C compiler choice:
     --clang             Enforce the use of clang. On Windows this requires a
@@ -428,19 +450,6 @@ Options:
                         "all","ccache","bytecode","compression","dll-
                         dependencies". can be given multiple times or with
                         comma separated values. Default none.
-    --disable-bytecode-cache
-                        Do not reuse dependency analysis results for modules,
-                        esp. from standard library, that are included as
-                        bytecode. Same as --disable-cache=bytecode.
-    --disable-ccache    Do not attempt to use ccache (gcc, clang, etc.) or
-                        clcache (MSVC, clangcl). Same as --disable-
-                        cache=ccache.
-    --disable-dll-dependency-cache
-                        Disable the dependency walker cache. Will result in
-                        much longer times to create the distribution folder,
-                        but might be used in case the cache is suspect to
-                        cause errors. Same as --disable-cache=dll-
-                        dependencies.
     --force-dll-dependency-cache-update
                         For an update of the dependency walker cache. Will
                         result in much longer times to create the distribution
@@ -531,7 +540,9 @@ Options:
                         and creates a console window unless the program was
                         started from one. With 'disable' it doesn't create or
                         use a console at all. With 'attach' an existing
-                        console will be used for outputs. Default is 'force'.
+                        console will be used for outputs. With 'hide' a newly
+                        spawned console will be hidden and an already existing
+                        console will behave like 'force'. Default is 'force'.
     --windows-icon-from-ico=ICON_PATH
                         Add executable icon. Can be given multiple times for
                         different resolutions or files with multiple icons
@@ -687,7 +698,7 @@ Options:
 
   Plugin options of 'anti-bloat':
     --show-anti-bloat-changes
-                        Annotate what changes are by the plugin done.
+                        Annotate what changes are done by the plugin.
     --noinclude-setuptools-mode=NOINCLUDE_SETUPTOOLS_MODE
                         What to do if a 'setuptools' or import is encountered.
                         This package can be big with dependencies, and should
@@ -727,12 +738,18 @@ Options:
                         package and then one choice, "error", "warning",
                         "nofollow", e.g. PyQt5:error.
 
+  Plugin options of 'playwright':
+    --playwright-include-browser=INCLUDE_BROWSERS
+                                    Playwright browser to include. Can be
+                        specified multiple times. use "all" to include all
+                        installed browsers.
+
   Plugin options of 'spacy':
     --spacy-language-model=INCLUDE_LANGUAGE_MODELS
                         Spacy language models to use. Can be specified
                         multiple times. Use 'all' to include all downloaded
                         models.
-
+                        
 ```
 
 </details>
@@ -825,6 +842,38 @@ Defaults to off.
 
 ``` 
 创建一个可导入的二进制拓展模块可执行文件，而不是程序。默认关闭。
+```
+
+---
+
+### --mode=COMPILATION_MODE
+
+原始参数名:
+
+```
+--mode=COMPILATION_MODE
+```
+
+中文参数名:
+
+```
+模式=编译模式
+```
+
+原始简介:
+
+```
+Mode in which to compile. Accelerated runs in your Python installation and
+depends on it. Standalone creates a folder with an executable contained to run
+it. Onefile creates a single executable to deploy. Default is 'accelerated'.
+```
+
+中文简介:
+
+```
+用于编译的模式。加速模式会在您的Python安装中执行，并且会依赖他。
+独立模式将创建一个包含可执行文件的文件夹来运行它。
+单文件模式创建一个单一的可执行文件进行部署。默认是'加速'。
 ```
 
 ---
@@ -1553,7 +1602,7 @@ forms. With '--include-data-files=/path/to/file/*.txt=folder_name/some.txt' it
 will copy a single file and complain if it's multiple. With '--include-data-
 files=/path/to/files/*.txt=folder_name/' it will put all matching files into
 that folder. For recursive copy there is a form with 3 values that '--include-
-data-files=/path/to/scan=folder_name=**/*.txt' that will preserve directory
+data-files=/path/to/scan=folder_name/=**/*.txt' that will preserve directory
 structure. Default empty.
 ```
 
@@ -1563,7 +1612,7 @@ structure. Default empty.
 通过分配的文件名包含数据文件。有很多允许的形式。
 使用–include-data-files=/path/to/file/.txt=folder_name/some.txt’，它将复制一个文件，如果是十多个文件，将会报错。
 使用’–include-data-files=/path/to/files/.txt=folder_name/‘将把所有匹配的文件放入该文件夹。
-对于递归复制，有一种带有三个值的形式:’–include-data-files=/path/to/scan=folder_name=**/*.txt’，这将保留目录的文件结构。
+对于递归复制，有一种带有三个值的形式:’–include-data-files=/path/to/scan=folder_name=/**/*.txt’，这将保留目录的文件结构。
 默认为空。
 
 ```
@@ -1659,15 +1708,15 @@ whole directory simply use "package_name". Default empty.
 ```
 Include the specified data file patterns outside of the onefile binary, rather
 than on the inside. Makes only sense in case of '--onefile' compilation. First
-files have to be specified as included somehow, then this refers to target
-paths. Default empty.
+files have to be specified as included with other `--include-*data*` options,
+and then this refers to target paths inside the distribution. Default empty.
 ```
 
 中文简介:
 
 ```
 将指定的数据文件模式包含在单文件二进制文件的外部而不是内部。仅在'--onefile'编译情况下该选项才有意义。
-首先，必须以某种方式指定文件以某种方式为已包含，然后这个选项将引用目标路径。默认为空。
+首先，必须以某种方式指定文件以某种方式为已包含，然后这个选项将引用分发中的目标路径。默认为空。
 ```
 
 ---
@@ -2522,35 +2571,6 @@ off.
 
 ---
 
-### --internal-graph
-
-原始参数名:
-
-```
---internal-graph
-```
-
-中文参数名:
-
-```
-内部图
-```
-
-原始简介:
-
-```
-Create graph of optimization process internals, do not use for whole programs,
-but only for small test cases. Defaults to off.
-```
-
-中文简介:
-
-```
-创建优化过程内部的图，不要用于整个程序，请只用于小的测试用例。默认关闭。
-```
-
----
-
 ### --trace-execution
 
 原始参数名:
@@ -2576,39 +2596,6 @@ to off.
 
 ```
 跟踪执行并输出。在执行代码之前输出代码行。默认关闭。
-```
-
----
-
-### --recompile-c-only
-
-原始参数名:
-
-```
---recompile-c-only
-```
-
-中文参数名:
-
-```
-仅重新编译C
-```
-
-原始简介:
-
-```
-This is not incremental compilation, but for Nuitka development only. Takes
-existing files and simply compile them as C again. Allows compiling edited C
-files for quick debugging changes to the generated source, e.g. to see if code
-is passed by, values output, etc, Defaults to off. Depends on compiling Python
-source to determine which files it should look at.
-```
-
-中文简介:
-
-```
-这不是增量编译，仅用于 Nuitka 开发。将现有文件重新编译为C。允许编译编辑过的C文件，以便对生成源代码的修改进行快速调试。
-例如查看代码是否通过，值的输出等。默认关闭。它要查看的文件取决于编译Python源代码。 
 ```
 
 ---
@@ -2793,6 +2780,133 @@ off. Do not think you can use this directly.
 ---
 
 ---
+
+## Nuitka Development features(Nuitka开发功能)
+
+---
+
+### --devel-missing-code-helpers
+
+原始参数名:
+
+```
+--devel-missing-code-helpers
+```
+
+中文参数名:
+
+```
+开发-缺失代码助手
+```
+
+原始简介:
+
+```
+Report warnings for code helpers for types that were attempted, but don't
+exist. This helps to identify opportunities for improving optimization of
+generated code from type knowledge not used. Default False.
+```
+
+中文简介:
+
+```
+报告尝试但不存在的类型的代码助手的警告。
+这有助于识别通过未使用的类型知识来改进生成的代码优化机会。默认为 False。
+```
+
+---
+
+### --devel-missing-trust
+
+原始参数名:
+
+```
+--devel-missing-trust
+```
+
+中文参数名:
+
+```
+开发-报告缺失信任
+```
+
+原始简介:
+
+```
+Report warnings for imports that could be trusted, but currently are not. This
+is to identify opportunities for improving handling of hard modules, where this
+sometimes could allow more static optimization. Default False.
+```
+
+中文简介:
+
+```
+报告可以信任但目前没有的导入的警告。这是为了识别改进处理硬模块的机会，
+这有时可以允许更多的静态优化。默认为 False。
+```
+
+---
+
+### --devel-recompile-c-only
+
+原始参数名:
+
+```
+--devel-recompile-c-only
+```
+
+中文参数名:
+
+```
+开发-仅重新编译C文件
+```
+
+原始简介:
+
+```
+This is not incremental compilation, but for Nuitka development only. Takes
+existing files and simply compiles them as C again after doing the Python steps.
+Allows compiling edited C files for manual debugging changes to the generated
+source. Allows us to add printing, check and print values, but it is now what
+users would want. Depends on compiling Python source to determine which files it
+should look at.
+```
+
+中文简介:
+
+```
+这不是增量编译，仅用于 Nuitka 开发。将现有文件重新编译为C。允许编译编辑过的C文件，以便对生成源代码的修改进行快速调试。
+例如查看代码是否通过，值的输出等。默认关闭。它要查看的文件取决于编译Python源代码。 
+```
+
+---
+
+### --devel-internal-graph
+
+原始参数名:
+
+```
+--devel-internal-graph
+```
+
+中文参数名:
+
+```
+开发-内部图
+```
+
+原始简介:
+
+```
+Create graph of optimization process internals, do not use for whole programs,
+but only for small test cases. Defaults to off.
+```
+
+中文简介:
+
+```
+创建优化过程内部的图，不要用于整个程序，请只用于小的测试用例。默认关闭。
+```
 
 ## Backend C compiler choice(后端 C 编译器选择)
 
@@ -3075,35 +3189,6 @@ be given multiple times or with comma separated values. Default none.
 在执行前清理给定缓存，设置"all"则为所有缓存。当前允许的值有：
 "all(全部)","ccache","bytecode(字节码)","compression(压缩)","dll-dependencies(dll依赖项)"。
 可以多次给出或使用逗号分隔给定的值。默认为无。
-```
-
----
-
-### --disable-bytecode-cache
-
-原始参数名:
-
-```
---disable-bytecode-cache
-```
-
-中文参数名:
-
-```
-禁用字节码缓存
-```
-
-原始简介:
-
-```
-Do not reuse dependency analysis results for modules, esp. from standard
-library, that are included as bytecode. Same as --disable-cache=bytecode.
-```
-
-中文简介:
-
-```
-不要重复使用模块的依赖分析结果，尤其是来自标准库的模块，这些模块会被包含为字节码。与--disable-cache=bytecode效果相同。
 ```
 
 ---
@@ -3782,14 +3867,17 @@ windows控制台模式=控制台模式
 Select console mode to use. Default mode is 'force' and creates a console
 window unless the program was started from one. With 'disable' it doesn't create
 or use a console at all. With 'attach' an existing console will be used for
-outputs. Default is 'force'.
+outputs. With 'hide' a newly spawned console will be hidden and an already
+existing console will behave like 'force'. Default is 'force'.
 ```
 
 中文简介:
 
 ```
 选择要使用的控制台模式。默认模式为 'force'，这会创建一个控制台窗口，除非程序是从一个控制台启动的。
-使用 'disable' 时，它不会创建或使用任何控制台。使用 'attach' 时，将使用现有的控制台进行输出。默认模式为 'force'。
+使用 'disable' 时，它不会创建或使用任何控制台。使用 'attach' 时，将使用现有的控制台进行输出。
+使用 'hide' 时，新生成的控制台将被隐藏，而已经存在的控制台将像 'force' 一样行为。
+默认模式为 'force'。
 ```
 
 ---
@@ -4778,7 +4866,7 @@ to work yet. We are working on '--target=wasi' and nothing else yet.
 原始简介:
 
 ```
-Annotate what changes are by the plugin done.
+Annotate what changes are done by the plugin.
 ```
 
 中文简介:
@@ -5051,6 +5139,41 @@ can and should be a top level package and then one choice, "error", "warning",
 ```
 遇到特定导入时的处理方式。格式为模块名称，可以并且应该是一个顶级包，接着是一个选项，"error", "warning", "nofollow"，
 例如PyQt5:error。
+```
+
+---
+
+---
+
+## Plugin options of 'playwright'('playwright'插件选项)
+
+---
+
+### --playwright-include-browser=INCLUDE_BROWSERS
+
+原始参数名:
+
+```
+--playwright-include-browser=INCLUDE_BROWSERS
+```
+
+中文参数名:
+
+```
+playwright包含浏览器=包含浏览器
+```
+
+原始简介:
+
+```
+Playwright browser to include. Can be specified multiple times. use "all" to
+include all installed browsers.
+```
+
+中文简介:
+
+```
+要包含的Playwright浏览器。可以多次指定。使用 "all" 包含所有已安装的浏览器。
 ```
 
 ---

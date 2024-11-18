@@ -64,6 +64,28 @@ Defaults to off.
 ```
 
 ---
+### --mode=COMPILATION_MODE
+
+原始参数名:
+```
+--mode=COMPILATION_MODE
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Mode in which to compile. Accelerated runs in your Python installation and
+depends on it. Standalone creates a folder with an executable contained to run
+it. Onefile creates a single executable to deploy. Default is 'accelerated'.
+```
+中文简介:
+```
+
+```
+
+---
 ### --standalone
 
 原始参数名:
@@ -581,7 +603,7 @@ forms. With '--include-data- files=/path/to/file/*.txt=folder_name/some.txt' it
 will copy a single file and complain if it's multiple. With '--include-data-
 files=/path/to/files/*.txt=folder_name/' it will put all matching files into
 that folder. For recursive copy there is a form with 3 values that '--include-
-data-files=/path/to/scan=folder_name=**/*.txt' that will preserve directory
+data-files=/path/to/scan=folder_name/=**/*.txt' that will preserve directory
 structure. Default empty.
 ```
 中文简介:
@@ -652,8 +674,8 @@ whole directory simply use 'package_name'. Default empty.
 ```
 Include the specified data file patterns outside of the onefile binary, rather
 than on the inside. Makes only sense in case of '--onefile' compilation. First
-files have to be specified as included somehow, then this refers to target
-paths. Default empty.
+files have to be specified as included with other `--include-*data*` options,
+and then this refers to target paths inside the distribution. Default empty.
 ```
 中文简介:
 ```
@@ -1276,27 +1298,6 @@ off.
 ```
 
 ---
-### --internal-graph
-
-原始参数名:
-```
---internal-graph
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Create graph of optimization process internals, do not use for whole programs,
-but only for small test cases. Defaults to off.
-```
-中文简介:
-```
-
-```
-
----
 ### --trace-execution
 
 原始参数名:
@@ -1311,30 +1312,6 @@ but only for small test cases. Defaults to off.
 ```
 Traced execution output, output the line of code before executing it. Defaults
 to off.
-```
-中文简介:
-```
-
-```
-
----
-### --recompile-c-only
-
-原始参数名:
-```
---recompile-c-only
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-This is not incremental compilation, but for Nuitka development only. Takes
-existing files and simply compile them as C again. Allows compiling edited C
-files for quick debugging changes to the generated source, e.g. to see if code
-is passed by, values output, etc, Defaults to off. Depends on compiling Python
-source to determine which files it should look at.
 ```
 中文简介:
 ```
@@ -1443,6 +1420,101 @@ with e.g. '--report=compilation- report.xml'. Default not done.
 Generate only C source code, and do not compile it to binary or module. This is
 for debugging and code coverage analysis that doesn't waste CPU. Defaults to
 off. Do not think you can use this directly.
+```
+中文简介:
+```
+
+```
+
+---
+
+---
+## Nuitka Development features()
+
+---
+### --devel-missing-code-helpers
+
+原始参数名:
+```
+--devel-missing-code-helpers
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Report warnings for code helpers for types that were attempted, but don't
+exist. This helps to identify opportunities for improving optimization of
+generated code from type knowledge not used. Default False.
+```
+中文简介:
+```
+
+```
+
+---
+### --devel-missing-trust
+
+原始参数名:
+```
+--devel-missing-trust
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Report warnings for imports that could be trusted, but currently are not. This
+is to identify opportunities for improving handling of hard modules, where this
+sometimes could allow more static optimization. Default False.
+```
+中文简介:
+```
+
+```
+
+---
+### --devel-recompile-c-only
+
+原始参数名:
+```
+--devel-recompile-c-only
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+This is not incremental compilation, but for Nuitka development only. Takes
+existing files and simply compiles them as C again after doing the Python steps.
+Allows compiling edited C files for manual debugging changes to the generated
+source. Allows us to add printing, check and print values, but it is now what
+users would want. Depends on compiling Python source to determine which files it
+should look at.
+```
+中文简介:
+```
+
+```
+
+---
+### --devel-internal-graph
+
+原始参数名:
+```
+--devel-internal-graph
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Create graph of optimization process internals, do not use for whole programs,
+but only for small test cases. Defaults to off.
 ```
 中文简介:
 ```
@@ -1650,70 +1722,6 @@ Clean the given caches before executing, specify "all" for all cached.
 Currently allowed values are: "all","ccache","bytecode","compression","dll-
 dependencies". can be given multiple times or with comma separated values.
 Default none.
-```
-中文简介:
-```
-
-```
-
----
-### --disable-bytecode-cache
-
-原始参数名:
-```
---disable-bytecode-cache
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Do not reuse dependency analysis results for modules, esp. from standard
-library, that are included as bytecode. Same as --disable-cache=bytecode.
-```
-中文简介:
-```
-
-```
-
----
-### --disable-ccache
-
-原始参数名:
-```
---disable-ccache
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Do not attempt to use ccache (gcc, clang, etc.) or clcache (MSVC, clangcl).
-Same as --disable- cache=ccache.
-```
-中文简介:
-```
-
-```
-
----
-### --disable-dll-dependency-cache
-
-原始参数名:
-```
---disable-dll-dependency-cache
-```
-中文参数名:
-```
-
-```
-原始简介:
-```
-Disable the dependency walker cache. Will result in much longer times to create
-the distribution folder, but might be used in case the cache is suspect to cause
-errors. Same as --disable-cache=dll- dependencies.
 ```
 中文简介:
 ```
@@ -2166,7 +2174,8 @@ near your program, check User Manual for full list of available values.
 Select console mode to use. Default mode is 'force' and creates a console
 window unless the program was started from one. With 'disable' it doesn't create
 or use a console at all. With 'attach' an existing console will be used for
-outputs. Default is 'force'.
+outputs. With 'hide' a newly spawned console will be hidden and an already
+existing console will behave like 'force'. Default is 'force'.
 ```
 中文简介:
 ```
@@ -2886,7 +2895,7 @@ to work yet. We are working on '--target=wasi' and nothing else yet.
 ```
 原始简介:
 ```
-Annotate what changes are by the plugin done.
+Annotate what changes are done by the plugin.
 ```
 中文简介:
 ```
@@ -3079,6 +3088,32 @@ be used to turn all of these on.
 What to do if a specific import is encountered. Format is module name, which
 can and should be a top level package and then one choice, "error", "warning",
 "nofollow", e.g. PyQt5:error.
+```
+中文简介:
+```
+
+```
+
+---
+
+---
+## Plugin options of 'playwright'()
+
+---
+### --playwright-include-browser=INCLUDE_BROWSERS
+
+原始参数名:
+```
+--playwright-include-browser=INCLUDE_BROWSERS
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Playwright browser to include. Can be specified multiple times. use "all" to
+include all installed browsers.
 ```
 中文简介:
 ```
