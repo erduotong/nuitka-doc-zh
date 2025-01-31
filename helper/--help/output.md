@@ -78,7 +78,9 @@ Defaults to off.
 ```
 Mode in which to compile. Accelerated runs in your Python installation and
 depends on it. Standalone creates a folder with an executable contained to run
-it. Onefile creates a single executable to deploy. Default is 'accelerated'.
+it. Onefile creates a single executable to deploy. App is onefile except on
+macOS where it's not to be used. Module makes a module, and package includes
+also all sub-modules and sub-packages. Default is 'accelerated'.
 ```
 中文简介:
 ```
@@ -576,8 +578,8 @@ configuration can do it. This will only include non-DLL, non-extension modules,
 i.e. actual data files. After a ":" optionally a filename pattern can be given
 as well, selecting only matching files. Examples: "--include-
 package-data=package_name" (all files) "--include-
-package-data=package_name=*.txt" (only certain type) "
---include-package-data=package_name=some_filename.dat (concrete file) Default
+package-data=package_name:*.txt" (only certain type) "
+--include-package-data=package_name:some_filename.dat (concrete file) Default
 empty.
 ```
 中文简介:
@@ -801,6 +803,26 @@ Output the DLLs found for a given package name. Default not done.
 ```
 
 ---
+### --list-package-exe=LIST_PACKAGE_EXE
+
+原始参数名:
+```
+--list-package-exe=LIST_PACKAGE_EXE
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Output the EXEs found for a given package name. Default not done.
+```
+中文简介:
+```
+
+```
+
+---
 
 ---
 ## Control the warnings to be given by Nuitka()
@@ -930,7 +952,8 @@ Defaults to off.
 原始简介:
 ```
 Execute inside a debugger, e.g. "gdb" or "lldb" to automatically get a stack
-trace. Defaults to off.
+trace. The debugger is automatically chosen unless specified by name with the
+NUITKA_DEBUGGER_CHOICE environment variable. Defaults to off.
 ```
 中文简介:
 ```
@@ -989,11 +1012,11 @@ for tests only and should *not* be used.
 ```
 
 ---
-### --file-reference-choice=MODE
+### --file-reference-choice=FILE_MODE
 
 原始参数名:
 ```
---file-reference-choice=MODE
+--file-reference-choice=FILE_MODE
 ```
 中文参数名:
 ```
@@ -1017,11 +1040,11 @@ is.
 ```
 
 ---
-### --module-name-choice=MODE
+### --module-name-choice=MODULE_NAME_MODE
 
 原始参数名:
 ```
---module-name-choice=MODE
+--module-name-choice=MODULE_NAME_MODE
 ```
 中文参数名:
 ```
@@ -1126,6 +1149,27 @@ off.
 ```
 Do not create a '.pyi' file for extension modules created by Nuitka. This is
 used to detect implicit imports. Defaults to off.
+```
+中文简介:
+```
+
+```
+
+---
+### --no-pyi-stubs
+
+原始参数名:
+```
+--no-pyi-stubs
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Do not use stubgen when creating a '.pyi' file for extension modules created by
+Nuitka. They expose your API, but stubgen may cause issues. Defaults to off.
 ```
 中文简介:
 ```
@@ -2402,11 +2446,11 @@ filename of the binary.
 ```
 
 ---
-### --macos-app-mode=MODE
+### --macos-app-mode=APP_MODE
 
 原始参数名:
 ```
---macos-app-mode=MODE
+--macos-app-mode=APP_MODE
 ```
 中文参数名:
 ```
@@ -2880,7 +2924,7 @@ to work yet. We are working on '--target=wasi' and nothing else yet.
 ---
 
 ---
-## Plugin options of 'anti-bloat'()
+## Plugin options of 'anti-bloat' (categories: core)()
 
 ---
 ### --show-anti-bloat-changes
@@ -3097,7 +3141,7 @@ can and should be a top level package and then one choice, "error", "warning",
 ---
 
 ---
-## Plugin options of 'playwright'()
+## Plugin options of 'playwright' (categories: package-support)()
 
 ---
 ### --playwright-include-browser=INCLUDE_BROWSERS
@@ -3112,8 +3156,8 @@ can and should be a top level package and then one choice, "error", "warning",
 ```
 原始简介:
 ```
-Playwright browser to include. Can be specified multiple times. use "all" to
-include all installed browsers.
+Playwright browser to include by name. Can be specified multiple times. Use
+"all" to include all installed browsers or use "none" to exclude all browsers.
 ```
 中文简介:
 ```
@@ -3123,7 +3167,7 @@ include all installed browsers.
 ---
 
 ---
-## Plugin options of 'spacy'()
+## Plugin options of 'spacy' (categories: package-support)()
 
 ---
 ### --spacy-language-model=INCLUDE_LANGUAGE_MODELS

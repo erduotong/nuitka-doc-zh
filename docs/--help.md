@@ -4,7 +4,7 @@
 
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 2.5.0`  
+该文档目前Nuitka版本: `Nuitka 2.6.2`  
 查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
@@ -47,8 +47,11 @@ Options:
                         Mode in which to compile. Accelerated runs in your
                         Python installation and depends on it. Standalone
                         creates a folder with an executable contained to run
-                        it. Onefile creates a single executable to deploy.
-                        Default is 'accelerated'.
+                        it. Onefile creates a single executable to deploy. App
+                        is onefile except on macOS where it's not to be used.
+                        Module makes a module, and package includes also all
+                        sub-modules and sub-packages. Default is
+                        'accelerated'.
   --standalone          Enable standalone mode for output. This allows you to
                         transfer the created binary to other machines without
                         it using an existing Python installation. This also
@@ -180,8 +183,8 @@ Options:
                         optionally a filename pattern can be given as well,
                         selecting only matching files. Examples: "--include-
                         package-data=package_name" (all files) "--include-
-                        package-data=package_name=*.txt" (only certain type) "
-                        --include-package-data=package_name=some_filename.dat
+                        package-data=package_name:*.txt" (only certain type) "
+                        --include-package-data=package_name:some_filename.dat
                         (concrete file) Default empty.
     --include-data-files=DESC
                         Include data files by filenames in the distribution.
@@ -245,6 +248,9 @@ Options:
     --list-package-dlls=LIST_PACKAGE_DLLS
                         Output the DLLs found for a given package name.
                         Default not done.
+    --list-package-exe=LIST_PACKAGE_EXE
+                        Output the EXEs found for a given package name.
+                        Default not done.
 
   Control the warnings to be given by Nuitka:
     --warn-implicit-exceptions
@@ -270,7 +276,10 @@ Options:
     --run               Execute immediately the created binary (or import the
                         compiled module). Defaults to off.
     --debugger          Execute inside a debugger, e.g. "gdb" or "lldb" to
-                        automatically get a stack trace. Defaults to off.
+                        automatically get a stack trace. The debugger is
+                        automatically chosen unless specified by name with the
+                        NUITKA_DEBUGGER_CHOICE environment variable. Defaults
+                        to off.
 
   Compilation choices:
     --user-package-configuration-file=YAML_FILENAME
@@ -285,7 +294,7 @@ Options:
                         messages which are not really incompatible, but only
                         different or worse. This is intended for tests only
                         and should *not* be used.
-    --file-reference-choice=MODE
+    --file-reference-choice=FILE_MODE
                         Select what value "__file__" is going to be. With
                         "runtime" (default for standalone binary mode and
                         module mode), the created binaries and modules, use
@@ -299,7 +308,7 @@ Options:
                         module_name>" is used. For compatibility reasons, the
                         "__file__" value will always have ".py" suffix
                         independent of what it really is.
-    --module-name-choice=MODE
+    --module-name-choice=MODULE_NAME_MODE
                         Select what value "__name__" and "__package__" are
                         going to be. With "runtime" (default for module mode),
                         the created module uses the parent package to deduce
@@ -327,6 +336,9 @@ Options:
     --no-pyi-file       Do not create a '.pyi' file for extension modules
                         created by Nuitka. This is used to detect implicit
                         imports. Defaults to off.
+    --no-pyi-stubs      Do not use stubgen when creating a '.pyi' file for
+                        extension modules created by Nuitka. They expose your
+                        API, but stubgen may cause issues. Defaults to off.
 
   Deployment control:
     --deployment        Disable code aimed at making finding compatibility
@@ -588,7 +600,7 @@ Options:
     --macos-app-name=MACOS_APP_NAME
                         Name of the product to use in macOS bundle
                         information. Defaults to base filename of the binary.
-    --macos-app-mode=MODE
+    --macos-app-mode=APP_MODE
                         Mode of application for the application bundle. When
                         launching a Window, and appearing in Docker is
                         desired, default value "gui" is a good fit. Without a
@@ -696,7 +708,7 @@ Options:
                         development, not supposed to work yet. We are working
                         on '--target=wasi' and nothing else yet.
 
-  Plugin options of 'anti-bloat':
+  Plugin options of 'anti-bloat' (categories: core):
     --show-anti-bloat-changes
                         Annotate what changes are done by the plugin.
     --noinclude-setuptools-mode=NOINCLUDE_SETUPTOOLS_MODE
@@ -738,18 +750,18 @@ Options:
                         package and then one choice, "error", "warning",
                         "nofollow", e.g. PyQt5:error.
 
-  Plugin options of 'playwright':
+  Plugin options of 'playwright' (categories: package-support):
     --playwright-include-browser=INCLUDE_BROWSERS
-                                    Playwright browser to include. Can be
-                        specified multiple times. use "all" to include all
-                        installed browsers.
+                        Playwright browser to include by name. Can be
+                        specified multiple times. Use "all" to include all
+                        installed browsers or use "none" to exclude all
+                        browsers.
 
-  Plugin options of 'spacy':
+  Plugin options of 'spacy' (categories: package-support):
     --spacy-language-model=INCLUDE_LANGUAGE_MODELS
                         Spacy language models to use. Can be specified
                         multiple times. Use 'all' to include all downloaded
                         models.
-                        
 ```
 
 </details>
@@ -865,15 +877,21 @@ Defaults to off.
 ```
 Mode in which to compile. Accelerated runs in your Python installation and
 depends on it. Standalone creates a folder with an executable contained to run
-it. Onefile creates a single executable to deploy. Default is 'accelerated'.
+it. Onefile creates a single executable to deploy. App is onefile except on
+macOS where it's not to be used. Module makes a module, and package includes
+also all sub-modules and sub-packages. Default is 'accelerated'.
 ```
 
 中文简介:
 
 ```
-用于编译的模式。加速模式会在您的Python安装中执行，并且会依赖他。
-独立模式将创建一个包含可执行文件的文件夹来运行它。
-单文件模式创建一个单一的可执行文件进行部署。默认是'加速'。
+编译模式。accelerated 模式会在你的 Python 安装环境中运行，并依赖于它。
+standalone 模式会创建一个包含可执行文件的文件夹来运行它。
+onefile 模式会生成一个单独的可执行文件以便部署。
+app 模式类似于 onefile，但在 macOS 上不推荐使用。
+module 模式会生成一个模块
+package 模式还会包含所有子模块和子包。
+默认模式是 accelerated。
 ```
 
 ---
@@ -1563,19 +1581,21 @@ configuration can do it. This will only include non-DLL, non-extension modules,
 i.e. actual data files. After a ":" optionally a filename pattern can be given
 as well, selecting only matching files. Examples: "--include-
 package-data=package_name" (all files) "--include-
-package-data=package_name=*.txt" (only certain type) "
---include-package-data=package_name=some_filename.dat (concrete file) Default
+package-data=package_name:*.txt" (only certain type) "
+--include-package-data=package_name:some_filename.dat (concrete file) Default
 empty.
 ```
 
 中文简介:
 
 ```
-包括给定包的数据文件。DLL和扩展模块不是数据文件，也不会像这样被包含。可以使用下面指示的文件名模式。
-默认情况下，不包括包的数据文件，但包配置可以执行此操作。这只会包括非DLL和非拓展模块，即实际存在的数据文件。
-在":"后面，还可以给出文件名模式，只选择匹配的文件。例子: "--include-package-data=package_name" (所有文件)
---include-package-data=package_name=*.txt" (只有某种类型) "--include-package-data=package_name=some_filename.dat (具体文件)
-默认为空。
+包含给定包名的数据文件。DLL 和扩展模块不是数据文件，因此不会以这种方式包含。可以使用文件名模式，如下所示。
+默认情况下，包的数据文件不会被包含，但可以通过包配置来实现。
+这只会包含非 DLL、非扩展模块，即实际的数据文件。在 ":" 之后，可以选择性地提供一个文件名模式，以仅选择匹配的文件。
+示例："--include-package-data=package_name"（所有文件）
+"--include-package-data=package_name:*.txt"（仅特定类型）"
+--include-package-data=package_name:some_filename.dat"（具体文件）。
+默认为空
 ```
 
 ---
@@ -1884,6 +1904,34 @@ Output the DLLs found for a given package name. Default not done.
 
 ---
 
+### --list-package-exe=LIST_PACKAGE_EXE
+
+原始参数名:
+
+```
+--list-package-exe=LIST_PACKAGE_EXE
+```
+
+中文参数名:
+
+```
+列出给定包名的exe文件=包名
+```
+
+原始简介:
+
+```
+Output the EXEs found for a given package name. Default not done.
+```
+
+中文简介:
+
+```
+输出给定包名找到的EXE文件。默认不执行。
+```
+
+---
+
 ---
 
 ## Control the warnings to be given by Nuitka(控制Nuitka发出的警告)
@@ -2061,13 +2109,16 @@ Defaults to off.
 
 ```
 Execute inside a debugger, e.g. "gdb" or "lldb" to automatically get a stack
-trace. Defaults to off.
+trace. The debugger is automatically chosen unless specified by name with the
+NUITKA_DEBUGGER_CHOICE environment variable. Defaults to off.
 ```
 
 中文简介:
 
 ```
-在调试器中执行，例如“gdb”或“lldb”以自动获取堆栈跟踪。默认关闭。
+在调试器（例如 "gdb" 或 "lldb"）中执行，以自动获取堆栈跟踪。
+除非通过 NUITKA_DEBUGGER_CHOICE 环境变量指定调试器名称，否则将自动选择调试器。
+默认关闭。
 ```
 
 ---
@@ -2143,19 +2194,19 @@ for tests only and should *not* be used.
 
 ---
 
-### --file-reference-choice=MODE
+### --file-reference-choice=FILE_MODE
 
 原始参数名:
 
 ```
---file-reference-choice=MODE
+--file-reference-choice=FILE_MODE
 ```
 
 中文参数名:
 
 ```
 中文参数名:
-文件引用选择=模式
+文件引用选择=文件模式
 ```
 
 原始简介:
@@ -2183,18 +2234,18 @@ is.
 
 ---
 
-### --module-name-choice=MODE
+### --module-name-choice=MODULE_NAME_MODE
 
 原始参数名:
 
 ```
---module-name-choice=MODE
+--module-name-choice=MODULE_NAME_MODE
 ```
 
 中文参数名:
 
 ```
-模块名称选择=模式
+模块名称选择=模块名称模式
 ```
 
 原始简介:
@@ -2339,6 +2390,36 @@ used to detect implicit imports. Defaults to off.
 
 ```
 不要为Nuitka创建拓展模块而创建".pyi"文件用于检测隐式导入。默认关闭。
+```
+
+---
+
+### --no-pyi-stubs
+
+原始参数名:
+
+```
+--no-pyi-stubs
+```
+
+中文参数名:
+
+```
+不创建pyi存根
+```
+
+原始简介:
+
+```
+Do not use stubgen when creating a '.pyi' file for extension modules created by
+Nuitka. They expose your API, but stubgen may cause issues. Defaults to off.
+```
+
+中文简介:
+
+```
+在为使用 Nuitka 创建的扩展模块生成 '.pyi' 文件时，不要使用 stubgen。
+它们会暴露你的 API，但 stubgen 可能会导致问题。默认关闭
 ```
 
 ---
@@ -4184,18 +4265,18 @@ filename of the binary.
 
 ---
 
-### --macos-app-mode=MODE
+### --macos-app-mode=APP_MODE
 
 原始参数名:
 
 ```
---macos-app-mode=MODE
+--macos-app-mode=APP_MODE
 ```
 
 中文参数名:
 
 ```
-macOS应用程序模式=模式
+macOS应用程序模式=App模式
 ```
 
 原始简介:
@@ -4845,7 +4926,7 @@ to work yet. We are working on '--target=wasi' and nothing else yet.
 
 ---
 
-## Plugin options of 'anti-bloat'('反膨胀'插件选项)
+## Plugin options of 'anti-bloat'（categories:core）('反膨胀'插件选项（分类：核心）)
 
 ---
 
@@ -5180,7 +5261,7 @@ include all installed browsers.
 
 ---
 
-## Plugin options of 'spacy'('spaCy'插件选项)
+## Plugin options of 'spacy'（categories: package-support）('spaCy'插件选项（分类: 包支持）)
 
 ---
 

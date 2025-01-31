@@ -20,7 +20,7 @@ if ans == "Y" or ans == 'y':
     with open('input.in', 'w') as f:
         f.write('\n'.join(output))
 
-with open('./input.in', 'r', encoding="utf-16") as f:
+with open('./input.in', 'r', encoding="utf-8") as f:
     input_str = f.read()
     input_str = input_str.strip()
 Options = {
