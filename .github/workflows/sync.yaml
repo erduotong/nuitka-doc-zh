@@ -1,9 +1,8 @@
 name: Sync translation file to nuitka.0.org.cn
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+
 
 jobs:
   sync-file:
