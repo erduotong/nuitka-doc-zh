@@ -6,6 +6,9 @@ on:
             # 确保这是你正在使用的分支名称
             - main
 
+permissions:
+    contents: write
+
 jobs:
     deploy-gh-pages:
         runs-on: ubuntu-latest
@@ -26,20 +29,18 @@ jobs:
               uses: actions/setup-node@v3
               with:
                   node-version: 20
-                  cache: npm
-                  cache-dependency-path: site/package-lock.json
+                  cache: "npm"
+                  cache-dependency-path: "./site/package-lock.json"
 
             - name: 安装依赖
-              run: |
-                  cd site
-                  npm ci
+              working-directory: ./site
+              run: npm ci
 
             - name: 构建文档
               env:
                   NODE_OPTIONS: --max_old_space_size=8192
-              run: |
-                  cd site
-                  npm run docs:build
+              working-directory: ./site
+              run: npm run docs:build
 
             - name: 创建 CNAME 文件
               run: |
