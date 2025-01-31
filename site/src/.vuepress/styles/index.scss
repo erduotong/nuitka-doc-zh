@@ -1,0 +1,17 @@
+// place your custom styles here
+
+// 代码块自动换行
+div[class*='language-'] {
+    pre, pre[class*='language-'] {
+        code {
+            white-space: pre-wrap !important;
+            word-wrap: break-word !important;
+        }
+    }
+}
+
+// 内联代码自动换行
+code {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+}

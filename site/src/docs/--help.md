@@ -5,7 +5,7 @@
 ## 信息
 
 该文档目前Nuitka版本: `Nuitka 2.6.2`  
-查看[JSON版本](https://github.com/erduotong/nuitka-doc-zh/blob/main/helper/--help/output.json)
+查看[JSON版本](../helper/--help/output.json)
 <details>
 <summary>模板</summary>
 
