@@ -38,9 +38,7 @@ jobs:
         working-directory: ./site
         run: npm run docs:build
 
-      - name: 创建 CNAME 文件
-        run: |
-          echo "nuitka-doc-zh.erduotong.com" > site/src/.vuepress/dist/CNAME
+
       - name: 部署文档
         uses: JamesIves/github-pages-deploy-action@v4
         with:
