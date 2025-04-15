@@ -41,7 +41,7 @@ highlights:
           - title: Nuitka Commander
             icon: terminal
             details: 一个可视化的 Nuitka 命令生成器，帮助你轻松生成编译命令 基于该翻译文档
-            link: https://nuitka-commander.github.io
+            link: https://nuitka-commander.erduotong.com/
 
 footer: MIT 协议
 ---

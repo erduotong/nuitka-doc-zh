@@ -15,7 +15,7 @@
 
 ## 相关项目
 
--   [Nuitka Commander](https://nuitka-commander.github.io)：一个可视化的 Nuitka 命令生成器，可以帮助你通过图形界面轻松生成 Nuitka 编译命令。
+-   [Nuitka Commander](https://nuitka-commander.erduotong.com/)：一个可视化的 Nuitka 命令生成器，可以帮助你通过图形界面轻松生成 Nuitka 编译命令。
 
 ## 参与贡献
 
