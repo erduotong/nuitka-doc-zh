@@ -1,11 +1,11 @@
 # Nuitka --help文档翻译
 
-> 返回[导航](../README.md#导航)
+ 
 
 ## 信息
 
 该文档目前Nuitka版本: `Nuitka 2.6.2`  
-查看[JSON版本](../helper/--help/output.json)
+查看[JSON版本](https://github.com/erduotong/nuitka-doc-zh/blob/main/helper/--help/output.json)
 <details>
 <summary>模板</summary>
 
@@ -1470,7 +1470,7 @@ this will then not be removed.
 中文参数名:
 
 ```
-单文件紫禁城宽限时间=宽限时间(毫秒)
+单文件子进程宽限时间=宽限时间(毫秒)
 ```
 
 原始简介:

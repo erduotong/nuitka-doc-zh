@@ -150,7 +150,7 @@
                     },
                     "--onefile-child-grace-time=GRACE_TIME_MS": {
                         "raw_parameter": "--onefile-child-grace-time=GRACE_TIME_MS",
-                        "chinese_parameter": "单文件紫禁城宽限时间=宽限时间(毫秒)",
+                        "chinese_parameter": "单文件子进程宽限时间=宽限时间(毫秒)",
                         "raw_introduction": "When stopping the child, e.g. due to CTRL-C or shutdown, etc. the Python code\ngets a \"KeyboardInterrupt\", that it may handle e.g. to flush data. This is the\namount of time in ms, before the child it killed in the hard way. Unit is ms,\nand default 5000.",
                         "chinese_introduction": "当停止子进程时，例如由于CTRL-C或关闭等，Python代码会得到一个\"KeyboardInterrupt\"，它可能会处理例如刷新数据等事件。\n这是以硬方式杀死子进程之前的时间量。单位是毫秒，默认为5000。"
                     },
