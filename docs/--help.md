@@ -1,10 +1,8 @@
 # Nuitka --help文档翻译
 
- 
-
 ## 信息
 
-该文档目前Nuitka版本: `Nuitka 2.6.2`  
+该文档目前Nuitka版本: `Nuitka 2.7.5`  
 查看[JSON版本](https://github.com/erduotong/nuitka-doc-zh/blob/main/helper/--help/output.json)
 <details>
 <summary>模板</summary>
@@ -50,14 +48,15 @@ Options:
                         it. Onefile creates a single executable to deploy. App
                         is onefile except on macOS where it's not to be used.
                         Module makes a module, and package includes also all
-                        sub-modules and sub-packages. Default is
+                        sub-modules and sub-packages. Dll is currently under
+                        development and not for users yet. Default is
                         'accelerated'.
   --standalone          Enable standalone mode for output. This allows you to
                         transfer the created binary to other machines without
                         it using an existing Python installation. This also
-                        means it will become big. It implies these option: "--
-                        follow-imports" and "--python-flag=no_site". Defaults
-                        to off.
+                        means it will become big. It implies these options: "
+                        --follow-imports" and "--python-flag=no_site".
+                        Defaults to off.
   --onefile             On top of standalone mode, enable onefile mode. This
                         means not a folder, but a compressed executable is
                         created and used. Defaults to off.
@@ -69,8 +68,10 @@ Options:
                         "no_warnings" (do not give Python run time warnings),
                         "-O" (alias "no_asserts"), "no_docstrings" (do not use
                         doc strings), "-u" (alias "unbuffered"), "isolated"
-                        (do not load outside code) and "-m" (package mode,
-                        compile as "package.__main__"). Default empty.
+                        (do not load outside code), "-P" (alias "safe_path",
+                        do not used current directory in module search) and
+                        "-m" (package mode, compile as "package.__main__").
+                        Default empty.
   --python-debug        Use debug version or not. Default uses what you are
                         using to run Nuitka, most likely a non-debug version.
                         Only for debugging and testing purposes.
@@ -154,6 +155,13 @@ Options:
                         Use e.g. a string like
                         '{CACHE_DIR}/{COMPANY}/{PRODUCT}/{VERSION}' which is a
                         good static cache path, this will then not be removed.
+    --onefile-cache-mode=ONEFILE_CACHED_MODE
+                        This mode is inferred from your use of the spec. If it
+                        contains runtime dependent paths, "auto" resolves to
+                        "temporary" which will make sure to remove the
+                        unpacked binaries after execution, and cached will not
+                        remove it and see to reuse its contents during next
+                        execution for faster startup times.
     --onefile-child-grace-time=GRACE_TIME_MS
                         When stopping the child, e.g. due to CTRL-C or
                         shutdown, etc. the Python code gets a
@@ -170,6 +178,11 @@ Options:
                         can be unpacked with "nuitka-onefile-unpack" rather
                         than a stream that only the onefile program itself
                         unpacks. Default is off.
+    --onefile-no-dll    When creating the onefile, some platforms (Windows
+                        currently, if not using a cached location) default to
+                        using DLL rather than an executable for the Python
+                        code. This makes it use an executable in the unpacked
+                        files as well. Default is off.
 
   Data files:
     --include-package-data=PACKAGE
@@ -237,6 +250,9 @@ Options:
                         compile time which is not always happening. This of
                         course only makes sense for packages that are included
                         in the compilation. Default empty.
+    --list-distribution-metadata
+                        Output the list of distributions and their details for
+                        all packages. Default not done.
 
   DLL files:
     --noinclude-dlls=PATTERN
@@ -366,6 +382,11 @@ Options:
                         Python3.12+ do not check known immortal object
                         assumptions. Some C libraries corrupt them. Defaults
                         to check being made if "--debug" is on.
+    --no-debug-c-warnings
+                        Disable check normally done with "--debug". The C
+                        compilation may produce warnings, which it often does
+                        for some packages without these being issues, esp. for
+                        unused values.
     --unstripped        Keep debug info in the resulting object file for
                         better debugger interaction. Defaults to off.
     --profile           Enable vmprof based profiling of time spent. Not
@@ -879,7 +900,8 @@ Mode in which to compile. Accelerated runs in your Python installation and
 depends on it. Standalone creates a folder with an executable contained to run
 it. Onefile creates a single executable to deploy. App is onefile except on
 macOS where it's not to be used. Module makes a module, and package includes
-also all sub-modules and sub-packages. Default is 'accelerated'.
+also all sub-modules and sub-packages. Dll is currently under development and
+not for users yet. Default is 'accelerated'.
 ```
 
 中文简介:
@@ -891,6 +913,7 @@ onefile 模式会生成一个单独的可执行文件以便部署。
 app 模式类似于 onefile，但在 macOS 上不推荐使用。
 module 模式会生成一个模块
 package 模式还会包含所有子模块和子包。
+Dll 模式目前正在开发中，尚未对用户开放。
 默认模式是 accelerated。
 ```
 
@@ -915,7 +938,7 @@ package 模式还会包含所有子模块和子包。
 ```
 Enable standalone mode for output. This allows you to transfer the created
 binary to other machines without it using an existing Python installation. This
-also means it will become big. It implies these option: "--follow-imports" and
+also means it will become big. It implies these options: " --follow-imports" and
 "--python-flag=no_site". Defaults to off.
 ```
 
@@ -981,8 +1004,9 @@ a specific mode. These are options that also exist to standard Python
 executable. Currently supported: "-S" (alias "no_site"), "static_hashes" (do not
 use hash randomization), "no_warnings" (do not give Python run time warnings),
 "-O" (alias "no_asserts"), "no_docstrings" (do not use doc strings), "-u" (alias
-"unbuffered"), "isolated" (do not load outside code) and "-m" (package mode,
-compile as "package.__main__"). Default empty.
+"unbuffered"), "isolated" (do not load outside code), "-P" (alias "safe_path",
+do not used current directory in module search) and "-m" (package mode, compile
+as "package.__main__"). Default empty.
 ```
 
 中文简介:
@@ -992,7 +1016,8 @@ compile as "package.__main__"). Default empty.
 目前支持的有: "-S" (别名 "no_site")(不应该包含python的site-packages目录,也就是不包含任何python环境的第三方库),
 "static_hashes" (不使用哈希随机化), "no_warnings" (不给出Python运行时的警告),
 "-O" (别名 "no_asserts")(不包含任何调试/错误检查(assert)语句), "no_docstrings" (不使用文档字符串),
-“-u”（别名 “unbuffered”）(不使用缓冲), "isolated" (不加载外部代码) 和 "-m" (包模式, 编译为 "package.__main__").
+"-u"（别名 "unbuffered"）(不使用缓冲), "isolated" (不加载外部代码), "-P" (别名 "safe_path",
+不使用当前目录进行模块搜索) 和 "-m" (包模式, 编译为 "package.__main__").
 默认为空。
 ```
 
@@ -1459,6 +1484,39 @@ this will then not be removed.
 
 ---
 
+### --onefile-cache-mode=ONEFILE_CACHED_MODE
+
+原始参数名:
+
+```
+--onefile-cache-mode=ONEFILE_CACHED_MODE
+```
+
+中文参数名:
+
+```
+单文件缓存模式=单文件缓存模式
+```
+
+原始简介:
+
+```
+This mode is inferred from your use of the spec. If it contains runtime
+dependent paths, "auto" resolves to "temporary" which will make sure to remove
+the unpacked binaries after execution, and cached will not remove it and see to
+reuse its contents during next execution for faster startup times.
+```
+
+中文简介:
+
+```
+这个模式是从你使用的规范中推断出来的。
+如果它包含运行时依赖的路径，"auto"会解析为"temporary"，这将确保在执行后删除解压的二进制文件，
+而"cached"则不会删除它，并在下次执行时重用其内容以获得更快的启动时间。
+```
+
+---
+
 ### --onefile-child-grace-time=GRACE_TIME_MS
 
 原始参数名:
@@ -1547,6 +1605,38 @@ itself unpacks. Default is off.
 ```
 在创建onefile的时候，使用一个可以被"nuitka-onefile-unpack"解压的存档格式，而不是一个只有onefile程序本身才能解压的流。
 默认关闭。
+```
+
+---
+
+### --onefile-no-dll
+
+原始参数名:
+
+```
+--onefile-no-dll
+```
+
+中文参数名:
+
+```
+在单文件中不使用DLL
+```
+
+原始简介:
+
+```
+When creating the onefile, some platforms (Windows currently, if not using a
+cached location) default to using DLL rather than an executable for the Python
+code. This makes it use an executable in the unpacked files as well. Default is
+off.
+```
+
+中文简介:
+
+```
+在创建单文件时，某些平台（目前是 Windows，如果不使用缓存的位置的话）默认使用 DLL 而不是可执行文件来存储 Python 代码。
+启用此选项会使解压后的文件中也使用可执行文件而非 DLL。默认关闭。
 ```
 
 ---
@@ -1833,6 +1923,26 @@ compilation. Default empty.
 ```
 未给定的分发名称包含元数据信息。有些包会检查元数据的存在、版本、入口点灯，而如果没有给出这些选项，它只能在编译时被识别才会工作，这并不总是会发生。
 当然，这只对包含在编译中的包有意义。默认为空。
+```
+---
+### --list-distribution-metadata
+
+原始参数名:
+```
+--list-distribution-metadata
+```
+中文参数名:
+```
+列出分发的元数据
+```
+原始简介:
+```
+Output the list of distributions and their details for all packages. Default
+not done.
+```
+中文简介:
+```
+输出所有包的分发列表及其详细信息。默认不执行。
 ```
 
 ---
@@ -2590,6 +2700,28 @@ being made if "--debug" is on.
 ```
 禁用通常使用 "--debug" 进行的检查。在 Python 3.12 及以上版本中，不检查已知的不朽对象(Immortal Objects)假设。
 一些 C 库会破坏它们。如果启用了 "--debug"，默认会进行检查。
+```
+---
+### --no-debug-c-warnings
+
+原始参数名:
+```
+--no-debug-c-warnings
+```
+中文参数名:
+```
+禁用C调试警告
+```
+原始简介:
+```
+Disable check normally done with "--debug". The C compilation may produce
+warnings, which it often does for some packages without these being issues, esp.
+for unused values.
+```
+中文简介:
+```
+禁用通常使用"--debug"完成的检查。
+C编译可能会产生警告，对于某些包来说这通常不是问题，特别是对于未使用的值。
 ```
 
 ---

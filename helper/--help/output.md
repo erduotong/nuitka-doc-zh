@@ -80,7 +80,8 @@ Mode in which to compile. Accelerated runs in your Python installation and
 depends on it. Standalone creates a folder with an executable contained to run
 it. Onefile creates a single executable to deploy. App is onefile except on
 macOS where it's not to be used. Module makes a module, and package includes
-also all sub-modules and sub-packages. Default is 'accelerated'.
+also all sub-modules and sub-packages. Dll is currently under development and
+not for users yet. Default is 'accelerated'.
 ```
 中文简介:
 ```
@@ -102,7 +103,7 @@ also all sub-modules and sub-packages. Default is 'accelerated'.
 ```
 Enable standalone mode for output. This allows you to transfer the created
 binary to other machines without it using an existing Python installation. This
-also means it will become big. It implies these option: "-- follow-imports" and
+also means it will become big. It implies these options: " --follow-imports" and
 "--python-flag=no_site". Defaults to off.
 ```
 中文简介:
@@ -149,8 +150,9 @@ a specific mode. These are options that also exist to standard Python
 executable. Currently supported: "-S" (alias "no_site"), "static_hashes" (do not
 use hash randomization), "no_warnings" (do not give Python run time warnings),
 "-O" (alias "no_asserts"), "no_docstrings" (do not use doc strings), "-u" (alias
-"unbuffered"), "isolated" (do not load outside code) and "-m" (package mode,
-compile as "package.__main__"). Default empty.
+"unbuffered"), "isolated" (do not load outside code), "-P" (alias "safe_path",
+do not used current directory in module search) and "-m" (package mode, compile
+as "package.__main__"). Default empty.
 ```
 中文简介:
 ```
@@ -488,6 +490,29 @@ this will then not be removed.
 ```
 
 ---
+### --onefile-cache-mode=ONEFILE_CACHED_MODE
+
+原始参数名:
+```
+--onefile-cache-mode=ONEFILE_CACHED_MODE
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+This mode is inferred from your use of the spec. If it contains runtime
+dependent paths, "auto" resolves to "temporary" which will make sure to remove
+the unpacked binaries after execution, and cached will not remove it and see to
+reuse its contents during next execution for faster startup times.
+```
+中文简介:
+```
+
+```
+
+---
 ### --onefile-child-grace-time=GRACE_TIME_MS
 
 原始参数名:
@@ -547,6 +572,29 @@ for debug purposes, or to save time. Default is off.
 When creating the onefile, use an archive format, that can be unpacked with
 "nuitka-onefile-unpack" rather than a stream that only the onefile program
 itself unpacks. Default is off.
+```
+中文简介:
+```
+
+```
+
+---
+### --onefile-no-dll
+
+原始参数名:
+```
+--onefile-no-dll
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+When creating the onefile, some platforms (Windows currently, if not using a
+cached location) default to using DLL rather than an executable for the Python
+code. This makes it use an executable in the unpacked files as well. Default is
+off.
 ```
 中文简介:
 ```
@@ -748,6 +796,27 @@ check metadata for presence, version, entry points, etc. and without this option
 given, it only works when it's recognized at compile time which is not always
 happening. This of course only makes sense for packages that are included in the
 compilation. Default empty.
+```
+中文简介:
+```
+
+```
+
+---
+### --list-distribution-metadata
+
+原始参数名:
+```
+--list-distribution-metadata
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Output the list of distributions and their details for all packages. Default
+not done.
 ```
 中文简介:
 ```
@@ -1293,6 +1362,28 @@ production. Defaults to off.
 Disable check normally done with "--debug". With Python3.12+ do not check known
 immortal object assumptions. Some C libraries corrupt them. Defaults to check
 being made if "--debug" is on.
+```
+中文简介:
+```
+
+```
+
+---
+### --no-debug-c-warnings
+
+原始参数名:
+```
+--no-debug-c-warnings
+```
+中文参数名:
+```
+
+```
+原始简介:
+```
+Disable check normally done with "--debug". The C compilation may produce
+warnings, which it often does for some packages without these being issues, esp.
+for unused values.
 ```
 中文简介:
 ```
