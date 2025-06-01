@@ -1,5 +1,5 @@
-import { hopeTheme } from "vuepress-theme-hope";
-
+import {hopeTheme} from "vuepress-theme-hope";
+import {cut} from 'nodejs-jieba'
 import navbar from "./navbar.js";
 import sidebar from "./sidebar.js";
 
@@ -54,11 +54,11 @@ export default hopeTheme({
         stylize: [
             {
                 matcher: "Recommended",
-                replacer: ({ tag }) => {
+                replacer: ({tag}) => {
                     if (tag === "em")
                         return {
                             tag: "Badge",
-                            attrs: { type: "tip" },
+                            attrs: {type: "tip"},
                             content: "Recommended",
                         };
                 },
@@ -112,7 +112,11 @@ export default hopeTheme({
     plugins: {
         slimsearch: {
             indexContent: true,
-            suggestion: false,
+            suggestion: false, indexOptions: {
+                // 使用 nodejs-jieba 进行分词
+                tokenize: (text, fieldName) =>
+                    fieldName === 'id' ? [text] : cut(text, true),
+            },
         },
 
         components: {

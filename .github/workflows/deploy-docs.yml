@@ -24,19 +24,25 @@ jobs:
         run: |
           mkdir -p site/src/docs
           cp -r docs/* site/src/docs/
-
-      - name: 设置 Node.js
-        uses: actions/setup-node@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
-          node-version: 20
+          version: 10
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 21
+          cache: pnpm
+      - name: Install Dependencies
+        run: pnpm install
 
       - name: 安装依赖
         working-directory: ./site
-        run: npm install
+        run: pnpm install
 
       - name: 构建文档
         working-directory: ./site
-        run: npm run docs:build
+        run: pnpm run docs:build
 
 
       - name: 部署文档
